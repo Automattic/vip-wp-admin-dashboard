@@ -1,0 +1,158 @@
+.widget {
+	display: block;
+	float: left;
+	width: 31%;
+	margin: 1%;
+	padding: 2em;
+	background: $white;
+	border: 1px solid $blue-border;
+	border-radius: 2px;
+	
+	&.widget-small {
+		width: 18%;
+	}
+}
+
+.widget p {
+	font-size: .8125em;
+	color: $blue-dark;
+}
+
+.widget a {
+	color: $blue;
+}
+
+.widget__title,
+.widget__subtitle {
+	margin-top: 0;
+	font-weight: 600;
+}
+
+.widget__title {
+	font-size: 1em;
+	font-size: 1.125em;
+}
+
+.widget__subtitle {
+	margin-top: 3em;
+	font-size: .75em;
+	text-transform: uppercase;
+}
+
+.widget__col-2 {
+	float: left;
+	width: 45%;
+	margin-right: 10%;
+	
+	&:last-of-type {
+		margin: 0;
+	}
+}
+
+/* Widget List */
+.widget__list {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	
+	li {
+		margin-bottom: .5em;
+	}
+	
+	a,
+	span {
+		display: block;
+	}
+	
+	span {
+		font-size: .75em;
+		color: $blue-light;
+	}
+}
+
+/* Widget Contact Form */
+.widget__contact-form {
+	font-size: .75em;
+	font-weight: 600;
+	color: $black-forms;
+	
+	
+	label {
+		display: inline-block;
+		width: 30%;
+		padding: 1em 0;
+		color: $blue-dark;
+		vertical-align: top;
+	}
+	
+	input,
+	textarea,
+	select {
+		border-radius: 2px;
+	}
+	
+	input[type="text"],
+	textarea,
+	select {
+		width: 62%;
+		padding: 1em 1em;
+		background: $blue-background;
+		border: 1px solid $blue-border;
+	}
+	
+	select {
+		box-sizing: initial;
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+	}
+	
+	.contact-form__select {
+		/* @todo: review, rewrite */
+		
+		position: relative;
+		display: inline-block;
+		width: 62%;
+		
+		&:after {
+		    font: 16px/1 Genericons;
+		    position: absolute;
+		    content: '\f431';
+		    top: 14px;
+		    right: -10px;
+		}
+		
+		select {
+			width: 100%;
+		}
+	}
+	
+	input[type="submit"] {
+		margin-left: 30%;
+		padding: 1em 2em;
+		color: $white;
+		background: $azure;
+		border: none;
+		
+		box-shadow: 0 3px 0px $azure-dark;
+	}
+	
+	::-webkit-input-placeholder {
+	    color: $blue-light;
+	}
+	:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+	   color: $blue-light;
+	   opacity:  1;
+	}
+	::-moz-placeholder { /* Mozilla Firefox 19+ */
+	   color: $blue-light;
+	   opacity:  1;
+	}
+	:-ms-input-placeholder { /* Internet Explorer 10+ */
+	   color: $blue-light;
+	}
+}
+
+.contact-form__row {
+	margin-bottom: .75em;
+}

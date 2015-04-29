@@ -1,0 +1,36 @@
+body {
+	background: url('../img/wp-admin-mockup-plugins.png') 0 0 no-repeat;
+	background-size: 2345px 1645px;
+}
+.wp-admin__wrap {
+	position: relative;
+	height: 160vh;
+	margin: 32px 0 0 160px;
+	background: $blue-washed;
+}
+
+@media screen and (max-width: 48em) {
+	body {
+		background: url('../img/wp-admin-mockup-mobile.png') 0 0 no-repeat;
+		background-size: 884px 46px;
+	}
+	.wp-admin__wrap {
+		margin: 70px 30px 0;
+	}
+}
+
+.wp-admin__arrow {
+	position: relative;
+	top: 53px;
+	left: -8px;
+}
+
+.wp-admin__arrow:before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	border-right: 10px solid $graphite-dark-var;
+	border-top: 10px solid transparent;
+	border-bottom: 10px solid transparent;
+}

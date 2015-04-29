@@ -1,0 +1,75 @@
+/**
+ * Filipe Varela
+ * VIP Dashboard on wp-admin
+ * Last updated on 2015-04-21
+ *
+ * CSS Coding Guidelines: https://wpcalypso.wordpress.com/devdocs/docs/coding-guidelines/css.md
+ *
+ */
+
+/**
+ * Imports
+ */
+
+@import "_normalize.scss";
+/*@import "_base.scss";*/
+@import "_genericons.scss";
+@import "_colors.scss";
+@import "_variables.scss";
+@import "_mixins.scss";
+@import "_transitions.scss";
+@import "_components.scss";
+
+/* @note: delete on prod */
+@import "_wp-admin.scss";
+
+
+/**
+ * General
+ */
+body {
+	font: 100%/1.625 'Open Sans', sans-serif;
+	font-weight: 400;
+	color: $black-fade;
+}
+
+a {
+	color: rgba($white, .68);
+	color: $white;
+	text-decoration: none;
+}
+
+a:hover,
+a:active {
+	
+}
+
+h1, h2, h3, h4, h5, h6 {
+	color: $black-fade;
+}
+
+
+/**
+ * Stats
+ */
+.stats {
+	height: 300px;
+	background: $graphite-var;
+}
+
+.stats--canvas {
+	width: 300px;
+}
+
+.chart-circular {
+	width: 220px;
+	height: 220px;
+}
+
+
+/**
+ * Widgets Area
+ */
+.widgets-area {
+	padding: 1%;
+}

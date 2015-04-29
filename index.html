@@ -1,0 +1,188 @@
+<!doctype html>
+<html class="no-js" lang="">
+	<head>
+		<meta charset="utf-8">
+
+		<title>VIP Dashboard</title>
+		<meta name="description" content="">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+
+		<link rel="apple-touch-icon-precomposed" href="assets/images/apple-touch-icon-precomposed.png">
+		<link rel="shortcut icon" type="image/x-icon" href="assets/images/favicon.ico"/>
+
+		<link rel="stylesheet" href="assets/css/style.css">
+		
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
+	</head>
+	<body>
+		
+		<div class="wp-admin__wrap">
+			
+			<div class="wp-admin__arrow"></div>
+			
+			<div class="top-header">
+				<h1><img src="assets/img/wpcom-vip-logo.svg" alt="WordPress.com VIP" class="top-header__logo"></h1>
+				<div class="top-header__menu">
+					<ul>
+						<li><a class="active" href="#">Dashboard</a></li>
+						<li><a href="#">User Management</a></li>
+						<li><a href="#">SVN Access</a></li>
+						<li><a href="#">Revisions</a></li>
+						<li><a href="#">Plugins</a></li>
+						<li><a href="#">Support</a></li>
+						<li><a href="#">Billing</a></li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="stats">
+				
+				<div class="stats__module">
+					<canvas class="stats__canvas" id="canvas" height="200" width="300"></canvas>
+				</div>
+				
+				<div class="stats__module stats__graphs">
+					
+					<div class="chart-circular__block chart-circular__one">
+						
+						<div class="chart-circular__data">
+							<span class="chart-circular__value">43%</span>
+							<span class="chart-circular__description">Desktop views</span>
+							<span class="chart-circular__trend trend-negative">16%</span>
+						</div>
+					
+						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 159.6 159.6" enable-background="new 0 0 159.6 159.6" xml:space="preserve">
+							<path class="chart-graph-dummy" fill="none" stroke="#d8e2e9" stroke-width="6" stroke-miterlimit="10" d="M79.8,3c42.4,0,76.8,34.4,76.8,76.8 s-34.4,76.8-76.8,76.8S3,122.2,3,79.8S37.4,3,79.8,3"/>
+							<path class="chart-graph chart-views-desktop" id="chart-views-desktop" fill="none" stroke="#d8e2e9" stroke-width="6" stroke-miterlimit="10" d="M79.8,3c42.4,0,76.8,34.4,76.8,76.8 s-34.4,76.8-76.8,76.8S3,122.2,3,79.8S37.4,3,79.8,3"/>
+						</svg>
+					
+					</div>
+					
+					<div class="chart-circular__block chart-circular__two">
+						
+						<div class="chart-circular__data">
+							<span class="chart-circular__value">57%</span>
+							<span class="chart-circular__description">Mobile views</span>
+							<span class="chart-circular__trend trend-positive">22%</span>
+						</div>
+					
+						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 159.6 159.6" enable-background="new 0 0 159.6 159.6" xml:space="preserve">
+							<path class="chart-graph-dummy" fill="none" stroke="#d8e2e9" stroke-width="6" stroke-miterlimit="10" d="M79.8,3c42.4,0,76.8,34.4,76.8,76.8 s-34.4,76.8-76.8,76.8S3,122.2,3,79.8S37.4,3,79.8,3"/>
+							<path class="chart-graph chart-views-mobile" id="chart-views-desktop" fill="none" stroke="#d8e2e9" stroke-width="6" stroke-miterlimit="10" d="M79.8,3c42.4,0,76.8,34.4,76.8,76.8 s-34.4,76.8-76.8,76.8S3,122.2,3,79.8S37.4,3,79.8,3"/>
+						</svg>
+					
+					</div>
+					
+				</div>
+				
+			</div>
+			
+			<div class="widgets-area">
+				<div class="widget widget__welcome">
+					<h2 class="widget__title">Welcome to WordPress.com VIP</h2>
+					<p>We believe that WordPress.com VIP is a partnership between WordPress.com and some of the most high-profile, innovative and smart WordPress websites out there. We’re excited to have you here.</p>
+					
+					<h3 class="widget__subtitle">Helpful Links</h3>
+					
+					<div class="widget__col-2">
+						<ul class="widget__list">
+							<li>
+								<a href="">VIP Lobby</a>
+								<span>Important service updates</span>
+							</li>
+							<li>
+								<a href="">VIP Documentation</a>
+								<span>Coding for WordPress.com VIP</span>
+							</li>
+							<li>
+								<a href="">VIP Plugins</a>
+								<span>Available shared VIP plugins</span>
+							</li>
+							<li>
+								<a href="">VIP Support Portal</a>
+								<span>Your organization’s tickets</span>
+							</li>
+						</ul>
+					</div>
+					
+					<div class="widget__col-2">
+						<ul class="widget__list">
+							<li>
+								<a href="">Launch Checklist</a>
+								<span>Steps to launch</span>
+							</li>
+							<li>
+								<a href="">Your VIP Toolbox</a>
+								<span>Navigating VIP Tools</span>
+							</li>
+							<li>
+								<a href="">VIP News</a>
+								<span>New features, case studies</span>
+							</li>
+							<li>
+								<a href="">Featured Partners</a>
+								<span>Agencies and technology partners</span>
+							</li>
+						</ul>
+					</div>
+				</div><!-- widget -->
+				
+				<div class="widget widget__contact">
+					<h2 class="widget__title">Contact WordPress.com VIP Support</h2>
+					<form class="widget__contact-form" action="submit" method="get" accept-charset="utf-8">
+						
+						<div class="contact-form__row">
+							<label for="contact-form__name">Name</label><input type="text" name="" value="Filipe Varela" id="contact-form__name" placeholder="First and last name">
+						</div>
+						<div class="contact-form__row">
+							<label for="contact-form__email">Email</label><input type="text" name="" value="filipe@a8c.com" id="contact-form__email" placeholder="Email address">
+						</div>
+						<div class="contact-form__row">
+							<label for="contact-form__subject">Subject</label><input type="text" name="" value="" id="contact-form__subject" placeholder="Ticket name">
+						</div>
+						<div class="contact-form__row">
+							<label for="contact-form__type">Type</label><div class="contact-form__select"><select id="contact-form__type">
+									<option value="technical" selected="selected">Technical</option>
+									<option value="business">Business/Project Management</option>
+									<option value="review">Theme/Plugin Review</option>
+								</select>
+							</div>
+						</div>
+						<div class="contact-form__row">
+							<label for="contact-form__details">Details</label><textarea name="details" rows="4" id="contact-form__details" placeholder="Please be descriptive"></textarea>
+						</div>
+						<div class="contact-form__row">
+							<label for="contact-form__priority">Priority</label><select id="contact-form__priority">
+								<optgroup label="Normal Priority">
+									<option value="Low">Low</option>
+									<option value="Medium" selected="selected">Normal</option>
+									<option value="High">High</option>
+								</optgroup>
+								<optgroup label="Urgent Priority">
+									<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
+								</optgroup>
+							</select>
+						</div>
+						<div class="contact-form__row">
+							<input type="submit" value="Submit Request">
+						</div>
+					</form>
+				</div><!-- widget -->
+				
+				<div class="widget widget-small widget__tips">
+					
+				</div><!-- widget -->
+				
+				<div class="widget widget-small widget__promo">
+					
+				</div><!-- widget -->
+			</div>
+			
+		</div>
+
+
+		<script src="assets/js/app.js"></script>
+
+	</body>
+</html>
