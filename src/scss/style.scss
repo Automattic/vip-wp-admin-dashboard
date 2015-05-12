@@ -11,8 +11,6 @@
  * Imports
  */
 
-@import "_normalize.scss";
-/*@import "_base.scss";*/
 @import "_genericons.scss";
 @import "_colors.scss";
 @import "_variables.scss";
@@ -21,8 +19,7 @@
 @import "_components.scss";
 
 /* @note: delete on prod */
-@import "_wp-admin.scss";
-
+// @import "_wp-admin.scss";
 
 /**
  * General
@@ -41,7 +38,7 @@ a {
 
 a:hover,
 a:active {
-	
+
 }
 
 h1, h2, h3, h4, h5, h6 {

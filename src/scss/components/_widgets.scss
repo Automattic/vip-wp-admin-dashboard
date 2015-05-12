@@ -7,7 +7,7 @@
 	background: $white;
 	border: 1px solid $blue-border;
 	border-radius: 2px;
-	
+
 	&.widget-small {
 		width: 18%;
 	}
@@ -43,7 +43,7 @@
 	float: left;
 	width: 45%;
 	margin-right: 10%;
-	
+
 	&:last-of-type {
 		margin: 0;
 	}
@@ -54,16 +54,16 @@
 	margin: 0;
 	padding: 0;
 	list-style: none;
-	
+
 	li {
 		margin-bottom: .5em;
 	}
-	
+
 	a,
 	span {
 		display: block;
 	}
-	
+
 	span {
 		font-size: .75em;
 		color: $blue-light;
@@ -75,8 +75,8 @@
 	font-size: .75em;
 	font-weight: 600;
 	color: $black-forms;
-	
-	
+
+
 	label {
 		display: inline-block;
 		width: 30%;
@@ -84,13 +84,13 @@
 		color: $blue-dark;
 		vertical-align: top;
 	}
-	
+
 	input,
 	textarea,
 	select {
 		border-radius: 2px;
 	}
-	
+
 	input[type="text"],
 	textarea,
 	select {
@@ -99,21 +99,21 @@
 		background: $blue-background;
 		border: 1px solid $blue-border;
 	}
-	
+
 	select {
 		box-sizing: initial;
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
 	}
-	
+
 	.contact-form__select {
 		/* @todo: review, rewrite */
-		
+
 		position: relative;
 		display: inline-block;
 		width: 62%;
-		
+
 		&:after {
 		    font: 16px/1 Genericons;
 		    position: absolute;
@@ -121,22 +121,22 @@
 		    top: 14px;
 		    right: -10px;
 		}
-		
+
 		select {
 			width: 100%;
 		}
 	}
-	
+
 	input[type="submit"] {
 		margin-left: 30%;
 		padding: 1em 2em;
 		color: $white;
 		background: $azure;
 		border: none;
-		
+
 		box-shadow: 0 3px 0px $azure-dark;
 	}
-	
+
 	::-webkit-input-placeholder {
 	    color: $blue-light;
 	}
