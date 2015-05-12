@@ -18,6 +18,10 @@ var settings = {
 	scriptspath_jquery: 'src/js/jquery-1.9.1.min.js',
 	scriptspath_plugins: 'src/js/plugins.js',
 	scriptspath_app: 'src/js/app.js',
+
+	// react
+	componentpath: 'components/**/*.jsx',
+	js: './components/vip-dashboard.jsx',
 	jspath: 'assets/js/',
 
 	// path to main scss file
@@ -38,20 +42,20 @@ var settings = {
 
 	// path to base
 	basepath: './',
-	
+
 	// path to html
 	htmlpath: './*.html',
 	// partials: ['app/**/*.html', '!app/index.html'],
 
 	// enable the static file server and browsersync
 	// check for unused styles in static html? - seems buggy, requires html
-	staticserver: true,
+	staticserver: false,
 	checkunusedcss: false,
 
 	// enable the proxied local server for browsersync
 	// static above server must be disabled
-	proxyserver: false,
-	proxylocation: 'mysite.dev'
+	proxyserver: true,
+	proxylocation: 'vip.w.dev'
 
 };
 
@@ -59,25 +63,27 @@ var settings = {
  * Load node modules
  */
 var	gulp = require('gulp'),
-	
+
 	// Plugins
 	autoprefixer = require('gulp-autoprefixer'),
 	browserify = require( 'browserify' ),
 	browsersync = require('browser-sync'),
+	buffer = require('vinyl-buffer'),
 	checkcss = require( 'gulp-check-unused-css' ),
 	concat = require('gulp-concat'),
 	csscomb = require('gulp-csscomb'),
 	filter = require('gulp-filter'),
 	imagemin = require('gulp-imagemin'),
 	minifycss = require('gulp-minify-css'),
-	notify = require('gulp-notify'),
 	parker = require('gulp-parker'),
 	plumber = require('gulp-plumber'),
 	sass = require('gulp-sass'),
+	source = require('vinyl-source-stream'),
 	reactify = require( 'reactify' ),
 	sourcemaps = require('gulp-sourcemaps'),
 	sync = require('gulp-config-sync'),
 	uglify = require('gulp-uglify'),
+	util = require('gulp-util'),
 	watch = require('gulp-watch');
 
 /**
@@ -86,12 +92,11 @@ var	gulp = require('gulp'),
  * Display an OS notification and sound with error message
  */
 var onError = function(err) {
-	notify.onError({
-		title:	"Gulp",
-		message: "Error: <%= error.message %>\nLine: <%= error.lineNumber %>",
-		sound:	"Sosumi"
-	})(err);
-
+	if ( err.lineNumber ) {
+		util.log(util.colors.red('Error: (Line: '+err.lineNumber+') '+err.message));
+	} else {
+		util.log(util.colors.red('Error: '+err.message));
+	}
 	this.emit('end');
 };
 
@@ -101,15 +106,18 @@ var onError = function(err) {
  * Watch for changes and run tasks
  */
 gulp.task('default', function() {
-	
+
 	// Compile Styles on start
 	gulp.start('styles');
-	
+
 	// Compile Scripts on start
 	gulp.start('scripts');
-	
+
 	// Process Images on start
 	gulp.start('images');
+
+	// Process react on start
+	gulp.start('react');
 
 	// Browsersync and local server
 	// Options: http://www.browsersync.io/docs/options/
@@ -135,12 +143,15 @@ gulp.task('default', function() {
 
 	// Watch for image changes
 	gulp.watch(settings.imagespath, ['images']);
-	
+
 	// Watch for JS changes
 	gulp.watch(settings.scriptspath, ['scripts']);
-	
+
 	// Watch for HTML changes
 	gulp.watch(settings.htmlpath, ['markup']);
+
+	// Watch for react components
+	gulp.watch(settings.componentpath, ['react']);
 
 });
 
@@ -169,8 +180,7 @@ gulp.task('styles', function() {
 		.pipe(gulp.dest(settings.csspath))
 		.pipe(filter('**/*.css'))
 		.pipe(browsersync.reload({stream: true}))
-		.pipe(parker())
-		.pipe(notify({ message: 'Styles task complete' }));
+		.pipe(parker());
 });
 
 /**
@@ -180,11 +190,40 @@ gulp.task('styles', function() {
  */
 gulp.task('scripts', function() {
 	return gulp.src( [ settings.scriptspath_jquery, settings.scriptspath_plugins, settings.scriptspath_app ], { base: settings.scriptspath_base } )
-	    .pipe(concat('app.js'))
-	    .pipe(uglify())
-	    .pipe(gulp.dest( settings.jspath ))
-		.pipe(browsersync.reload({stream: true}))
-		.pipe(notify({ message: 'Scripts task complete' }));
+		.pipe(concat('app.js'))
+		.pipe(uglify())
+		.pipe(gulp.dest( settings.jspath ))
+		.pipe(browsersync.reload({stream: true}));
+});
+
+/**
+ * React Tast
+ *
+ * Compile JSX etc
+ */
+gulp.task('react', function () {
+
+	// set up the browserify instance on a task basis
+	var b = browserify({
+		entries: settings.js,
+		debug: true,
+		// defining transforms here will avoid crashing the stream
+		transform: [reactify],
+		extensions: ['.jsx']
+	});
+
+	return b.bundle()
+		.on('error', onError)
+		.pipe(source('vip-dashboard.js'))
+		.pipe(buffer())
+		.pipe(sourcemaps.init({loadMaps: true}))
+			// Add transformation tasks to the pipeline here.
+			//.pipe(uglify())
+			// minify
+			// .on('error', gutil.log)
+		.pipe(sourcemaps.write('./'))
+		.pipe(gulp.dest(settings.jspath))
+		.pipe(browsersync.reload({stream: true}));
 });
 
 /**
@@ -201,8 +240,7 @@ gulp.task('images', function() {
 			//svgoPlugins: [ {removeViewBox:false}, {removeUselessStrokeAndFill:false} ]
 		}))
 		.pipe(gulp.dest(settings.imagesdistpath))
-		.pipe(browsersync.reload({stream: true}))
-		.pipe(notify({ message: 'Images task complete' }));
+		.pipe(browsersync.reload({stream: true}));
 });
 
 /**
@@ -216,7 +254,6 @@ gulp.task('checkcss', function() {
 		.pipe(checkcss());
 });
 
-
 /**
  * Reload HTML files
  *
@@ -224,6 +261,5 @@ gulp.task('checkcss', function() {
  */
 gulp.task('markup', function() {
 	return gulp.src(settings.htmlpath)
-		.pipe(browsersync.reload({stream: true}))
-		.pipe(notify({ message: 'Markup task complete' }));
+		.pipe(browsersync.reload({stream: true}));
 });
