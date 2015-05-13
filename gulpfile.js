@@ -12,26 +12,19 @@
  */
 var settings = {
 
-	// path to JS files
-	scriptspath: 'src/js/*.js',
-	scriptspath_base: 'src/js/',
-	scriptspath_jquery: 'src/js/jquery-1.9.1.min.js',
-	scriptspath_plugins: 'src/js/plugins.js',
-	scriptspath_app: 'src/js/app.js',
-
 	// react
 	componentpath: 'components/**/*.jsx',
 	js: './components/vip-dashboard.jsx',
 	jspath: 'assets/js/',
 
 	// path to main scss file
-	scss: 'src/scss/style.scss',
+	scss: 'components/style.scss',
 
 	// path to output css file
 	css: 'assets/css/style.css',
 
 	// path to watch for changed scss files
-	scsswatch: 'src/scss/**/*.scss',
+	scsswatch: 'components/**/*.scss',
 
 	// path to output css folder
 	csspath: 'assets/css/',
@@ -44,8 +37,7 @@ var settings = {
 	basepath: './',
 
 	// path to html
-	htmlpath: './*.html',
-	// partials: ['app/**/*.html', '!app/index.html'],
+	htmlpath: ['./*.html', './*.php'],
 
 	// enable the static file server and browsersync
 	// check for unused styles in static html? - seems buggy, requires html
@@ -110,9 +102,6 @@ gulp.task('default', function() {
 	// Compile Styles on start
 	gulp.start('styles');
 
-	// Compile Scripts on start
-	gulp.start('scripts');
-
 	// Process Images on start
 	gulp.start('images');
 
@@ -143,9 +132,6 @@ gulp.task('default', function() {
 
 	// Watch for image changes
 	gulp.watch(settings.imagespath, ['images']);
-
-	// Watch for JS changes
-	gulp.watch(settings.scriptspath, ['scripts']);
 
 	// Watch for HTML changes
 	gulp.watch(settings.htmlpath, ['markup']);
@@ -181,19 +167,6 @@ gulp.task('styles', function() {
 		.pipe(filter('**/*.css'))
 		.pipe(browsersync.reload({stream: true}))
 		.pipe(parker());
-});
-
-/**
- * Javascript Task
- *
- * Minify and contact all JS files into one
- */
-gulp.task('scripts', function() {
-	return gulp.src( [ settings.scriptspath_jquery, settings.scriptspath_plugins, settings.scriptspath_app ], { base: settings.scriptspath_base } )
-		.pipe(concat('app.js'))
-		.pipe(uglify())
-		.pipe(gulp.dest( settings.jspath ))
-		.pipe(browsersync.reload({stream: true}));
 });
 
 /**

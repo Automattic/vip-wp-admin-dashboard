@@ -3,8 +3,8 @@
  */
 var React = require( 'react/addons' ),
 	joinClasses = require( 'react/lib/joinClasses' ),
-	//omit = require( 'lodash/object/omit' ),
-	//isEmpty = require( 'lodash/lang/isEmpty' );
+	omit = require( 'lodash/object/omit' ),
+	isEmpty = require( 'lodash/lang/isEmpty' );
 
 module.exports = React.createClass( {
 

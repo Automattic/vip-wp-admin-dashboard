@@ -20,28 +20,28 @@
 	margin: 0 0 10px;
 	font-size: .75em;
 	text-transform: uppercase;
-	
+
 	ul {
 		margin: 0;
 		padding: 0;
 		list-style: none;
 	}
-	
+
 	li {
 		display: inline-block;
 		margin: 0 2em 0 0;
 	}
-	
+
 	a {
 		position: relative;
 		padding: 1.125em .25em;
 		color: rgba($white, .68);
-		
+
 		&:hover,
 		&.active {
 			color: rgba($white, 1);
 		}
-		
+
 		&:after {
 			content: "";
 			position: absolute;
@@ -50,7 +50,7 @@
 			width: 0;
 			border-bottom: 4px solid rgba($blue, 0);
 		}
-		
+
 		&:hover:after,
 		&.active:after {
 			width: 100%;

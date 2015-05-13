@@ -11,14 +11,13 @@ var React = require( 'react' ),
 /**
  * Widget Component
  */
-Widget = React.createClass( {
+Main = React.createClass( {
 	render: function() {
 		return (
-			<div className={ joinClasses( this.props.className, 'widget' ) }>
-				<h2 class="widget__title">{this.props.title}</h2>
+			<main className={ joinClasses( this.props.className, 'main' ) } role="main">
 				{ this.props.children }
-			</div>
+			</main>
 		);
 	}
 } );
-module.exports = Widget;
+module.exports = Main;

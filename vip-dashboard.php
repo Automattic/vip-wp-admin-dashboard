@@ -43,7 +43,6 @@ function vip_dashboard_admin_scripts() {
 function vip_dashboard_page() {
 
 	?>
-	<p class="show-if-nojs">REACT<p>
 	<div id="app"></div>
 	<?php
 }
