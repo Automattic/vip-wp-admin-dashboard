@@ -39,7 +39,21 @@
 			<div class="stats">
 				
 				<div class="stats__module">
+					
 					<canvas class="stats__canvas" id="canvas" height="200" width="300"></canvas>
+					
+					<div class="stats__numbers">
+						<div class="stats__posts">
+							<span class="numbers__value value-primary">256</span>
+							<span class="numbers__trend trend-positive">10%</span>
+							<span class="numbers__description">New Published Posts</span>
+						</div>
+						<div class="stats__comments">
+							<span class="numbers__value value-secondary">34</span>
+							<span class="numbers__trend trend-negative">6%</span>
+							<span class="numbers__description">New Comments</span>
+						</div>
+					</div>
 				</div>
 				
 				<div class="stats__module stats__graphs">
@@ -47,9 +61,9 @@
 					<div class="chart-circular__block chart-circular__one">
 						
 						<div class="chart-circular__data">
-							<span class="chart-circular__value">43%</span>
-							<span class="chart-circular__description">Desktop views</span>
-							<span class="chart-circular__trend trend-negative">16%</span>
+							<span class="numbers__value value-primary value-chart">43%</span>
+							<span class="numbers__description">Desktop views</span>
+							<span class="numbers__trend trend-negative trend-center">16%</span>
 						</div>
 					
 						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 159.6 159.6" enable-background="new 0 0 159.6 159.6" xml:space="preserve">
@@ -62,9 +76,9 @@
 					<div class="chart-circular__block chart-circular__two">
 						
 						<div class="chart-circular__data">
-							<span class="chart-circular__value">57%</span>
-							<span class="chart-circular__description">Mobile views</span>
-							<span class="chart-circular__trend trend-positive">22%</span>
+							<span class="numbers__value value-secondary value-chart">57%</span>
+							<span class="numbers__description">Mobile views</span>
+							<span class="numbers__trend trend-positive trend-center">22%</span>
 						</div>
 					
 						<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 159.6 159.6" enable-background="new 0 0 159.6 159.6" xml:space="preserve">
@@ -72,6 +86,46 @@
 							<path class="chart-graph chart-views-mobile" id="chart-views-desktop" fill="none" stroke="#d8e2e9" stroke-width="6" stroke-miterlimit="10" d="M79.8,3c42.4,0,76.8,34.4,76.8,76.8 s-34.4,76.8-76.8,76.8S3,122.2,3,79.8S37.4,3,79.8,3"/>
 						</svg>
 					
+					</div>
+					
+					<div class="stats__numbers">
+						<div class="stats__visitors">
+							<span class="numbers__value">3,734</span>
+							<span class="numbers__trend trend-positive">16%</span>
+							<span class="numbers__description">Visitors</span>
+						</div>
+						<div class="stats__views">
+							<span class="numbers__value">12,158</span>
+							<span class="numbers__trend trend-positive">3%</span>
+							<span class="numbers__description">Views</span>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div class="stats__module">
+					
+					<div class="stats__numbers numbers-data">
+						<div class="stats__total-posts">
+							<span class="numbers__value">7,632</span>
+							<span class="numbers__trend trend-positive">1%</span>
+							<span class="numbers__description">Total Published Posts</span>
+						</div>
+						<div class="stats__total-users">
+							<span class="numbers__value">123</span>
+							<span class="numbers__trend trend-neutral">0%</span>
+							<span class="numbers__description">Total Users</span>
+						</div>
+						<div class="stats__total-media">
+							<span class="numbers__value">5,12</span>
+							<span class="numbers__trend trend-positive">2%</span>
+							<span class="numbers__description">Media Library Size (GB)</span>
+						</div>
+						<div class="stats__total-loc">
+							<span class="numbers__value">3,759</span>
+							<span class="numbers__trend trend-negative">5%</span>
+							<span class="numbers__description">Total Lines of Code</span>
+						</div>
 					</div>
 					
 				</div>
@@ -150,19 +204,20 @@
 							</div>
 						</div>
 						<div class="contact-form__row">
-							<label for="contact-form__details">Details</label><textarea name="details" rows="4" id="contact-form__details" placeholder="Please be descriptive"></textarea>
+							<label for="contact-form__priority">Priority</label><div class="contact-form__select"><select id="contact-form__priority">
+									<optgroup label="Normal Priority">
+										<option value="Low">Low</option>
+										<option value="Medium" selected="selected">Normal</option>
+										<option value="High">High</option>
+									</optgroup>
+									<optgroup label="Urgent Priority">
+										<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
+									</optgroup>
+								</select>
+							</div>
 						</div>
 						<div class="contact-form__row">
-							<label for="contact-form__priority">Priority</label><select id="contact-form__priority">
-								<optgroup label="Normal Priority">
-									<option value="Low">Low</option>
-									<option value="Medium" selected="selected">Normal</option>
-									<option value="High">High</option>
-								</optgroup>
-								<optgroup label="Urgent Priority">
-									<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
-								</optgroup>
-							</select>
+							<label for="contact-form__details">Details</label><textarea name="details" rows="4" id="contact-form__details" placeholder="Please be descriptive"></textarea>
 						</div>
 						<div class="contact-form__row">
 							<input type="submit" value="Submit Request">

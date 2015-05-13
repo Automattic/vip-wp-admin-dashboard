@@ -46,6 +46,7 @@ $white:					#ffffff;
 $grey-light:			#e5e5e5;
 $grey-blue:				#c8d7e2;
 $grey-blue-fade:		rgba($grey-blue, .55);
+$grey-dark:				#878E94;
 
 
 /*
@@ -69,6 +70,7 @@ $graph-dummy:			#45484f;
 
 $trend-positive:		#7ABC44;
 $trend-negative:		#EB5C36;
+$trend-neutral:			$grey-dark;
 
 
 /*

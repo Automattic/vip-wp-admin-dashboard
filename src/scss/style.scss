@@ -1,7 +1,7 @@
 /**
  * Filipe Varela
  * VIP Dashboard on wp-admin
- * Last updated on 2015-04-21
+ * Last updated on 2015-05-13
  *
  * CSS Coding Guidelines: https://wpcalypso.wordpress.com/devdocs/docs/coding-guidelines/css.md
  *
@@ -11,13 +11,9 @@
  * Imports
  */
 
-@import "_normalize.scss";
-/*@import "_base.scss";*/
-@import "_genericons.scss";
-@import "_colors.scss";
-@import "_variables.scss";
-@import "_mixins.scss";
-@import "_transitions.scss";
+@import "base/_normalize.scss";
+/*@import "base/_base.scss";*/
+@import "_inc.scss";
 @import "_components.scss";
 
 /* @note: delete on prod */
