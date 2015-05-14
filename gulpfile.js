@@ -13,7 +13,7 @@
 var settings = {
 
 	// react
-	componentpath: 'components/**/*.jsx',
+	componentpath: ['components/**/*.jsx', 'components/**/*.js'],
 	js: './components/vip-dashboard.jsx',
 	jspath: 'assets/js/',
 
