@@ -15,7 +15,7 @@ Widget = React.createClass( {
 	render: function() {
 		return (
 			<div className={ joinClasses( this.props.className, 'widget' ) }>
-				<h2 class="widget__title">{this.props.title}</h2>
+				<h2 className="widget__title">{this.props.title}</h2>
 				{ this.props.children }
 			</div>
 		);

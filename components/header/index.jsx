@@ -7,7 +7,9 @@ var React = require( 'react' ),
 /**
  * Internal dependencies
  */
-var Config = require( '../config.js' );
+var Config = require( '../config.js' ),
+	Nav = require( '../nav' ),
+
 /**
  * Header Component
  */
@@ -16,18 +18,8 @@ Header = React.createClass( {
 		return (
 			<div className={ joinClasses( this.props.className, 'top-header' ) }>
 				<h1><img src={ Config.asseturl + "img/wpcom-vip-logo.svg"} alt="WordPress.com VIP" className="top-header__logo" /></h1>
-				<div className="top-header__menu">
-					<p>Swap this for nav component</p>
-					<ul>
-						<li><a className="active" href="#">Dashboard</a></li>
-						<li><a href="#">User Management</a></li>
-						<li><a href="#">SVN Access</a></li>
-						<li><a href="#">Revisions</a></li>
-						<li><a href="#">Plugins</a></li>
-						<li><a href="#">Support</a></li>
-						<li><a href="#">Billing</a></li>
-					</ul>
-				</div>
+
+				<Nav items={ ['Dashboard', 'User Management', 'SVN Access', 'Revisions', 'Plugins', 'Support', 'Billing'] } />,
 
 				{ this.props.children }
 

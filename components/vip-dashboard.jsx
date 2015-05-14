@@ -10,10 +10,7 @@ var React = require( 'react' ),
 /**
  * Internal dependencies
  */
-var Config = require( './config.js' ),
-	Main = require( './main' ),
-	//SectionNav = require( './section-nav' ),
-	//Widget = require( './widget' );
+var Main = require( './main' ),
 	Header = require( './header' ),
 	Widget_Contact = require( './widget-contact' ),
 	Widget_Welcome = require( './widget-welcome' );
@@ -57,9 +54,11 @@ var VIPdashboard = React.createClass({
 		return (
 			<Main className="page-dashboard">
 
-				<Header>
+				<Header />
+
+				<div className="stats">
 					<LineChart data={this.state.lineChartData} />
-				</Header>
+				</div>
 
 				<div className="widgets-area">
 
@@ -67,8 +66,7 @@ var VIPdashboard = React.createClass({
 
 					<Widget_Contact />
 
-					<Widget title={ Config.title }>
-					</Widget>
+					<Widget title="Third Widget" />
 
 				</div>
 
