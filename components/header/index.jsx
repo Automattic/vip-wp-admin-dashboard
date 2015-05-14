@@ -7,7 +7,7 @@ var React = require( 'react' ),
 /**
  * Internal dependencies
  */
-
+var Config = require( '../config.js' );
 /**
  * Header Component
  */
@@ -15,7 +15,7 @@ Header = React.createClass( {
 	render: function() {
 		return (
 			<div className={ joinClasses( this.props.className, 'top-header' ) }>
-				<h1><img src="assets/img/wpcom-vip-logo.svg" alt="WordPress.com VIP" className="top-header__logo" /></h1>
+				<h1><img src={ Config.asseturl + "img/wpcom-vip-logo.svg"} alt="WordPress.com VIP" className="top-header__logo" /></h1>
 				<div className="top-header__menu">
 					<p>Swap this for nav component</p>
 					<ul>
@@ -28,6 +28,9 @@ Header = React.createClass( {
 						<li><a href="#">Billing</a></li>
 					</ul>
 				</div>
+
+				{ this.props.children }
+
 			</div>
 		);
 	}

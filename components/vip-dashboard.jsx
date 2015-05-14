@@ -10,7 +10,8 @@ var React = require( 'react' ),
 /**
  * Internal dependencies
  */
-var Main = require( './main' ),
+var Config = require( './config.js' ),
+	Main = require( './main' ),
 	//SectionNav = require( './section-nav' ),
 	//Widget = require( './widget' );
 	Header = require( './header' ),
@@ -18,7 +19,7 @@ var Main = require( './main' ),
 	Widget_Welcome = require( './widget-welcome' );
 
 /**
- * Setitngs
+ * Settings
  */
 Chart.defaults.global.responsive = true;
 
@@ -66,7 +67,7 @@ var VIPdashboard = React.createClass({
 
 					<Widget_Contact />
 
-					<Widget title="Another Widget">
+					<Widget title={ Config.title }>
 					</Widget>
 
 				</div>

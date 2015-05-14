@@ -43,6 +43,6 @@ function vip_dashboard_admin_scripts() {
 function vip_dashboard_page() {
 
 	?>
-	<div id="app"></div>
+	<div id="app" data-asseturl="<?php echo plugins_url( '/assets/', __FILE__ ); ?>"></div>
 	<?php
 }
