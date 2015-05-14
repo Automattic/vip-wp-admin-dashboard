@@ -18,9 +18,6 @@
 @import "_transitions.scss";
 @import "_components.scss";
 
-/* @note: delete on prod */
-// @import "_wp-admin.scss";
-
 /**
  * General
  */
@@ -64,9 +61,4 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
-/**
- * Widgets Area
- */
-.widgets-area {
-	padding: 1%;
-}
+
