@@ -12,17 +12,14 @@ var Config = require( '../config.js' );
  * Navigation component
  */
 Nav = React.createClass( {
-
 	getInitialState: function(){
 		return {
 			focused: 0
 		};
 	},
-
 	clicked: function( index ) {
 		this.setState( { focused: index } );
 	},
-
 	render: function() {
 
 		var self = this;
@@ -46,7 +43,6 @@ Nav = React.createClass( {
 				</ul>
 			</div>
 		);
-
 	}
 } );
 module.exports = Nav;

@@ -12,6 +12,8 @@ var React = require( 'react' ),
  */
 var Main = require( './main' ),
 	Header = require( './header' ),
+	Stats = require( './stats' ),
+	Stats_Numbers = require( './stats-numbers' ),
 	Widget_Contact = require( './widget-contact' ),
 	Widget_Welcome = require( './widget-welcome' );
 
@@ -52,13 +54,32 @@ var VIPdashboard = React.createClass({
 	},
 	render: function() {
 		return (
-			<Main className="page-dashboard">
+			<Main className="page-dashboard clearfix">
 
 				<Header />
 
-				<div className="stats">
-					<LineChart data={this.state.lineChartData} />
-				</div>
+				<Stats>
+					<div className="stats__module">
+						<LineChart data={this.state.lineChartData} />
+					</div>
+
+					<div className="chart-circular__block chart-circular__two">
+
+						<div className="chart-circular__data">
+							<span className="chart-circular__value">57%</span>
+							<span className="chart-circular__description">Mobile views</span>
+							<span className="chart-circular__trend trend-positive">22%</span>
+						</div>
+
+					</div>
+
+					<Stats_Numbers className="stats__total-loc" value={7632} trend={2} description="Total Published Posts" />
+					<Stats_Numbers className="stats__total-loc" value={123} trend={0} description="Total Users" />
+					<Stats_Numbers className="stats__total-loc" value={512} trend={2} description="Media Library (GB)" />
+					<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Line of Code" />
+
+
+				</Stats>
 
 				<div className="widgets-area">
 

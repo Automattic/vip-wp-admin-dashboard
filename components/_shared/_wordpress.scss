@@ -3,6 +3,11 @@
  * to be removed when these tools get merged with calypso
  */
 
+#wpbody-content,
+body.toplevel_page_vip-dashboard {
+	background: #edf3f7;
+}
+
 .toplevel_page_vip-dashboard #wpcontent {
 	margin-left: 140px;
 }

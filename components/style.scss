@@ -14,6 +14,7 @@
 
 // shared styles
 @import '_shared/_colors';
+@import '_shared/_variables';
 @import '_shared/_mixins';
 @import '_shared/_genericons';
 @import '_shared/_transitions';
@@ -26,6 +27,8 @@
 // @import '_shared/item';
 
 // charts
+@import 'stats/style';
+@import 'stats-numbers/style';
 
 // forms
 
