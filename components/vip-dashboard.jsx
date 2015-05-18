@@ -3,6 +3,7 @@
  */
 var React = require( 'react' ),
 	Chart = require( 'chart.js' ),
+	debug = require( 'debug' )( 'vip-dashboard' ),
 	LineChart = require( 'react-chartjs' ).Line;
 	// ReactInjection = require( 'react/lib/ReactInjection' );
 
@@ -54,6 +55,8 @@ var VIPdashboard = React.createClass({
 	},
 	render: function() {
 		return (
+
+
 			<Main className="page-dashboard clearfix">
 
 				<Header />
@@ -86,8 +89,6 @@ var VIPdashboard = React.createClass({
 					<Widget_Welcome />
 
 					<Widget_Contact />
-
-					<Widget title="Third Widget" />
 
 				</div>
 

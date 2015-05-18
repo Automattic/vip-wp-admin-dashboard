@@ -19,9 +19,6 @@ var Main = require( './main' ),
 	Widget_Contact = require( './widget-contact' ),
 	Widget_Welcome = require( './widget-welcome' );
 
-
-debug('Staring the vip-dashboard');
-
 /**
  * Settings
  */
