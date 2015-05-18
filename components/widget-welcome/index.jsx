@@ -22,19 +22,19 @@ Widget_Welcome = React.createClass( {
 				<div className="widget__col-2">
 					<ul className="widget__list">
 						<li>
-							<a href="">VIP Lobby</a>
+							<a href="http://lobby.vip.wordpress.com/" target="_blank">VIP Lobby</a>
 							<span>Important service updates</span>
 						</li>
 						<li>
-							<a href="">VIP Documentation</a>
+							<a href="http://vip.wordpress.com/documentation/" target="_blank">VIP Documentation</a>
 							<span>Coding for WordPress.com VIP</span>
 						</li>
 						<li>
-							<a href="">VIP Plugins</a>
+							<a href="http://vip.wordpress.com/plugins/" target="_blank">VIP Plugins</a>
 							<span>Available shared VIP plugins</span>
 						</li>
 						<li>
-							<a href="">VIP Support Portal</a>
+							<a href="http://wordpressvip.zendesk.com/" target="_blank">VIP Support Portal</a>
 							<span>Your organization’s tickets</span>
 						</li>
 					</ul>
@@ -43,19 +43,19 @@ Widget_Welcome = React.createClass( {
 				<div className="widget__col-2">
 					<ul className="widget__list">
 						<li>
-							<a href="">Launch Checklist</a>
+							<a href="http://vip.wordpress.com/documentation/launch-checklist/" target="_blank">Launch Checklist</a>
 							<span>Steps to launch</span>
 						</li>
 						<li>
-							<a href="">Your VIP Toolbox</a>
+							<a href="http://vip.wordpress.com/your-vip-toolbox/" target="_blank">Your VIP Toolbox</a>
 							<span>Navigating VIP Tools</span>
 						</li>
 						<li>
-							<a href="">VIP News</a>
+							<a href="http://vip.wordpress.com/blog/" target="_blank">VIP News</a>
 							<span>New features, case studies</span>
 						</li>
 						<li>
-							<a href="">Featured Partners</a>
+							<a href="http://vip.wordpress.com/partners/" target="_blank">Featured Partners</a>
 							<span>Agencies and technology partners</span>
 						</li>
 					</ul>
