@@ -3,7 +3,6 @@
  */
 var React = require( 'react' ),
 	Chart = require( 'chart.js' ),
-	debug = require( 'debug' )( 'vip-dashboard' ),
 	LineChart = require( 'react-chartjs' ).Line;
 	// ReactInjection = require( 'react/lib/ReactInjection' );
 
@@ -16,7 +15,8 @@ var Main = require( './main' ),
 	Stats = require( './stats' ),
 	Stats_Numbers = require( './stats-numbers' ),
 	Widget_Contact = require( './widget-contact' ),
-	Widget_Welcome = require( './widget-welcome' );
+	Widget_Welcome = require( './widget-welcome' ),
+	Widget_Editorial = require( './widget-editorial' );
 
 /**
  * Settings
@@ -55,8 +55,6 @@ var VIPdashboard = React.createClass({
 	},
 	render: function() {
 		return (
-
-
 			<Main className="page-dashboard clearfix">
 
 				<Header />
@@ -89,6 +87,10 @@ var VIPdashboard = React.createClass({
 					<Widget_Welcome />
 
 					<Widget_Contact />
+			
+					<Widget_Editorial />
+
+					<Widget title="Forth Widget" />
 
 				</div>
 
