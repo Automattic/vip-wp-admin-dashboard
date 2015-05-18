@@ -2,6 +2,7 @@
  * External dependencies
  */
 var React = require( 'react' ),
+	debug = require( 'debug' )( 'vip-dashboard' ),
 	Chart = require( 'chart.js' ),
 	LineChart = require( 'react-chartjs' ).Line;
 	// ReactInjection = require( 'react/lib/ReactInjection' );
@@ -87,10 +88,8 @@ var VIPdashboard = React.createClass({
 					<Widget_Welcome />
 
 					<Widget_Contact />
-			
-					<Widget_Editorial />
 
-					<Widget title="Forth Widget" />
+					<Widget_Editorial />
 
 				</div>
 
