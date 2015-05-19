@@ -12,12 +12,6 @@
  * Sets up and creates the VIP Plugins admin screens
  */
 class WPCOM_VIP_Plugins_UI {
-
-	/**
-	 * @var string Option name containing the list of active plugins.
-	 */
-	const OPTION_ACTIVE_PLUGINS = 'wpcom_vip_active_plugins';
-
 	/**
 	 * @var string This plugin's menu slug.
 	 */
@@ -89,7 +83,7 @@ class WPCOM_VIP_Plugins_UI {
 	 */
 	public static function instance() {
 		if ( ! isset( self::$instance ) ) {
-			self::$instance = new WPCOM_VIP_Plugins_UI;
+			self::$instance = new WPCOM_VIP_Plugins_UI();
 			self::$instance->setup_globals();
 			self::$instance->setup_actions();
 		}
@@ -124,17 +118,10 @@ class WPCOM_VIP_Plugins_UI {
 	 * @access private
 	 */
 	private function setup_globals() {
-		$this->plugin_folder = WP_CONTENT_DIR . '/themes/vip/plugins';
-
-		// Allow people to change the positioning of the menu
-		// Default for localhost should be under plugins.php
-		if ( ! $this->is_wpcom_vip() )
-			$this->parent_menu_slug = 'plugins.php';
+		$this->plugin_folder = WP_CONTENT_DIR . '/plugins';
 
 		$this->hidden_plugins = array(
-			'vip-do-not-include-on-wpcom', // Local dev helper
 			'internacional', // Not ready yet (ever?)
-			'wpcom-profiler', // Used internally to debug sites
 			'wpcom-legacy-redirector', // requires code-level changes
 
 			// Premium
@@ -271,11 +258,6 @@ class WPCOM_VIP_Plugins_UI {
 	 * @uses add_action() To add various actions
 	 */
 	private function setup_actions() {
-		add_option( self::OPTION_ACTIVE_PLUGINS, array() );
-
-		// Loaded at priority 5 because all plugins are typically loaded before 'plugins_loaded'
-		add_action( 'plugins_loaded', array( $this, 'include_active_plugins' ), 5 );
-
 		add_action( 'init', array( $this, 'action_init' ) );
 	}
 
@@ -297,10 +279,7 @@ class WPCOM_VIP_Plugins_UI {
 		// Allows hiding of certain plugins from the UI
 		$this->hidden_plugins   = apply_filters( 'wpcom_vip_plugins_ui_hidden_plugins',   $this->hidden_plugins );
 
-
 		add_action( 'admin_menu', array( $this, 'action_admin_menu_add_menu_item' ) );
-
-		add_action( 'wpcom_vip_plugins_ui_menu_page', array( $this, 'cleanup_active_plugins_option' ) );
 
 		add_action( 'admin_post_' . self::ACTION_PLUGIN_ACTIVATE, array( $this, 'action_admin_post_plugin_activate' ) );
 		add_action( 'admin_post_' . self::ACTION_PLUGIN_DEACTIVATE, array( $this, 'action_admin_post_plugin_deactivate' ) );
@@ -309,19 +288,9 @@ class WPCOM_VIP_Plugins_UI {
 	}
 
 	/**
-	 * Includes any active plugin files that are enabled via the UI/option.
-	 */
-	public function include_active_plugins() {
-		foreach ( $this->get_active_plugins_option() as $plugin ) {
-			wpcom_vip_load_plugin( $plugin );
-		}
-	}
-
-	/**
 	 * Adds the new menu item and registers a few more hook callbacks relating to the menu page.
 	 */
 	public function action_admin_menu_add_menu_item() {
-
 		if ( $this->parent_menu_slug == 'plugins.php' ) {
 			$page_title = __( 'WordPress.com VIP Plugins', 'wpcom-vip-plugins-ui' );
 			$menu_label = __( 'WP.com VIP Plugins', 'wpcom-vip-plugins-ui' );
@@ -342,7 +311,6 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return void
 	 */
 	public function action_enqueue_scripts( $hook ) {
-
 		wp_enqueue_style( 'wpcom-vip-plugins-ui', plugin_dir_url( __FILE__ ) . 'css/wpcom-vip-plugins-ui.css' );
 		wp_enqueue_script( 'wpcom-vip-plugins-ui', plugin_dir_url( __FILE__ ) . 'js/wpcom-vip-plugins-ui.js' );
 	}
@@ -360,9 +328,12 @@ class WPCOM_VIP_Plugins_UI {
 		if ( ! current_user_can( $this->capability ) )
 			wp_die( __( 'You do not have sufficient permissions to activate plugins for this site.' ) );
 
-		check_admin_referer( 'activate-' . $_GET['plugin'] );
+		$plugin_slug = sanitize_file_name( $_GET['plugin'] );
+		$plugin_file = $plugin_slug . '/' . $plugin_slug . '.php';
 
-		if ( ! $this->activate_plugin( $_GET['plugin'] ) )
+		check_admin_referer( 'activate-' . $plugin_slug );
+
+		if ( is_wp_error( $this->activate_plugin( $plugin_file ) ) )
 			wp_die( __( "Failed to activate plugin. Maybe it's already activated?", 'wpcom-vip-plugins-ui' ) );
 
 		wp_safe_redirect( $this->get_menu_url( array( 'activated' => '1' ) ) );
@@ -379,10 +350,14 @@ class WPCOM_VIP_Plugins_UI {
 		if ( ! current_user_can( $this->capability ) )
 			wp_die( __( 'You do not have sufficient permissions to deactivate plugins for this site.' ) );
 
-		check_admin_referer( 'deactivate-' . $_GET['plugin'] );
+		$plugin_slug = sanitize_file_name( $_GET['plugin'] );
+		$plugin_file = $plugin_slug . '/' . $plugin_slug . '.php';
 
-		if ( ! $this->deactivate_plugin( $_GET['plugin'] ) )
-			wp_die( __( "Failed to deactivate plugin. Maybe it was already deactivated?", 'wpcom-vip-plugins-ui' ) );
+		check_admin_referer( 'deactivate-' . $plugin_slug );
+
+		// Note that core's deactivate_plugins() returns no value, so we _assume_
+		// the deactivation worked
+		$this->deactivate_plugin( $plugin_file );
 
 		wp_safe_redirect( $this->get_menu_url( array( 'deactivated' => '1' ) ) );
 		exit();
@@ -443,37 +418,12 @@ class WPCOM_VIP_Plugins_UI {
 	/** Helper Functions ******************************************************/
 
 	/**
-	 * Are we on WordPress.com VIP or somewhere else?
-	 *
-	 * Not everyone is using the new loader yet (vip-init.php) so this checks
-	 * both the new method (constant) and the legacy method (function).
-	 *
-	 * @return bool True if on WP.com VIP, false if not.
-	 */
-	public function is_wpcom_vip() {
-		return ( ( defined( 'WPCOM_IS_VIP_ENV' ) && WPCOM_IS_VIP_ENV ) || ( function_exists( 'wpcom_is_vip' ) && wpcom_is_vip() ) );
-	}
-
-	/**
 	 * Gets the list of VIP plugins that have been activated via the UI.
 	 *
-	 * @return array List of active VIP plugin slugs.
+	 * @return array List of active plugin slugs.
 	 */
 	public function get_active_plugins_option() {
-		return (array) get_option( self::OPTION_ACTIVE_PLUGINS, array() );
-	}
-
-	/**
-	 * Removes any invalid plugins from the option, i.e. when they're deleted.
-	 */
-	public function cleanup_active_plugins_option() {
-		$active_plugins = $this->get_active_plugins_option();
-
-		foreach ( $active_plugins as $active_plugin ) {
-			if ( ! $this->validate_plugin( $active_plugin ) ) {
-				$this->deactivate_plugin( $active_plugin, true );
-			}
-		}
+		return (array) get_option( 'active_plugins', array() );
 	}
 
 	/**
@@ -503,7 +453,10 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return string|bool "option" if the plugin was activated via UI, "manual" if activated via code, and false if not activated.
 	 */
 	public function is_plugin_active( $plugin ) {
-		if ( in_array( $plugin, $this->get_active_plugins_option() ) )
+		// Since we're using core's active_plugins option, we need to check the filename
+		$plugin_file = $plugin . '/' . $plugin . '.php';
+
+		if ( in_array( $plugin_file, $this->get_active_plugins_option() ) )
 			return 'option';
 		elseif ( in_array( 'plugins/' . $plugin, wpcom_vip_get_loaded_plugins() ) )
 			return 'manual';
@@ -540,6 +493,7 @@ class WPCOM_VIP_Plugins_UI {
 	/**
 	 * Validates a plugin slug.
 	 *
+	 * @todo Remove - use core's validate_plugin()
 	 * @param string $plugin The slug of the VIP plugin to validate.
 	 * @return bool True if valid, false if not.
 	 */
@@ -550,54 +504,30 @@ class WPCOM_VIP_Plugins_UI {
 	/**
 	 * Activates a plugin.
 	 *
-	 * @param string $plugin The slug of the VIP plugin to activate.
-	 * @return bool True if the plugin was activated, false if an error was encountered.
+	 * @param string $plugin The slug of the plugin to activate.
+	 * @return bool|WP_Error True if the plugin was activated, a WP_Error if an error was encountered.
 	 */
 	public function activate_plugin( $plugin ) {
+		// $plugin, $redirect = '', $network_wide = false, $silent = false
+		$result = activate_plugin( $plugin, null, false, false );
 
-		if ( ! $this->validate_plugin( $plugin ) ) {
-			return false;
+		if ( is_wp_error( $result ) ) {
+			return $result;
 		}
 
-		$plugins = $this->get_active_plugins_option();
-
-		// Don't add it twice
-		if ( in_array( $plugin, $plugins ) ) {
-			return false;
-		}
-
-		$plugins[] = $plugin;
-
-		do_action( 'wpcom_vip_plugins_ui_activate_plugin', $plugin );
-
-		return update_option( self::OPTION_ACTIVE_PLUGINS, $plugins );
+		// activate_plugin returns null on success (!?)
+		return true;
 	}
 
 	/**
 	 * Deactivates a plugin.
 	 *
-	 * @param string $plugin The slug of the VIP plugin to deactivate.
-	 * @param string $force Optional. Whether to bypass the validation check or not. Allows disabling invalid plugins.
-	 * @return bool True if the plugin was deactivated, false if an error was encountered.
+	 * @param string $plugin The slug of the plugin to deactivate.
+	 * @return void deactivate_plugins() returns nothing...so we can't actually know if it succeeded :)
 	 */
-	public function deactivate_plugin( $plugin, $force = false ) {
-
-		if ( ! $force && ! $this->validate_plugin( $plugin ) ) {
-			return false;
-		}
-
-		do_action( 'wpcom_vip_plugins_ui_deactivate_plugin', $plugin );
-
-		$plugins = $this->get_active_plugins_option();
-
-		if ( ! in_array( $plugin, $plugins ) ) {
-			return false;
-		}
-
-		// Remove from array and re-index (just to stay clean)
-		$plugins = array_values( array_diff( $plugins, array( $plugin ) ) );
-
-		return update_option( self::OPTION_ACTIVE_PLUGINS, $plugins );
+	public function deactivate_plugin( $plugin ) {
+		// $plugins, $silent = false, $network_wide = null
+		deactivate_plugins( $plugin, false, false );
 	}
 
 	/**

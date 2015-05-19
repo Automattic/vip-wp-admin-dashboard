@@ -20,7 +20,7 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 		$active = $inactive = array();
 
 		// The path has to be
-		foreach ( get_plugins( '/../themes/vip/plugins' ) as $plugin_file => $plugin_data ) {
+		foreach ( get_plugins() as $plugin_file => $plugin_data ) {
 
 			$plugin_folder = basename( dirname( $plugin_file ) );
 
@@ -75,7 +75,7 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $plugin_file ) {
 		$plugin = basename( dirname( $plugin_file ) );
-		$plugin_data = get_plugin_data( WP_CONTENT_DIR . '/themes/vip/' . $plugin_file );
+		$plugin_data = get_plugin_data( WP_CONTENT_DIR . '/' . $plugin_file );
 
 		$is_active = WPCOM_VIP_Plugins_UI()->is_plugin_active( $plugin );
 
