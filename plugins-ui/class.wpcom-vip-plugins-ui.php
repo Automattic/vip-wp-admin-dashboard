@@ -3,11 +3,9 @@
 /**
  * Plugin Name: WordPress.com VIP Plugins
  * Plugin URI:  http://vip.wordpress.com/
- * Description: Provides an interface to manage the activation and deactivation of the pre-approved WordPress.com VIP plugins.
- * Author:      Alex Mills (Automattic)
+ * Description: Provides an interface to manage the activation and deactivation of plugins on WordPress.com VIP.
+ * Author:      Automattic
  * Author URI:  http://automattic.com/
- *
- * This class structure was stolen from bbPress, so credit to JJJ & co.
  */
 
 /**
