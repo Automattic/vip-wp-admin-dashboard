@@ -5,8 +5,6 @@ var React = require( 'react' ),
 	debug = require( 'debug' )( 'vip-dashboard' ),
 	Chart = require( 'chart.js' ),
 	LineChart = require( 'react-chartjs' ).Line;
-	// ReactInjection = require( 'react/lib/ReactInjection' );
-
 
 /**
  * Internal dependencies
@@ -80,7 +78,6 @@ var VIPdashboard = React.createClass({
 					<Stats_Numbers className="stats__total-loc" value={512} trend={2} description="Media Library (GB)" />
 					<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Line of Code" />
 
-
 				</Stats>
 
 				<div className="widgets-area">
@@ -100,30 +97,3 @@ var VIPdashboard = React.createClass({
 React.render(<VIPdashboard />,
 	document.getElementById('app')
 );
-
-
-/*var HelloUser = React.createClass({
-	getInitialState: function(){
-	return {
-		username: '@tylermcginnis33'
-	}
-	},
-	handleChange: function(e){
-	this.setState({
-	  username: e.target.value
-	});
-	},
-	render: function(){
-	return (
-		<div>
-			Hello {this.state.username} <br />
-			Change Name: <input type="text" value={this.state.username} onChange={this.handleChange} />
-		</div>
-	)
-	}
-});
-
-React.render(
-	<HelloUser />,
-	document.getElementById('app')
-);*/

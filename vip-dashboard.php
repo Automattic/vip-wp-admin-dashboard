@@ -12,6 +12,11 @@ Text Domain: vip-dashboard
 Domain Path: /languages/
 */
 
+/**
+ * Boot the new VIP Dashboard
+ *
+ * @return void
+ */
 function vip_dashboard_init() {
 
 	// admin only
@@ -26,67 +31,113 @@ function vip_dashboard_init() {
 }
 add_action( 'plugins_loaded', 'vip_dashboard_init' );
 
+/**
+ * Register VIP Dashboard menu page
+ *
+ * @return void
+ */
 function vip_dashboard_menu() {
 	add_menu_page( __( 'VIP Dashboard', 'vip-dashboard' ), __( 'VIP Dashboard', 'vip-dashboard' ), 'read', 'vip-dashboard', 'vip_dashboard_page', 'dashicons-tickets', 5 );
 }
 
+/**
+ * Register master stylesheet (compiled via gulp)
+ *
+ * @return void
+ */
 function vip_dashboard_admin_styles() {
 	wp_register_style( 'vip-dashboard-style', plugins_url( '/assets/css/style.css', __FILE__ ) , '1.0' );
 	wp_enqueue_style( 'vip-dashboard-style' );
 }
 
+/**
+ * Register master JavaScript (compiled via gulp)
+ *
+ * @return void
+ */
 function vip_dashboard_admin_scripts() {
-	wp_register_script( 'vip-dashboard-script', plugins_url( '/assets/js/vip-dashboard.js', __FILE__ ), array(), '1.0', true );
+	wp_register_script( 'vip-dashboard-script', plugins_url( '/assets/js/vip-dashboard.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 	wp_enqueue_script( 'vip-dashboard-script' );
 }
 
+/**
+ * Output the dashboard page, an empty div for React to initialise against
+ *
+ * @return void
+ */
 function vip_dashboard_page() {
 
 	$current_user = wp_get_current_user();
-	$name    = ( ! empty( $_POST['vipsupport-name'] ) )    ? strip_tags( stripslashes( $_POST['vipsupport-name'] ) )   : $current_user->display_name;
-	$email   = ( ! empty( $_POST['vipsupport-email'] ) )   ? strip_tags( stripslashes( $_POST['vipsupport-email'] ) )  : $current_user->user_email;
+	$name         = $current_user->display_name;
+	$email        = $current_user->user_email;
+	$ajaxurl      = add_query_arg( array( '_wpnonce' => wp_create_nonce( 'vip-dashboard' ) ), untrailingslashit( admin_url( 'admin-ajax.php' ) ) );
 	?>
 	<div id="app"
-		data-asseturl="<?php echo plugins_url( '/assets/', __FILE__ ); ?>"
-		data-name="<?php echo $name; ?>"
-		data-email="<?php echo $email; ?>"
+		data-ajaxurl="<?php echo esc_url( $ajaxurl ); ?>"
+		data-asseturl="<?php echo esc_attr( plugins_url( '/assets/', __FILE__ ) ); ?>"
+		data-email="<?php echo esc_attr( $email ); ?>"
+		data-name="<?php echo esc_attr( $name ); ?>"
 	></div>
 	<?php
 }
 
-// legacy code
-
 /**
- * When our VIP Dashboard contact form is submitted, this handles what do do with the data.
+ * Support/Contact form handler - sent from React to admin-ajax
+ *
+ * @return json
  */
 function vip_contact_form_handler() {
 
-	// If the contact form isn't being submitted, we shouldn't be running this...
-	if ( !isset( $_POST['vipsupport-form'], $_POST['submit'], $_POST['_wpnonce'] ) )
-		return;
+	// check for required fields and nonce
+	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
 
-	if ( !wp_verify_nonce( $_POST['_wpnonce'], 'vip-contact-support-form' ) )
-		wp_die( __( 'Security check failed. Make sure you should be doing this, and try again.' ) );
+		$return = array(
+			'status'=> 'error',
+			'message' => __( 'Please complete all required fields.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+	}
 
+	// check nonce is valid
+	if ( !wp_verify_nonce( $_GET['_wpnonce'], 'vip-dashboard' ) ) {
+
+		$return = array(
+			'status'=> 'error',
+			'message' => __( 'Security check failed. Make sure you should be doing this, and try again.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+	}
+
+	// settings
 	$vipsupportemailaddy  = 'vip-support@wordpress.com';
 	$cc_headers_to_kayako = '';
 
-	// Default values
+	// default values
 	$sendemail    = true;                  // Should we send an e-mail? Tracks errors.
 	$emailsent    = false;                 // Tracks wp_mail() results
 	$new_tmp_name = false;                 // For an attachment
 	$current_user = wp_get_current_user(); // Current user
 
-	// Name & Email
-	$name          = ( ! empty( $_POST['vipsupport-name']  ) ) ? strip_tags( stripslashes( $_POST['vipsupport-name']  ) ) : $current_user->display_name;
-	$email         = ( ! empty( $_POST['vipsupport-email'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-email'] ) ) : $current_user->user_email;
-	if ( !is_email( $email ) )
-		add_settings_error( 'vipsupport', 'no_email', 'Please enter a valid email for your ticket.', 'error' );
+	// name & email
+	$name          = ( ! empty( $_POST['name']  ) ) ? strip_tags( stripslashes( $_POST['name']  ) ) : $current_user->display_name;
+	$email         = ( ! empty( $_POST['email'] ) ) ? strip_tags( stripslashes( $_POST['email'] ) ) : $current_user->user_email;
 
-	// Subject, Group, & Priority
-	$subject       = ( ! empty( $_POST['vipsupport-subject']  ) ) ? strip_tags( stripslashes( $_POST['vipsupport-subject']  ) ) : '';
-	$group         = ( ! empty( $_POST['vipsupport-group']    ) ) ? strip_tags( stripslashes( $_POST['vipsupport-group']    ) ) : 'Technical';
-	$priority      = ( ! empty( $_POST['vipsupport-priority'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-priority'] ) ) : 'Medium';
+	// check for valid email
+	if ( !is_email( $email ) ) {
+		$return = array(
+			'status'=> 'error',
+			'message' => __( 'Please enter a valid email for your ticket.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+	}
+
+	// subject, group, & priority
+	$subject       = ( ! empty( $_POST['subject']  ) ) ? strip_tags( stripslashes( $_POST['subject']  ) ) : '';
+	$group         = ( ! empty( $_POST['type']     ) ) ? strip_tags( stripslashes( $_POST['type']     ) ) : 'Technical';
+	$priority      = ( ! empty( $_POST['priority'] ) ) ? strip_tags( stripslashes( $_POST['priority'] ) ) : 'Medium';
 
 	// People to copy
 	$ccemail       = ( ! empty( $_POST['vipsupport-ccemail'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-ccemail'] ) ) : '';
@@ -97,7 +148,7 @@ function vip_contact_form_handler() {
 	$temp_ccemails = array_filter( array_map( 'trim', $temp_ccemails ) );
 	$ccemails      = array();
 	if ( !empty( $temp_ccemails ) ) {
-		foreach( array_values( $temp_ccemails ) as $value ) {
+		foreach ( array_values( $temp_ccemails ) as $value ) {
 			if ( is_email( $value ) ) {
 				$ccemails[] = $value;
 			}
@@ -166,23 +217,25 @@ function vip_contact_form_handler() {
 	}
 
 	if ( true === $sendemail ) {
-		bump_stats_extras( 'vip_contact_form_tickets', $priority );
+
+		// bump_stats_extras( 'vip_contact_form_tickets', $priority );
 
 		$headers = "From: \"$name\" <$email>\r\n";
-		if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
-			echo '<script>document.location = "' . esc_url_raw( add_query_arg( 'ticketsent', 1 ) ) . '";</script>'; // hacky js redirect because we run this too late
+		/*if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
+
+
 			// No exit() here so that unlink() runs
 			$emailsent = true;
 		} else {
 			add_settings_error( 'vipsupport', 'wp_mail_failed', 'There was an error sending the support request. ' . vip_echo_mailto_vip_hosting( 'Please send in a request manually.', false ), 'error' );
-		}
+		}*/
 	}
 
 	// Remove the uploaded file. Has to be done manually since it was renamed.
 	if ( $new_tmp_name )
 		unlink( $new_tmp_name );
 
-	// If the e-mail was sent, then a redirect header was sent and we can exit() now that we removed the attachment
-	if ( true === $emailsent )
-		exit();
+	die();
+
 }
+add_action( 'wp_ajax_vip_contact', 'vip_contact_form_handler' );
