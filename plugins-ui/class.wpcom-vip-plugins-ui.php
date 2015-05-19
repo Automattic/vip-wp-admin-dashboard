@@ -311,8 +311,11 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return void
 	 */
 	public function action_enqueue_scripts( $hook ) {
-		wp_enqueue_style( 'wpcom-vip-plugins-ui', plugin_dir_url( __FILE__ ) . 'css/wpcom-vip-plugins-ui.css' );
-		wp_enqueue_script( 'wpcom-vip-plugins-ui', plugin_dir_url( __FILE__ ) . 'js/wpcom-vip-plugins-ui.js' );
+		$vip_dashboard_plugin_file = __DIR__ . '/../vip-dashboard.php';
+
+		// @todo Enqueue the bundled file
+		wp_enqueue_style( 'wpcom-vip-plugins-ui', plugin_dir_url( $vip_dashboard_plugin_file ) . 'assets/css/plugins-ui.css' );
+		wp_enqueue_script( 'wpcom-vip-plugins-ui', plugin_dir_url( $vip_dashboard_plugin_file ) . 'assets/js/plugins-ui.js' );
 	}
 
 	/**
