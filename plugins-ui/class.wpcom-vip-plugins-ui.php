@@ -392,7 +392,8 @@ class WPCOM_VIP_Plugins_UI {
 	 * Outputs the contents of the menu page.
 	 */
 	public function display_menu_page() {
-		require_once( dirname( __FILE__ ) . '/class.wpcom-vip-plugins-list-table.php' );
+		require_once( dirname( __FILE__ ) . '/class.wpcom-vip-plugins-ui-list-table.php' );
+		require_once( dirname( __FILE__ ) . '/class.wpcom-vip-featured-plugins-ui-list-table.php' );
 
 		do_action( 'wpcom_vip_plugins_ui_menu_page' );
 
