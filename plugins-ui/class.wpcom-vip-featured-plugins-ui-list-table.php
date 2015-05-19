@@ -67,7 +67,7 @@ class WPCOM_VIP_Featured_Plugins_List_Table extends WP_List_Table {
 		if ( ! WPCOM_VIP_Plugins_UI()->is_plugin_active( $slug ) && $this->filter == 'active' )
 			return;
 
-		$image_src = plugins_url( 'images/featured-plugins/' . $slug . '-2x.png', __FILE__ );
+		$image_src = plugins_url( 'assets/img/featured-plugins/' . $slug . '-2x.png', __DIR__ . '/../vip-dashboard.php' );
 
 		$lobby_url = '//vip.wordpress.com/plugins/' . $slug . '/';
 
