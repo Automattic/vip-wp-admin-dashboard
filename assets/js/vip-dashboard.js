@@ -459,7 +459,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 	},
 	maybeRenderFeedback: function() {
 		if ( this.state.message ) {
-			return React.createElement("div", {className:  this.state.status, dangerouslySetInnerHTML: {__html: this.state.message}});
+			return React.createElement("div", {className:  'contactform-' + this.state.status, dangerouslySetInnerHTML: {__html: this.state.message}});
 		}
 	},
 	render: function() {

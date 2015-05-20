@@ -91,7 +91,7 @@ Widget_Contact = React.createClass( {
 	},
 	maybeRenderFeedback: function() {
 		if ( this.state.message ) {
-			return <div className={ this.state.status } dangerouslySetInnerHTML={{__html: this.state.message}}></div>;
+			return <div className={ 'contactform-' + this.state.status } dangerouslySetInnerHTML={{__html: this.state.message}}></div>;
 		}
 	},
 	render: function() {
