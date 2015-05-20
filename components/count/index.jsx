@@ -33,12 +33,17 @@ CountTo = React.createClass({
 	componentWillUnmount() {
 		this.clear();
 	},
+	componentWillUpdate() {
+		//alert( this.state.counter );
+		//delay = this.props.delay || 100;
+		//this.interval = setInterval(this.next, delay);
+	},
 	next() {
 		if (this.loopsCounter < this.loops) {
 			this.loopsCounter++;
 			this.setState({
-			counter: this.state.counter + this.increment
-		});
+				counter: this.state.counter + this.increment
+			});
 		} else {
 			this.clear();
 			if (this.props.onComplete) {

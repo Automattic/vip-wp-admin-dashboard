@@ -4,6 +4,24 @@
 	font-weight: 600;
 	color: $black-forms;
 
+	&.sending {
+		animation-duration: .5s;
+ 		animation-name: sending;
+		animation-iteration-count: infinite;
+		animation-direction: alternate;
+	}
+
+	&.form-error {
+		animation-duration: 8s;
+		animation-name: error;
+		animation-iteration-count: 1;
+	}
+
+	&.form-success {
+		animation-duration: 8s;
+		animation-name: success;
+		animation-iteration-count: 1;
+	}
 
 	label {
 		display: inline-block;
@@ -83,4 +101,34 @@
 
 .contact-form__row {
 	margin-bottom: .75em;
+}
+
+@keyframes sending {
+	from {
+		border-color: $blue-border;
+	}
+
+	to {
+		border-color: $azure;
+	}
+}
+
+@keyframes error {
+	from {
+		border-color: $alert-red;
+	}
+
+	to {
+		border-color: $blue-border;
+	}
+}
+
+@keyframes success {
+	from {
+		border-color: $alert-green;
+	}
+
+	to {
+		border-color: $blue-border;
+	}
 }

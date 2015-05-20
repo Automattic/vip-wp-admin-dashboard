@@ -369,7 +369,8 @@ module.exports = Stats;
 /**
  * External dependencies
  */
-var React = require( 'react' );
+var React = require( 'react' ),
+	joinClasses = require( 'react/lib/joinClasses' );
 
 /**
  * Internal dependencies
@@ -387,11 +388,18 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 			user: Config.user,
 			useremail: Config.useremail,
 			message: '',
-			status: ''
+			status: '',
+			formclass: '',
+			cansubmit: true
 		};
 	},
 	handleSubmit: function(e) {
 		e.preventDefault();
+
+		this.setState({
+			formclass: 'sending',
+			cansubmit: false
+		});
 
 		var name = React.findDOMNode(this.refs.user).value.trim();
 		var email = React.findDOMNode(this.refs.email).value.trim();
@@ -407,10 +415,8 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 			type: type,
 			body: body,
 			priority: priority,
-			action: 'vip_contact',
+			action: 'vip_contact'
 		};
-
-		console.log(Config.ajaxurl);
 
 		jQuery.ajax({
 			type: 'POST',
@@ -421,36 +427,44 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 				if ( textStatus == "success") {
 
 					var result = jQuery.parseJSON(data);
-					console.log(result);
 
 					this.setState({
 						message: result.message,
-						status: result.status
+						status: result.status,
+						formclass: 'form-' + result.status,
+						cansubmit: true
 					});
+
+					// reset the form
+					if ( result.status == "success" ) {
+						React.findDOMNode(this.refs.subject).value = '';
+						React.findDOMNode(this.refs.body).value = '';
+						React.findDOMNode(this.refs.type).value = 'Technical';
+						React.findDOMNode(this.refs.priority).value = 'Medium';
+					}
 
 				} else {
 
-
+					this.setState({
+						message: 'Your message could not be sent, please try again.',
+						status: 'error',
+						cansubmit: true
+					});
 				}
-
-				//console.log(data);
-				//console.log(textStatus);
-				//console.log(jqXHR);
 			}.bind(this)
 		});
 
-		//React.findDOMNode(this.refs.author).value = '';
-		//React.findDOMNode(this.refs.text).value = '';
+
 		return;
 	},
 	maybeRenderFeedback: function() {
 		if ( this.state.message ) {
-			return React.createElement("div", {className:  this.state.status},  this.state.message);
+			return React.createElement("div", {className:  this.state.status, dangerouslySetInnerHTML: {__html: this.state.message}});
 		}
 	},
 	render: function() {
 		return (
-			React.createElement(Widget, {className: "widget__contact", title: "Contact WordPress.com VIP Support"}, 
+			React.createElement(Widget, {className:  joinClasses( this.state.formclass, 'widget__contact-form'), title: "Contact WordPress.com VIP Support"}, 
 
 				 this.maybeRenderFeedback(), 
 
@@ -495,7 +509,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("input", {type: "submit", value: "Submit Request"})
+						React.createElement("input", {type: "submit", value: "Submit Request", disabled: !this.state.cansubmit})
 					)
 				)
 			)
@@ -504,7 +518,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 } );
 module.exports = Widget_Contact;
 
-},{"../config.js":2,"../widget":12,"react":181}],10:[function(require,module,exports){
+},{"../config.js":2,"../widget":12,"react":181,"react/lib/joinClasses":165}],10:[function(require,module,exports){
 /**
  * External dependencies
  */

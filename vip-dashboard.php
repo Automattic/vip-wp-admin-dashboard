@@ -88,6 +88,9 @@ function vip_dashboard_page() {
  */
 function vip_contact_form_handler() {
 
+	// delay during testing
+	sleep(3);
+
 	// check for required fields and nonce
 	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
 
@@ -111,7 +114,7 @@ function vip_contact_form_handler() {
 	}
 
 	// settings
-	$vipsupportemailaddy  = 'vip-support@wordpress.com';
+	$vipsupportemailaddy  = 'test@scott.ee'; //'vip-support@wordpress.com';
 	$cc_headers_to_kayako = '';
 
 	// default values
@@ -140,43 +143,65 @@ function vip_contact_form_handler() {
 	$priority      = ( ! empty( $_POST['priority'] ) ) ? strip_tags( stripslashes( $_POST['priority'] ) ) : 'Medium';
 
 	// People to copy
-	$ccemail       = ( ! empty( $_POST['vipsupport-ccemail'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-ccemail'] ) ) : '';
+	//$ccemail       = ( ! empty( $_POST['vipsupport-ccemail'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-ccemail'] ) ) : '';
 	$ccusers       = ( ! empty( $_POST['vipsupport-ccuser']  ) ) ? (array) $_POST['vipsupport-ccuser'] : array();
-	$ccusers       = array_map( 'stripslashes',        $ccusers );
-	$ccusers       = array_map( 'sanitize_text_field', $ccusers );
-	$temp_ccemails = explode( ',', $ccemail );
-	$temp_ccemails = array_filter( array_map( 'trim', $temp_ccemails ) );
+	//$ccusers       = array_map( 'stripslashes',        $ccusers );
+	//$ccusers       = array_map( 'sanitize_text_field', $ccusers );
+	//$temp_ccemails = explode( ',', $ccemail );
+	//$temp_ccemails = array_filter( array_map( 'trim', $temp_ccemails ) );
 	$ccemails      = array();
-	if ( !empty( $temp_ccemails ) ) {
-		foreach ( array_values( $temp_ccemails ) as $value ) {
-			if ( is_email( $value ) ) {
-				$ccemails[] = $value;
-			}
-		}
-	}
+	//if ( !empty( $temp_ccemails ) ) {
+	//	foreach ( array_values( $temp_ccemails ) as $value ) {
+	//		if ( is_email( $value ) ) {
+	//			$ccemails[] = $value;
+	//		}
+	//	}
+	//}
 	$ccemails = array_merge( $ccemails, $ccusers );
 	$ccemails = apply_filters( 'vip_contact_form_cc', $ccemails );
 
 	if ( count( $ccemails ) )
 		$cc_headers_to_kayako .= 'CC: ' . implode( ',', $ccemails ) . "\r\n";
 
+	// check subject is not empty
+	if ( empty( $subject ) ) {
+		$return = array(
+			'status'=> 'error',
+			'message' => __( 'Please enter a descriptive subject for your ticket.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+	}
+
+	// check body is not empty
+	if ( $_POST['body'] == '' ) {
+		$return = array(
+			'status'=> 'error',
+			'message' => __( 'Please enter a detailed description of your issue.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+	}
+
 	if ( 'Emergency' === $priority )
 		$subject = sprintf( '[%s] %s', $priority, $subject );
 
-	$content = stripslashes( $_POST['vipsupport-details'] ) . "\n\n--- Ticket Details --- \n";
+	$content = stripslashes( $_POST['body'] ) . "\n\n--- Ticket Details --- \n";
 
-	// Priority
+	// priority
 	if ( ! empty( $_POST['vipsupport-priority'] ) )
 		$content .= "\nPriority: " . $priority;
 
 	$content .= "\nUser: " . $current_user->user_login . ' | ' . $current_user->display_name;
 
 	// VIP DB
-	if ( get_vipdb_ids() ) {
-		$content .= "\nSite Name: " . get_bloginfo( 'name' );
-		$content .= "\nSite URLs: " . site_url() . ' | ' . admin_url();
-		$content .= "\nTheme: " . get_option( 'stylesheet' ) . ' | '. get_current_theme();
-	}
+	$theme = wp_get_theme();
+	$content .= "\nSite Name: " . get_bloginfo( 'name' );
+	$content .= "\nSite URLs: " . site_url() . ' | ' . admin_url();
+	$content .= "\nTheme: " . get_option( 'stylesheet' ) . ' | '. $theme->get( 'Name' ) ;
+
+	// added for VIPv2
+	$content .= "\nPlatform: VIPv2";
 
 	$content .= sprintf( "\n\nSent from %s on %s", home_url(), date( 'c', current_time( 'timestamp', 1 ) ) );
 
@@ -211,31 +236,59 @@ function vip_contact_form_handler() {
 		}
 	}
 
-	if ( empty( $subject ) ) {
-		add_settings_error( 'vipsupport', 'missing_subject', 'Please enter a descriptive subject for your ticket.', 'error' );
-		$sendemail = false;
+	// send the email and unlink upload if required
+	$headers = "From: \"$name\" <$email>\r\n";
+	if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
+
+		if ( $new_tmp_name )
+			unlink( $new_tmp_name );
+
+		$return = array(
+			'status'=> 'success',
+			'message' => __( 'Your support request is on its way, we will be in touch soon.', 'vip-dashboard' )
+		);
+		echo json_encode( $return );
+		die();
+
+	} else {
+
+		if ( $new_tmp_name )
+			unlink( $new_tmp_name );
+
+		$manual_link = vip_echo_mailto_vip_hosting( __( 'Please send in a request manually.', 'vip-dashboard' ), false );
+		$return = array(
+			'status'=> 'error',
+			'message' => sprintf( __( 'There was an error sending the support request. %1$s', 'vip-dashboard' ),  $manual_link )
+		);
+		echo json_encode( $return );
+		die();
 	}
-
-	if ( true === $sendemail ) {
-
-		// bump_stats_extras( 'vip_contact_form_tickets', $priority );
-
-		$headers = "From: \"$name\" <$email>\r\n";
-		/*if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
-
-
-			// No exit() here so that unlink() runs
-			$emailsent = true;
-		} else {
-			add_settings_error( 'vipsupport', 'wp_mail_failed', 'There was an error sending the support request. ' . vip_echo_mailto_vip_hosting( 'Please send in a request manually.', false ), 'error' );
-		}*/
-	}
-
-	// Remove the uploaded file. Has to be done manually since it was renamed.
-	if ( $new_tmp_name )
-		unlink( $new_tmp_name );
 
 	die();
-
 }
 add_action( 'wp_ajax_vip_contact', 'vip_contact_form_handler' );
+
+/**
+ * Generate a manual email link if the send fails
+ *
+ * @param  string $linkText
+ * @param  bool $echo
+ * @return html
+ */
+function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.', $echo = true ) {
+	global $current_user;
+
+	$email = "%0A%0A%0A--%0AName:%20" . stripslashes( $current_user->display_name );
+	$email .= "%0AUser%20ID:%20". $current_user->user_login;
+	$email .= "%0AURL:%20" . get_option('home') . esc_url( $_SERVER['REQUEST_URI'] );
+	$email .= "%0AIP%20Address:%20" . esc_url( $_SERVER['REMOTE_ADDR'] );
+	$email .= "%0AServer:%20" . php_uname( 'n' );
+	$email .= "%0ABrowser:%20" . esc_url( $_SERVER['HTTP_USER_AGENT'] );
+
+	$html = '<a href="mailto:vip-support@wordpress.com?subject=Descriptive%20subject%20please&body=' . $email . '">' . $linkText  . '</a>';
+
+	if ( $echo )
+		echo $html;
+
+	return $html;
+}
