@@ -26,6 +26,7 @@ function vip_dashboard_init() {
 	// dashboard menu
 	add_action( 'admin_menu', 'vip_dashboard_menu' );
 
+	// styles and scripts
 	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_styles' );
 	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_scripts' );
 }
