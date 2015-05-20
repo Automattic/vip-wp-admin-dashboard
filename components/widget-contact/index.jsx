@@ -22,7 +22,8 @@ Widget_Contact = React.createClass( {
 			message: '',
 			status: '',
 			formclass: '',
-			cansubmit: true
+			cansubmit: true,
+			cc: ''
 		};
 	},
 	handleSubmit: function(e) {
@@ -39,6 +40,7 @@ Widget_Contact = React.createClass( {
 		var type = React.findDOMNode(this.refs.type).value.trim();
 		var body = React.findDOMNode(this.refs.body).value.trim();
 		var priority = React.findDOMNode(this.refs.priority).value.trim();
+		var cc = React.findDOMNode(this.refs.cc).value.trim();
 
 		data = {
 			name: name,
@@ -47,6 +49,7 @@ Widget_Contact = React.createClass( {
 			type: type,
 			body: body,
 			priority: priority,
+			cc: cc,
 			action: 'vip_contact'
 		};
 
@@ -71,6 +74,7 @@ Widget_Contact = React.createClass( {
 					if ( result.status == "success" ) {
 						React.findDOMNode(this.refs.subject).value = '';
 						React.findDOMNode(this.refs.body).value = '';
+						React.findDOMNode(this.refs.cc).value = '';
 						React.findDOMNode(this.refs.type).value = 'Technical';
 						React.findDOMNode(this.refs.priority).value = 'Medium';
 					}
@@ -139,6 +143,10 @@ Widget_Contact = React.createClass( {
 								<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
 							</optgroup>
 						</select>
+					</div>
+					<div className="contact-form__row">
+						<label htmlFor="contact-form__cc">Copy these people directly</label>
+						<input type="text" defaultValue={ this.state.cc } id="contact-form__cc" placeholder="Comma separated email addresses" ref="cc" />
 					</div>
 					<div className="contact-form__row">
 						<input type="submit" value="Submit Request" disabled={!this.state.cansubmit} />

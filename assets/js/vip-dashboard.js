@@ -390,7 +390,8 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 			message: '',
 			status: '',
 			formclass: '',
-			cansubmit: true
+			cansubmit: true,
+			cc: ''
 		};
 	},
 	handleSubmit: function(e) {
@@ -407,6 +408,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 		var type = React.findDOMNode(this.refs.type).value.trim();
 		var body = React.findDOMNode(this.refs.body).value.trim();
 		var priority = React.findDOMNode(this.refs.priority).value.trim();
+		var cc = React.findDOMNode(this.refs.cc).value.trim();
 
 		data = {
 			name: name,
@@ -415,6 +417,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 			type: type,
 			body: body,
 			priority: priority,
+			cc: cc,
 			action: 'vip_contact'
 		};
 
@@ -439,6 +442,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 					if ( result.status == "success" ) {
 						React.findDOMNode(this.refs.subject).value = '';
 						React.findDOMNode(this.refs.body).value = '';
+						React.findDOMNode(this.refs.cc).value = '';
 						React.findDOMNode(this.refs.type).value = 'Technical';
 						React.findDOMNode(this.refs.priority).value = 'Medium';
 					}
@@ -507,6 +511,10 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 								React.createElement("option", {value: "Emergency"}, "Emergency (Outage, Security, Revert, etc...)")
 							)
 						)
+					), 
+					React.createElement("div", {className: "contact-form__row"}, 
+						React.createElement("label", {htmlFor: "contact-form__cc"}, "Copy these people directly"), 
+						React.createElement("input", {type: "text", defaultValue:  this.state.cc, id: "contact-form__cc", placeholder: "Comma separated email addresses", ref: "cc"})
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
 						React.createElement("input", {type: "submit", value: "Submit Request", disabled: !this.state.cansubmit})

@@ -89,7 +89,7 @@ function vip_dashboard_page() {
 function vip_contact_form_handler() {
 
 	// delay during testing
-	sleep(3);
+	sleep(2);
 
 	// check for required fields and nonce
 	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
@@ -142,22 +142,18 @@ function vip_contact_form_handler() {
 	$group         = ( ! empty( $_POST['type']     ) ) ? strip_tags( stripslashes( $_POST['type']     ) ) : 'Technical';
 	$priority      = ( ! empty( $_POST['priority'] ) ) ? strip_tags( stripslashes( $_POST['priority'] ) ) : 'Medium';
 
-	// People to copy
-	//$ccemail       = ( ! empty( $_POST['vipsupport-ccemail'] ) ) ? strip_tags( stripslashes( $_POST['vipsupport-ccemail'] ) ) : '';
-	$ccusers       = ( ! empty( $_POST['vipsupport-ccuser']  ) ) ? (array) $_POST['vipsupport-ccuser'] : array();
-	//$ccusers       = array_map( 'stripslashes',        $ccusers );
-	//$ccusers       = array_map( 'sanitize_text_field', $ccusers );
-	//$temp_ccemails = explode( ',', $ccemail );
-	//$temp_ccemails = array_filter( array_map( 'trim', $temp_ccemails ) );
+	// cc
+	$ccemail       = ( ! empty( $_POST['cc'] ) ) ? strip_tags( stripslashes( $_POST['cc'] ) ) : '';
+	$temp_ccemails = explode( ',', $ccemail );
+	$temp_ccemails = array_filter( array_map( 'trim', $temp_ccemails ) );
 	$ccemails      = array();
-	//if ( !empty( $temp_ccemails ) ) {
-	//	foreach ( array_values( $temp_ccemails ) as $value ) {
-	//		if ( is_email( $value ) ) {
-	//			$ccemails[] = $value;
-	//		}
-	//	}
-	//}
-	$ccemails = array_merge( $ccemails, $ccusers );
+	if ( !empty( $temp_ccemails ) ) {
+		foreach ( array_values( $temp_ccemails ) as $value ) {
+			if ( is_email( $value ) ) {
+				$ccemails[] = $value;
+			}
+		}
+	}
 	$ccemails = apply_filters( 'vip_contact_form_cc', $ccemails );
 
 	if ( count( $ccemails ) )
@@ -203,9 +199,10 @@ function vip_contact_form_handler() {
 	// added for VIPv2
 	$content .= "\nPlatform: VIPv2";
 
+	// send date and time
 	$content .= sprintf( "\n\nSent from %s on %s", home_url(), date( 'c', current_time( 'timestamp', 1 ) ) );
 
-	// Attachments
+	// attachments - currently not in use of VIPv2
 	$attachments = array();
 	if ( ! empty( $_FILES['vipsupport-attachment'] ) && 4 != $_FILES['vipsupport-attachment']['error'] ) {
 		if ( 0 != $_FILES['vipsupport-attachment']['error'] || empty( $_FILES['vipsupport-attachment']['tmp_name'] ) ) {
