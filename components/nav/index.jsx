@@ -36,7 +36,7 @@ Nav = React.createClass( {
 					}
 
 					return <li key={index}>
-						<a className={ style } href={ m.url } onClick={ self.clicked.bind(self, index) }>{ m.title }</a>
+						<a className={ style } href={ Config.adminurl + '?page=' + m.url } onClick={ self.clicked.bind(self, index) }>{ m.title }</a>
 					</li>;
 
 				}) }

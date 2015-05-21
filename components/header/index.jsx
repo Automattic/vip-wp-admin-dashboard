@@ -22,11 +22,11 @@ Header = React.createClass( {
 			nav: [
 				{
 					title: 'Dashboard',
-					url: '123'
+					url: 'vip-dashboard'
 				},
 				{
 					title: 'Plugins',
-					url: '123'
+					url: 'vip-plugins'
 				}
 			]
 		}
