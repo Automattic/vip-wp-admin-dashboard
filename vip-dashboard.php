@@ -25,10 +25,6 @@ function vip_dashboard_init() {
 
 	// dashboard menu
 	add_action( 'admin_menu', 'vip_dashboard_menu' );
-
-	// styles and scripts
-	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_styles' );
-	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_scripts' );
 }
 add_action( 'plugins_loaded', 'vip_dashboard_init' );
 
@@ -38,7 +34,11 @@ add_action( 'plugins_loaded', 'vip_dashboard_init' );
  * @return void
  */
 function vip_dashboard_menu() {
-	add_menu_page( __( 'VIP Dashboard', 'vip-dashboard' ), __( 'VIP Dashboard', 'vip-dashboard' ), 'read', 'vip-dashboard', 'vip_dashboard_page', 'dashicons-tickets', 5 );
+	$page = add_menu_page( __( 'VIP Dashboard', 'vip-dashboard' ), __( 'VIP Dashboard', 'vip-dashboard' ), 'read', 'vip-dashboard', 'vip_dashboard_page', 'dashicons-tickets', 5 );
+
+	// styles and scripts
+	add_action( 'admin_print_styles-' . $page, 'vip_dashboard_admin_styles' );
+	add_action( 'admin_print_scripts-' . $page, 'vip_dashboard_admin_scripts' );
 }
 
 /**
