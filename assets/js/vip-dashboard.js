@@ -87,10 +87,11 @@ var VIPdashboard = React.createClass({displayName: "VIPdashboard",
 
 					React.createElement(Widget_Welcome, null), 
 
-					React.createElement(Widget_Contact, null), 
+					React.createElement(Widget_Contact, null)
 
-					React.createElement(Widget_Editorial, null)
-
+					
+					//<Widget_Editorial />
+					
 				)
 
 			)
@@ -485,7 +486,7 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 	},
 	maybeRenderFeedback: function() {
 		if ( this.state.message ) {
-			return React.createElement("div", {className:  'contactform-' + this.state.status, dangerouslySetInnerHTML: {__html: this.state.message}});
+			return React.createElement("div", {className:  'contact-form__' + this.state.status, dangerouslySetInnerHTML: {__html: this.state.message}});
 		}
 	},
 	render: function() {

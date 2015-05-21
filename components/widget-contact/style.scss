@@ -29,7 +29,7 @@
 		color: $blue-dark;
 		vertical-align: top;
 	}
-	
+
 	input,
 	textarea,
 	select,
@@ -48,7 +48,7 @@
 		background: $blue-background;
 		border: 1px solid $blue-border;
 		border-radius: 2px;
-		
+
 		&:focus {
 			border-color: $azure;
 			box-shadow: 0 0 0 2px rgba($azure, .3);
@@ -62,11 +62,11 @@
 		-webkit-appearance: none;
 		-moz-appearance: none;
 		appearance: none;
-		
+
 		&:hover {
 			background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIwIDIwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggc3R5bGU9ImZpbGw6Izk4QUVCRDsiIGQ9Ik0xMy41IDcuMjVsMSAxbC00LjUgNC41bC00LjUtNC41bDEtMWwzLjUgMy41TDEzLjUgNy4yNXoiLz48L3N2Zz4=);
 		}
-		
+
 		&:focus {
 			background-image: url(data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB2ZXJzaW9uPSIxLjEiIHg9IjBweCIgeT0iMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDIwIDIwOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PHBhdGggc3R5bGU9ImZpbGw6IzQwNDA0MDsiIGQ9Ik0xMy41IDcuMjVsMSAxbC00LjUgNC41bC00LjUtNC41bDEtMWwzLjUgMy41TDEzLjUgNy4yNXoiLz48L3N2Zz4=);
 		}
@@ -82,16 +82,16 @@
 		border: none;
 		box-shadow: 0 3px 0 $azure-dark;
 		outline: none;
-		
+
 		&:hover {
 			background: $azure-light;
 		}
-		
+
 		&:active {
 			top: 2px;
 			box-shadow: 0 1px 0px $azure-dark;
 		}
-		
+
 		&:disabled {
 			color: $grey-dark;
 			background: $grey-light;
@@ -118,7 +118,7 @@
 
 .contact-form__row {
 	clear: both;
-	
+
 	&.submit-button {
 		padding-top: 12px;
 	}
@@ -136,7 +136,26 @@
 }
 
 .contact-form__input {
-	width: 68%;
+	width: 69.9%;
+}
+
+.contact-form__error,
+.contact-form__success {
+	padding: 10px;
+	margin-bottom: 1.3em;
+	font-weight: normal;
+	border: 1px solid $blue-border;
+	color: $blue-dark;
+	border-radius: 2px;
+	background: $white;
+}
+
+.contact-form__error {
+	border-left: 3px solid $alert-red;
+}
+
+.contact-form__success {
+	border-left: 3px solid $alert-green;
 }
 
 @keyframes sending {
@@ -151,17 +170,21 @@
 @keyframes error {
 	from {
 		border-color: $alert-red;
+		background: lighten($alert-red, 41%);
 	}
 	to {
 		border-color: $blue-border;
+		background: $white;
 	}
 }
 
 @keyframes success {
 	from {
 		border-color: $alert-green;
+		background: lighten($alert-green, 47%);
 	}
 	to {
 		border-color: $blue-border;
+		background: $white;
 	}
 }
