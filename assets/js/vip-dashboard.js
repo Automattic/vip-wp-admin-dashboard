@@ -201,12 +201,32 @@ var Config = require( '../config.js' ),
  * Header Component
  */
 Header = React.createClass( {displayName: "Header",
+	getInitialState: function() {
+		{
+		// to-do: 'User Management', 'SVN Access', 'Revisions', 'Support', 'Billing'
+		}
+		return {
+			nav: [
+				{
+					title: 'Dashboard',
+					url: '123'
+				},
+				{
+					title: 'Plugins',
+					url: '123'
+				}
+			]
+		}
+	},
 	render: function() {
+
+		var nav = ['Dashboard', 'Plugins']
+
 		return (
 			React.createElement("div", {className:  joinClasses( this.props.className, 'top-header') }, 
 				React.createElement("h1", null, React.createElement("img", {src:  Config.asseturl + "img/wpcom-vip-logo.svg", alt: "WordPress.com VIP", className: "top-header__logo"})), 
 
-				React.createElement(Nav, {items:  ['Dashboard', 'User Management', 'SVN Access', 'Revisions', 'Plugins', 'Support', 'Billing'] }), ",", 
+				React.createElement(Nav, {items:  this.state.nav}), ",", 
 
 				 this.props.children
 
@@ -280,7 +300,7 @@ Nav = React.createClass( {displayName: "Nav",
 					}
 
 					return React.createElement("li", {key: index}, 
-						React.createElement("a", {className: style, href: "#", onClick: self.clicked.bind(self, index)}, m)
+						React.createElement("a", {className:  style, href:  m.url, onClick:  self.clicked.bind(self, index) },  m.title)
 					);
 
 				}) 
