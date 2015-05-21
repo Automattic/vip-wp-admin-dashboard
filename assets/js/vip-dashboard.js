@@ -627,7 +627,7 @@ Widget_Welcome = React.createClass( {displayName: "Widget_Welcome",
 	render: function() {
 		return (
 			React.createElement(Widget, {className: "widget__welcome", title: "Welcome to WordPress.com VIP"}, 
-				React.createElement("p", null, "We believe that WordPress.com VIP is a partnership between WordPress.com and some of the most high-profile, innovative and smart WordPress websites out there. We’re excited to have you here."), 
+				React.createElement("p", null, "WordPress.com VIP is a partnership between WordPress.com and the most high-profile, innovative and smart WordPress websites out there. We’re excited to have you here."), 
 
 				React.createElement("h3", {className: "widget__subtitle"}, "Helpful Links"), 
 

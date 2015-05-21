@@ -15,7 +15,7 @@ Widget_Welcome = React.createClass( {
 	render: function() {
 		return (
 			<Widget className="widget__welcome" title="Welcome to WordPress.com VIP">
-				<p>We believe that WordPress.com VIP is a partnership between WordPress.com and some of the most high-profile, innovative and smart WordPress websites out there. We’re excited to have you here.</p>
+				<p>WordPress.com VIP is a partnership between WordPress.com and the most high-profile, innovative and smart WordPress websites out there. We’re excited to have you here.</p>
 
 				<h3 className="widget__subtitle">Helpful Links</h3>
 
