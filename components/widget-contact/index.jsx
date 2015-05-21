@@ -106,20 +106,34 @@ Widget_Contact = React.createClass( {
 
 				<form className="widget__contact-form" action="submit" method="get" onSubmit={this.handleSubmit}>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__name">Name</label>
-						<input type="text" defaultValue={ this.state.user } id="contact-form__name" placeholder="First and last name" ref="user" />
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__name">Name</label>
+						</div>
+						<div className="contact-form__input">
+							<input type="text" defaultValue={ this.state.user } id="contact-form__name" placeholder="First and last name" ref="user" />
+						</div>
 					</div>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__email">Email</label>
-						<input type="text" defaultValue={ this.state.useremail } id="contact-form__email" placeholder="Email address" ref="email"/>
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__email">Email</label>
+						</div>
+						<div className="contact-form__input">
+							<input type="text" defaultValue={ this.state.useremail } id="contact-form__email" placeholder="Email address" ref="email"/>
+						</div>
 					</div>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__subject">Subject</label>
-						<input type="text" defaultValue="" id="contact-form__subject" placeholder="Ticket name" ref="subject" />
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__subject">Subject</label>
+						</div>
+						<div className="contact-form__input">
+							<input type="text" defaultValue="" id="contact-form__subject" placeholder="Ticket name" ref="subject" />
+						</div>
 					</div>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__type">Type</label>
-						<div className="contact-form__select">
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__type">Type</label>
+						</div>
+						<div className="contact-form__input">
 							<select id="contact-form__type" ref="type" defaultValue="Technical">
 								<option value="Technical">Technical</option>
 								<option value="Business">Business/Project Management</option>
@@ -128,11 +142,18 @@ Widget_Contact = React.createClass( {
 						</div>
 					</div>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__details">Details</label>
-						<textarea name="details" rows="4" id="contact-form__details" placeholder="Please be descriptive" ref="body"></textarea>
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__details">Details</label>
+						</div>
+						<div className="contact-form__input">
+							<textarea name="details" rows="4" id="contact-form__details" placeholder="Please be descriptive" ref="body"></textarea>
+						</div>
 					</div>
 					<div className="contact-form__row">
-						<label htmlFor="contact-form__priority">Priority</label>
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__priority">Priority</label>
+						</div>
+						<div className="contact-form__input">
 						<select id="contact-form__priority" ref="priority" defaultValue="Medium">
 							<optgroup label="Normal Priority">
 								<option value="Low">Low</option>
@@ -143,13 +164,15 @@ Widget_Contact = React.createClass( {
 								<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
 							</optgroup>
 						</select>
+						</div>
 					</div>
-					<div className="contact-form__row">
-						<label htmlFor="contact-form__cc">Copy these people directly</label>
-						<input type="text" defaultValue={ this.state.cc } id="contact-form__cc" placeholder="Comma separated email addresses" ref="cc" />
-					</div>
-					<div className="contact-form__row">
-						<input type="submit" value="Submit Request" disabled={!this.state.cansubmit} />
+					<div className="contact-form__row submit-button">
+						<div className="contact-form__label">
+							<label></label>
+						</div>
+						<div className="contact-form__input">
+							<input type="submit" value="Submit Request" disabled={!this.state.cansubmit} />
+						</div>
 					</div>
 				</form>
 			</Widget>
