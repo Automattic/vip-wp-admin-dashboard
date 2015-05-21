@@ -496,20 +496,34 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 
 				React.createElement("form", {className: "widget__contact-form", action: "submit", method: "get", onSubmit: this.handleSubmit}, 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__name"}, "Name"), 
-						React.createElement("input", {type: "text", defaultValue:  this.state.user, id: "contact-form__name", placeholder: "First and last name", ref: "user"})
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__name"}, "Name")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("input", {type: "text", defaultValue:  this.state.user, id: "contact-form__name", placeholder: "First and last name", ref: "user"})
+						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__email"}, "Email"), 
-						React.createElement("input", {type: "text", defaultValue:  this.state.useremail, id: "contact-form__email", placeholder: "Email address", ref: "email"})
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__email"}, "Email")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("input", {type: "text", defaultValue:  this.state.useremail, id: "contact-form__email", placeholder: "Email address", ref: "email"})
+						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__subject"}, "Subject"), 
-						React.createElement("input", {type: "text", defaultValue: "", id: "contact-form__subject", placeholder: "Ticket name", ref: "subject"})
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__subject"}, "Subject")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("input", {type: "text", defaultValue: "", id: "contact-form__subject", placeholder: "Ticket name", ref: "subject"})
+						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__type"}, "Type"), 
-						React.createElement("div", {className: "contact-form__select"}, 
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__type"}, "Type")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
 							React.createElement("select", {id: "contact-form__type", ref: "type", defaultValue: "Technical"}, 
 								React.createElement("option", {value: "Technical"}, "Technical"), 
 								React.createElement("option", {value: "Business"}, "Business/Project Management"), 
@@ -518,28 +532,45 @@ Widget_Contact = React.createClass( {displayName: "Widget_Contact",
 						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__details"}, "Details"), 
-						React.createElement("textarea", {name: "details", rows: "4", id: "contact-form__details", placeholder: "Please be descriptive", ref: "body"})
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__details"}, "Details")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("textarea", {name: "details", rows: "4", id: "contact-form__details", placeholder: "Please be descriptive", ref: "body"})
+						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__priority"}, "Priority"), 
-						React.createElement("select", {id: "contact-form__priority", ref: "priority", defaultValue: "Medium"}, 
-							React.createElement("optgroup", {label: "Normal Priority"}, 
-								React.createElement("option", {value: "Low"}, "Low"), 
-								React.createElement("option", {value: "Medium"}, "Normal"), 
-								React.createElement("option", {value: "High"}, "High")
-							), 
-							React.createElement("optgroup", {label: "Urgent Priority"}, 
-								React.createElement("option", {value: "Emergency"}, "Emergency (Outage, Security, Revert, etc...)")
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__priority"}, "Priority")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("select", {id: "contact-form__priority", ref: "priority", defaultValue: "Medium"}, 
+								React.createElement("optgroup", {label: "Normal Priority"}, 
+									React.createElement("option", {value: "Low"}, "Low"), 
+									React.createElement("option", {value: "Medium"}, "Normal"), 
+									React.createElement("option", {value: "High"}, "High")
+								), 
+								React.createElement("optgroup", {label: "Urgent Priority"}, 
+									React.createElement("option", {value: "Emergency"}, "Emergency (Outage, Security, Revert, etc...)")
+								)
 							)
 						)
 					), 
 					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("label", {htmlFor: "contact-form__cc"}, "Copy these people directly"), 
-						React.createElement("input", {type: "text", defaultValue:  this.state.cc, id: "contact-form__cc", placeholder: "Comma separated email addresses", ref: "cc"})
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", {htmlFor: "contact-form__cc"}, "CC:")
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("input", {type: "text", defaultValue:  this.state.cc, id: "contact-form__cc", placeholder: "Comma separated email addresses", ref: "cc"})
+						)
 					), 
-					React.createElement("div", {className: "contact-form__row"}, 
-						React.createElement("input", {type: "submit", value: "Submit Request", disabled: !this.state.cansubmit})
+					React.createElement("div", {className: "contact-form__row submit-button"}, 
+						React.createElement("div", {className: "contact-form__label"}, 
+							React.createElement("label", null)
+						), 
+						React.createElement("div", {className: "contact-form__input"}, 
+							React.createElement("input", {type: "submit", value: "Submit Request", disabled: !this.state.cansubmit})
+						)
 					)
 				)
 			)

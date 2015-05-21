@@ -154,16 +154,24 @@ Widget_Contact = React.createClass( {
 							<label htmlFor="contact-form__priority">Priority</label>
 						</div>
 						<div className="contact-form__input">
-						<select id="contact-form__priority" ref="priority" defaultValue="Medium">
-							<optgroup label="Normal Priority">
-								<option value="Low">Low</option>
-								<option value="Medium">Normal</option>
-								<option value="High">High</option>
-							</optgroup>
-							<optgroup label="Urgent Priority">
-								<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
-							</optgroup>
-						</select>
+							<select id="contact-form__priority" ref="priority" defaultValue="Medium">
+								<optgroup label="Normal Priority">
+									<option value="Low">Low</option>
+									<option value="Medium">Normal</option>
+									<option value="High">High</option>
+								</optgroup>
+								<optgroup label="Urgent Priority">
+									<option value="Emergency">Emergency (Outage, Security, Revert, etc...)</option>
+								</optgroup>
+							</select>
+						</div>
+					</div>
+					<div className="contact-form__row">
+						<div className="contact-form__label">
+							<label htmlFor="contact-form__cc">CC:</label>
+						</div>
+						<div className="contact-form__input">
+							<input type="text" defaultValue={ this.state.cc } id="contact-form__cc" placeholder="Comma separated email addresses" ref="cc" />
 						</div>
 					</div>
 					<div className="contact-form__row submit-button">
