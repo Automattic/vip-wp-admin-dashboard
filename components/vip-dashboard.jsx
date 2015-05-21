@@ -58,6 +58,7 @@ var VIPdashboard = React.createClass({
 
 				<Header />
 
+				{/** disabled for first version
 				<Stats>
 					<div className="stats__module">
 						<LineChart data={this.state.lineChartData} />
@@ -79,6 +80,7 @@ var VIPdashboard = React.createClass({
 					<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Line of Code" />
 
 				</Stats>
+				**/}
 
 				<div className="widgets-area">
 

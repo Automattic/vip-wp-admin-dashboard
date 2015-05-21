@@ -59,27 +59,29 @@ var VIPdashboard = React.createClass({displayName: "VIPdashboard",
 
 				React.createElement(Header, null), 
 
-				React.createElement(Stats, null, 
-					React.createElement("div", {className: "stats__module"}, 
-						React.createElement(LineChart, {data: this.state.lineChartData})
-					), 
+				/** disabled for first version
+				<Stats>
+					<div className="stats__module">
+						<LineChart data={this.state.lineChartData} />
+					</div>
 
-					React.createElement("div", {className: "chart-circular__block chart-circular__two"}, 
+					<div className="chart-circular__block chart-circular__two">
 
-						React.createElement("div", {className: "chart-circular__data"}, 
-							React.createElement("span", {className: "chart-circular__value"}, "57%"), 
-							React.createElement("span", {className: "chart-circular__description"}, "Mobile views"), 
-							React.createElement("span", {className: "chart-circular__trend trend-positive"}, "22%")
-						)
+						<div className="chart-circular__data">
+							<span className="chart-circular__value">57%</span>
+							<span className="chart-circular__description">Mobile views</span>
+							<span className="chart-circular__trend trend-positive">22%</span>
+						</div>
 
-					), 
+					</div>
 
-					React.createElement(Stats_Numbers, {className: "stats__total-loc", value: 7632, trend: 2, description: "Total Published Posts"}), 
-					React.createElement(Stats_Numbers, {className: "stats__total-loc", value: 123, trend: 0, description: "Total Users"}), 
-					React.createElement(Stats_Numbers, {className: "stats__total-loc", value: 512, trend: 2, description: "Media Library (GB)"}), 
-					React.createElement(Stats_Numbers, {className: "stats__total-loc", value: 3759, trend: -5, description: "Total Line of Code"})
+					<Stats_Numbers className="stats__total-loc" value={7632} trend={2} description="Total Published Posts" />
+					<Stats_Numbers className="stats__total-loc" value={123} trend={0} description="Total Users" />
+					<Stats_Numbers className="stats__total-loc" value={512} trend={2} description="Media Library (GB)" />
+					<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Line of Code" />
 
-				), 
+				</Stats>
+				**/
 
 				React.createElement("div", {className: "widgets-area"}, 
 
