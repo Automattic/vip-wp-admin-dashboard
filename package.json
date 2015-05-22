@@ -4,8 +4,12 @@
   "author": "Filipe Varela",
   "homepage": "http://vip.wordpress.com",
   "description": "A new Dashboard for VIP and VIPv2.",
+  "scripts": {
+    "test": "export NODE_ENV=test; jshint components assets"
+  },
   "authors": [
-    "Filipe Varela <filipe@a8c.com>"
+    "Filipe Varela <filipe@a8c.com>",
+    "WordPress.com VIP <vip@matticspace.com>"
   ],
   "engines": {
     "node": ">= 0.10.0"
@@ -29,7 +33,12 @@
     "gulp-uglify": "^1.2.0",
     "gulp-util": "^3.0.4",
     "gulp-watch": "^4.2.2",
+    "jshint": "^2.5.10",
+    "mocha": "2.1.x",
     "reactify": "^1.1.0",
+    "should": "5.0.x",
+    "should-http": "0.0.2",
+    "supertest": "0.15.x",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
