@@ -218,7 +218,7 @@ Header = React.createClass( {displayName: "Header",
 				},
 				{
 					title: 'Plugins',
-					url: 'wpcom-vip-plugins'
+					url: 'vip-plugins'
 				}
 			]
 		}
