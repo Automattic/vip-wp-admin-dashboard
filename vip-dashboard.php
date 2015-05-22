@@ -27,7 +27,6 @@ function vip_dashboard_init() {
 
 	// Enable menu for all sites using a VIP and a8c sites
 	add_action( 'admin_menu', 'wpcom_vip_admin_menu', 5 );
-	add_action( 'admin_head', 'wpcom_vip_admin_head' );
 	add_action( 'admin_menu', 'wpcom_vip_rename_vip_menu_to_dashboard', 50 );
 }
 add_action( 'plugins_loaded', 'vip_dashboard_init' );

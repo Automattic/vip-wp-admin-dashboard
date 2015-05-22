@@ -1,0 +1,28 @@
+language: php
+
+php:
+  - 5.5
+
+env:
+    - WP_VERSION=latest WP_MULTISITE=0
+
+addons:
+  hosts:
+    - local.wordpress.dev
+
+before_install:
+  - sudo apt-get update > /dev/null
+
+install:
+
+
+before_script:
+
+script:
+
+  # PHP Lint
+  - make lint
+
+notifications:
+
+  slack: a8c:rdeQR68xgiffkssb1ZNw5P1c
