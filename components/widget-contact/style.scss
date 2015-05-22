@@ -116,6 +116,14 @@
 	}
 }
 
+// Override wp-admin's default styles
+@media screen and (max-width: 782px) {
+	#wpbody .widget__contact-form select {
+		height: auto;
+		font-size: 13px;
+	}
+}
+
 .contact-form__row {
 	clear: both;
 
