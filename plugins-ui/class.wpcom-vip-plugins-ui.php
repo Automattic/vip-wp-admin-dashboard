@@ -15,7 +15,7 @@ class WPCOM_VIP_Plugins_UI {
 	/**
 	 * @var string This plugin's menu slug.
 	 */
-	const MENU_SLUG = 'wpcom-vip-plugins';
+	const MENU_SLUG = 'vip-plugins';
 
 	/**
 	 * @var string Action: Plugin activation.
