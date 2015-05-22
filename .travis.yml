@@ -20,7 +20,11 @@ before_script:
 
 script:
 
+<<<<<<< HEAD
   # PHP Lint
+=======
+  # Lint 'n 'hint
+>>>>>>> Add JSHinting
   - make lint
 
 notifications:
