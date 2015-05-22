@@ -15,7 +15,8 @@ var Main = require( './main' ),
 	Stats_Numbers = require( './stats-numbers' ),
 	Widget_Contact = require( './widget-contact' ),
 	Widget_Welcome = require( './widget-welcome' ),
-	Widget_Editorial = require( './widget-editorial' );
+	Widget_Editorial = require( './widget-editorial' ),
+	Widget_Promo = require( './widget-promo' );
 
 /**
  * Settings
@@ -87,6 +88,8 @@ var VIPdashboard = React.createClass({
 					<Widget_Welcome />
 
 					<Widget_Contact />
+					
+					<Widget_Promo />
 
 					{
 					//<Widget_Editorial />
