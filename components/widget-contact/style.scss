@@ -54,6 +54,10 @@
 			box-shadow: 0 0 0 2px rgba($azure, .3);
 		}
 	}
+	
+	textarea {
+		resize: vertical;
+	}
 
 	select {
 		cursor: pointer;
