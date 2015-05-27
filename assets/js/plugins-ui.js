@@ -5,7 +5,7 @@
 		goResize();
 		goFilter();
 		evenHeights('.plugin');
-	};
+	}
 
 	function bindActions() {
 		$('.plugin').hover(
@@ -27,7 +27,7 @@
 		});
 
 		//$('#search').focus();
-	};
+	}
 
 	function pluginHover( plugin ) {
 		plugin.addClass('hovered'),
@@ -35,13 +35,13 @@
 		setTimeout(function() {
 			plugin.find('.fp-button').addClass('visible');
 		}, 280);
-	};
+	}
 
 	function pluginReset( plugin ) {
 		plugin.removeClass('hovered'),
 		plugin.find('.interstitial').removeClass('visible'),
 		plugin.find('.fp-button').removeClass('visible');
-	};
+	}
 
 	function activatePlugin( button, plugin ) {
 		plugin.addClass('activating'),
@@ -50,7 +50,7 @@
 		setTimeout(function() {
 			window.location.href = button.attr('href');
 		}, 850);
-	};
+	}
 
 	function goFilter() {
 		var plugins = $('#showcase > div');
@@ -61,7 +61,7 @@
 				return !~text.indexOf(val);
 			}).hide();
 		});
-	};
+	}
 
 	function evenHeights(selector) {
 		var maxHeight = 0;
@@ -69,20 +69,27 @@
 			$(this).height('auto');
 			maxHeight = Math.max(maxHeight, $(this).height());
 		});
-		if ( maxHeight == 0 )
+		if ( maxHeight === 0 ) {
 			maxHeight = 'auto';
+		}
 		$(selector).each(function(){
 			$(this).height(maxHeight);
 		});
-	};
+	}
 
 	function goResize() {
-		function onResize(c,t){onresize=function(){clearTimeout(t);t=setTimeout(c,100)};return c};
+		function onResize(c,t) {
+			onresize=function() {
+				clearTimeout(t);
+				t = setTimeout(c,100);
+			};
+		return c;
+		}
 
 		onResize(function() {
 			evenHeights('.plugin');
 		});
-	};
+	}
 
 	$(function() {
 		init();
