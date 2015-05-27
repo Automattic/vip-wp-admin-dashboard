@@ -8,7 +8,7 @@ var React = require( 'react' ),
  * Internal dependencies
  */
 var Config = require( '../config.js' ),
-	Nav = require( '../nav' ),
+	Nav = require( '../nav' );
 
 /**
  * Header Component
@@ -29,11 +29,11 @@ Header = React.createClass( {
 					url: 'vip-plugins'
 				}
 			]
-		}
+		};
 	},
 	render: function() {
 
-		var nav = ['Dashboard', 'Plugins']
+		var nav = ['Dashboard', 'Plugins'];
 
 		return (
 			<div className={ joinClasses( this.props.className, 'top-header' ) }>
