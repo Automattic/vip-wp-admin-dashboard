@@ -5,7 +5,7 @@
   "homepage": "http://vip.wordpress.com",
   "description": "A new Dashboard for VIP and VIPv2.",
   "scripts": {
-    "test": "export NODE_ENV=test; jshint components assets"
+    "test": "export NODE_ENV=test; jshint components"
   },
   "authors": [
     "Filipe Varela <filipe@a8c.com>",
