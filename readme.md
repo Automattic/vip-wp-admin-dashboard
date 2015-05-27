@@ -81,7 +81,14 @@ Plugins interface adopted from v1.
 
 ## Git Workflow
 
-xxx
+* The Master branch is production code (i.e. completely deployable by the time it gets merged)
+* All branches except Master and Develop get prefixed with something/
+* New features get a add/ prefix
+* Fixes get a fix/ prefix, and have an issue number: e.g. fix/999-fix-fatal-errors where issue 999 describes the bug being fixed
+* All branches get deleted once merged
+* No development takes place on Master or Develop (if Develop exists)
+* Nobody should merge code they’ve written, instead create a Pull Request and ask another colleague to merge it
+* Pull Requests should not be monstrous quantities of code, or they’ll be too daunting to review
 
 ## Coding Standards
 
