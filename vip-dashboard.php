@@ -289,7 +289,7 @@ function wpcom_vip_admin_menu() {
 	if ( ! current_user_can( $vip_page_cap ) )
 		return;
 
-	$page = add_menu_page( __( 'VIP Dashboard' ), __( 'VIP' ), $vip_page_cap, $vip_page_slug, 'vip_dashboard_page', 'div' );
+	$page = add_menu_page( __( 'VIP Dashboard' ), __( 'VIP' ), $vip_page_cap, $vip_page_slug, 'vip_dashboard_page', 'dashicons-tickets' );
 
 	// Add hooks to initialize the Dashboard
 	add_action( 'admin_print_styles-' . $page, 'vip_dashboard_admin_styles' );
