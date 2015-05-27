@@ -106,7 +106,7 @@ function vip_contact_form_handler() {
 	}
 
 	// settings
-	$vipsupportemailaddy  = 'test@scott.ee'; //'vip-support@wordpress.com';
+	$vipsupportemailaddy  = 'vip-support@wordpress.com';
 	$cc_headers_to_kayako = '';
 
 	// default values
