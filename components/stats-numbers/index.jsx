@@ -13,17 +13,17 @@ CounTo = require( '../count');
  * Stats Number Component
  */
 Stats_Numbers = React.createClass( {
-	getInitialState: function(){
+	getInitialState: function() {
 		return {
 			value: this.props.value,
 			trend: this.props.trend
-		}
+		};
 	},
-	spin: function(e){
+	spin: function(e) {
 		this.setState({
 			value: (Math.floor(Math.random() * 10000) + 1),
 			trend: Math.floor(Math.random() * 20) - 10
-		})
+		});
 	},
 	render: function() {
 

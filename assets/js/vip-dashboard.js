@@ -89,7 +89,7 @@ var VIPdashboard = React.createClass({displayName: "VIPdashboard",
 					React.createElement(Widget_Welcome, null), 
 
 					React.createElement(Widget_Contact, null), 
-					
+
 					React.createElement(Widget_Promo, null)
 
 					
@@ -145,27 +145,27 @@ CountTo = React.createClass({displayName: "CountTo",
 		delay: React.PropTypes.number,
 		onComplete: React.PropTypes.func
 	},
-	getInitialState() {
+	getInitialState: function() {
 		return {
 			counter: this.props.from || 0
 		};
 	},
-	componentDidMount() {
+	componentDidMount: function() {
 		delay = this.props.delay || 100;
 		this.loopsCounter = 0;
 		this.loops = Math.ceil(this.props.speed / delay);
 		this.increment = (this.props.to - this.state.counter) / this.loops;
 		this.interval = setInterval(this.next, delay);
 	},
-	componentWillUnmount() {
+	componentWillUnmount: function() {
 		this.clear();
 	},
-	componentWillUpdate() {
+	componentWillUpdate: function() {
 		//alert( this.state.counter );
 		//delay = this.props.delay || 100;
 		//this.interval = setInterval(this.next, delay);
 	},
-	next() {
+	next: function() {
 		if (this.loopsCounter < this.loops) {
 			this.loopsCounter++;
 			this.setState({
@@ -178,10 +178,10 @@ CountTo = React.createClass({displayName: "CountTo",
 			}
 		}
 	},
-	clear() {
+	clear: function() {
 		clearInterval(this.interval);
 	},
-	render() {
+	render: function() {
 		return (
 			React.createElement("span", null, this.state.counter.toFixed())
 		);
@@ -410,7 +410,7 @@ var Config = require( '../config.js' );
  * Contact Widget Component
  */
 Widget_Contact = React.createClass( {displayName: "Widget_Contact",
-	getInitialState: function(){
+	getInitialState: function() {
 		return {
 			user: Config.user,
 			useremail: Config.useremail,
