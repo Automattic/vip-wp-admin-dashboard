@@ -12,6 +12,7 @@ addons:
 
 before_install:
   - sudo apt-get update > /dev/null
+  - ./ci/prepare.sh
 
 install:
 
@@ -20,9 +21,8 @@ before_script:
 
 script:
 
-  # PHP Lint
+  # Lint 'n 'hint
   - make lint
 
 notifications:
-
   slack: a8c:rdeQR68xgiffkssb1ZNw5P1c
