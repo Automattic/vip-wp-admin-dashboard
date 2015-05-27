@@ -25,5 +25,4 @@ script:
   - make lint
 
 notifications:
-
   slack: a8c:rdeQR68xgiffkssb1ZNw5P1c

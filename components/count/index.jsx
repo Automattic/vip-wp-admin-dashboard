@@ -18,27 +18,27 @@ CountTo = React.createClass({
 		delay: React.PropTypes.number,
 		onComplete: React.PropTypes.func
 	},
-	getInitialState() {
+	getInitialState: function() {
 		return {
 			counter: this.props.from || 0
 		};
 	},
-	componentDidMount() {
+	componentDidMount: function() {
 		delay = this.props.delay || 100;
 		this.loopsCounter = 0;
 		this.loops = Math.ceil(this.props.speed / delay);
 		this.increment = (this.props.to - this.state.counter) / this.loops;
 		this.interval = setInterval(this.next, delay);
 	},
-	componentWillUnmount() {
+	componentWillUnmount: function() {
 		this.clear();
 	},
-	componentWillUpdate() {
+	componentWillUpdate: function() {
 		//alert( this.state.counter );
 		//delay = this.props.delay || 100;
 		//this.interval = setInterval(this.next, delay);
 	},
-	next() {
+	next: function() {
 		if (this.loopsCounter < this.loops) {
 			this.loopsCounter++;
 			this.setState({
@@ -51,10 +51,10 @@ CountTo = React.createClass({
 			}
 		}
 	},
-	clear() {
+	clear: function() {
 		clearInterval(this.interval);
 	},
-	render() {
+	render: function() {
 		return (
 			<span>{this.state.counter.toFixed()}</span>
 		);

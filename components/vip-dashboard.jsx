@@ -51,7 +51,7 @@ var VIPdashboard = React.createClass({
 					}
 				]
 			}
-		}
+		};
 	},
 	render: function() {
 		return (
@@ -88,7 +88,7 @@ var VIPdashboard = React.createClass({
 					<Widget_Welcome />
 
 					<Widget_Contact />
-					
+
 					<Widget_Promo />
 
 					{
@@ -97,7 +97,7 @@ var VIPdashboard = React.createClass({
 				</div>
 
 			</Main>
-		)
+		);
 	}
 });
 React.render(<VIPdashboard />,

@@ -66,9 +66,11 @@ var	gulp = require('gulp'),
 	csscomb = require('gulp-csscomb'),
 	filter = require('gulp-filter'),
 	imagemin = require('gulp-imagemin'),
+	jshint = require('gulp-jshint'),
 	minifycss = require('gulp-minify-css'),
 	parker = require('gulp-parker'),
 	plumber = require('gulp-plumber'),
+	react = require('gulp-react'),
 	sass = require('gulp-sass'),
 	source = require('vinyl-source-stream'),
 	reactify = require( 'reactify' ),
@@ -174,7 +176,7 @@ gulp.task('styles', function() {
  *
  * Compile JSX etc
  */
-gulp.task('react', function () {
+gulp.task('react', ['lint'], function () {
 
 	// set up the browserify instance on a task basis
 	var b = browserify({
@@ -190,13 +192,26 @@ gulp.task('react', function () {
 		.pipe(source('vip-dashboard.js'))
 		.pipe(buffer())
 		.pipe(sourcemaps.init({loadMaps: true}))
-			// Add transformation tasks to the pipeline here.
-			//.pipe(uglify())
-			// minify
-			// .on('error', gutil.log)
+			.pipe(uglify())
 		.pipe(sourcemaps.write('./'))
 		.pipe(gulp.dest(settings.jspath))
 		.pipe(browsersync.reload({stream: true}));
+});
+
+/**
+ * Lint Task
+ *
+ * Run before react task above to check for errors
+ */
+gulp.task('lint', function() {
+	return gulp.src(settings.componentpath)
+		.on('error', onError)
+		.pipe(react())
+		.pipe(jshint({
+			linter: require('jshint-jsx').JSXHINT
+		}))
+		.pipe(jshint.reporter('jshint-stylish', { verbose: true }))
+		.pipe(jshint.reporter('fail'));
 });
 
 /**
