@@ -19,11 +19,17 @@
 	span {
 		display: block;
 	}
+	
+	.numbers__value {
+		margin-bottom: .25em;
+		font-size: 36px;
+	}
+	
 }
 
 .chart-circular__one {
 	
-	.chart-circular__value {
+	.numbers__value {
 		color: $graph-blue;
 	}
 	
@@ -33,7 +39,7 @@
 }
 .chart-circular__two {
 	
-	.chart-circular__value {
+	.numbers__value {
 		color: $graph-orange;
 	}
 	

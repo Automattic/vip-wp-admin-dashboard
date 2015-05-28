@@ -9,12 +9,9 @@
 	&.value-primary {
 		color: $graph-blue;
 	}
+	
 	&.value-secondary {
 		color: $graph-orange;
-	}
-	&.value-chart {
-		margin-bottom: .25em;
-		font-size: 36px;
 	}
 }
 
