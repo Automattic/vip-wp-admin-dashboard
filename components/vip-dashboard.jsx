@@ -12,6 +12,7 @@ var React = require( 'react' ),
 var Main = require( './main' ),
 	Header = require( './header' ),
 	Stats = require( './stats' ),
+	Stats_Charts = require( './stats-charts' ),
 	Stats_Numbers = require( './stats-numbers' ),
 	Widget_Contact = require( './widget-contact' ),
 	Widget_Welcome = require( './widget-welcome' ),
@@ -63,23 +64,22 @@ var VIPdashboard = React.createClass({
 				<Stats>
 					<div className="stats__module">
 						<LineChart data={this.state.lineChartData} />
-					</div>
-
-					<div className="chart-circular__block chart-circular__two">
-
-						<div className="chart-circular__data">
-							<span className="chart-circular__value">57%</span>
-							<span className="chart-circular__description">Mobile views</span>
-							<span className="chart-circular__trend trend-positive">22%</span>
+						<div className="stats__numbers">
+							<Stats_Numbers className="stats__posts" value={256} trend={10} description="New Published Posts" />
+							<Stats_Numbers className="stats__comments" value={34} trend={6} description="New Comments" />
 						</div>
-
 					</div>
-
-					<Stats_Numbers className="stats__total-loc" value={7632} trend={2} description="Total Published Posts" />
-					<Stats_Numbers className="stats__total-loc" value={123} trend={0} description="Total Users" />
-					<Stats_Numbers className="stats__total-loc" value={512} trend={2} description="Media Library (GB)" />
-					<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Line of Code" />
-
+			
+					<Stats_Charts />
+					
+					<div className="stats__module">
+						<div className="stats__numbers numbers-data">
+							<Stats_Numbers className="stats__total-posts" value={7632} trend={2} description="Total Published Posts" />
+							<Stats_Numbers className="stats__total-users" value={123} trend={0} description="Total Users" />
+							<Stats_Numbers className="stats__total-media" value={512} trend={2} description="Media Library (GB)" />
+							<Stats_Numbers className="stats__total-loc" value={3759} trend={-5} description="Total Lines of Code" />
+						</div>
+					</div>
 				</Stats>
 				**/}
 
