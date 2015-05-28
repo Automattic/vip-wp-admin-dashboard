@@ -100,6 +100,23 @@
 	}
 }
 
+
+.stats__posts {
+	
+	.numbers__value {
+		color: $graph-blue;
+		
+	}
+}
+
+.stats__comments {
+	
+	.numbers__value {
+		color: $graph-orange;
+		
+	}
+}
+
 .stats__total-posts,
 .stats__total-users,
 .stats__total-media,
