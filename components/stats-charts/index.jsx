@@ -11,7 +11,26 @@ var React = require( 'react' ),
  * Stats Charts Component
  */
 Stats_Charts = React.createClass( {
-
+	chartsAnim: function( selector, percent ) {
+		var selectorDiv = document.getElementById( selector );
+		var path = selectorDiv;
+		var pathLen = path.getTotalLength();
+		var adjustedLen = ( 100 - percent ) * pathLen / 100;
+		selectorDiv.style['stroke-dashoffset'] = adjustedLen;
+	},
+	getInitialState: function() {
+		return {
+			value: this.props.value || 43
+		};
+	},
+	componentDidMount: function() {
+		// @todo: fetch value automatically
+		// this.chartsAnim( 'chart-views-desktop', this.state.value );
+		
+		this.chartsAnim( 'chart-views-desktop', 43 );
+		this.chartsAnim( 'chart-views-mobile', 82 );
+	},
+	
 	render: function() {
 		return (
 			<div className="stats__module stats__graphs">
