@@ -10,6 +10,7 @@
 	display: inline-block;
 	width: 33%;
 	height: $stats-height;
+	overflow: hidden;
 }
 
 .stats__canvas {

@@ -16,7 +16,8 @@ Stats_Numbers = React.createClass( {
 	getInitialState: function() {
 		return {
 			value: this.props.value,
-			trend: this.props.trend
+			trend: this.props.trend,
+			type: this.props.type,
 		};
 	},
 	spin: function(e) {
@@ -36,14 +37,28 @@ Stats_Numbers = React.createClass( {
 		} else {
 			trend = 'trend-neutral';
 		}
+		
+		if ( this.state.type == 'chart' ) {
+			
+			return (
+				<div className={ this.props.className } onClick={this.spin}>
+					<span className="numbers__value">{ this.state.value + '%' }</span>
+					<span className="numbers__description">{ this.props.description }</span>
+					<span className={ joinClasses( trend, 'numbers__trend trend-center' )}>{ this.state.trend + '%' }</span>
+				</div>
+			);
+			
+		} else {
 
-		return (
-			<div className={ joinClasses( this.props.className, 'stats_numbers' ) } onClick={this.spin}>
-				<span className="numbers__value"><CountTo to={ this.state.value } from={0} speed={ 500 } /></span>
-				<span className={ joinClasses( trend, 'numbers__trend' )}>{ this.state.trend + '%' }</span>
-				<span className="numbers__description">{ this.props.description }</span>
-			</div>
-		);
+			return (
+				<div className={ this.props.className } onClick={this.spin}>
+					<span className="numbers__value"><CountTo to={ this.state.value } from={0} speed={ 500 } /></span>
+					<span className={ joinClasses( trend, 'numbers__trend' )}>{ this.state.trend + '%' }</span>
+					<span className="numbers__description">{ this.props.description }</span>
+				</div>
+			);
+		}
+		
 	}
 } );
 module.exports = Stats_Numbers;

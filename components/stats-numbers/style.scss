@@ -1,7 +1,7 @@
 .numbers__value {
 	display: inline-block;
 	margin-bottom: 6px;
-	font-size: 2.75em;
+	font-size: 44px;
 	font-weight: 300;
 	line-height: 1em;
 	color: $grey-blue;
@@ -9,18 +9,15 @@
 	&.value-primary {
 		color: $graph-blue;
 	}
+	
 	&.value-secondary {
 		color: $graph-orange;
-	}
-	&.value-chart {
-		margin-bottom: .25em;
-		font-size: 2.25em;
 	}
 }
 
 .numbers__description {
 	margin-bottom: 1.15em;
-	font-size: .75em;
+	font-size: 12px;
 	font-weight: 400;
 	line-height: 1em;
 	color: $grey-blue-fade;
@@ -30,7 +27,7 @@
 .numbers__trend {
 	position: relative;
 	display: inline-block;
-	font-size: .75em;
+	font-size: 12px;
 	font-weight: 600;
 	line-height: 1em;
 
@@ -97,6 +94,23 @@
 			bottom: 25%;
 			left: 34%;
 		}
+	}
+}
+
+
+.stats__posts {
+	
+	.numbers__value {
+		color: $graph-blue;
+		
+	}
+}
+
+.stats__comments {
+	
+	.numbers__value {
+		color: $graph-orange;
+		
 	}
 }
 
