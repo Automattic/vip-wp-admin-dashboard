@@ -1,7 +1,7 @@
 /**
  * External dependencies
  */
-var React = require( 'react' ),
+var React = require( 'react' );
 
 /**
  * Internal dependencies
@@ -10,7 +10,7 @@ var React = require( 'react' ),
 /**
  * Stats Charts Component
  */
-Stats_Charts = React.createClass( {
+var Stats_Charts = React.createClass( {
 	chartsAnim: function( selector, percent ) {
 		var selectorDiv = document.getElementById( selector );
 		var path = selectorDiv;
