@@ -38,7 +38,7 @@ Stats_Numbers = React.createClass( {
 		}
 
 		return (
-			<div className={ joinClasses( this.props.className, 'stats_numbers' ) } onClick={this.spin}>
+			<div className={ this.props.className } onClick={this.spin}>
 				<span className="numbers__value"><CountTo to={ this.state.value } from={0} speed={ 500 } /></span>
 				<span className={ joinClasses( trend, 'numbers__trend' )}>{ this.state.trend + '%' }</span>
 				<span className="numbers__description">{ this.props.description }</span>
