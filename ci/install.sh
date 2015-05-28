@@ -9,4 +9,5 @@ set -ex
 # Install NPM
 # ==================
 
+npm cache clean
 npm install
