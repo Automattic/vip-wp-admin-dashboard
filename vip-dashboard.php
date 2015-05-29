@@ -267,14 +267,14 @@ function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.
 
 	$name = '';
 	if ( isset( $_POST['name'] ) ) {
-		$name = $_POST['name'];
+		$name = sanitize_text_field( $_POST['name'] );
 	} else if ( isset( $current_user->display_name ) ) {
 		$name = $current_user->display_name;
 	}
 
 	$useremail = '';
-	if ( isset( $_POST['email'] ) ) {
-		$useremail = $_POST['email'];
+	if ( isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) {
+		$useremail = sanitize_email( $_POST['email'] );
 	} else if ( isset( $current_user->user_email ) ) {
 		$name = $current_user->user_email;
 	}
@@ -290,7 +290,7 @@ function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.
 
 	$url = add_query_arg( array( 'subject' => __( 'Descriptive subject please', 'vip-dashboard' ), 'body' => rawurlencode( $email ) ), 'mailto:vip-support@wordpress.com' );
 
-	$html = '<a href="' . $url . '">' . $linkText  . '</a>';
+	$html = '<a href="' . $url . '">' . esc_html( $linkText )  . '</a>';
 
 	if ( $echo )
 		echo $html;
