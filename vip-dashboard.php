@@ -280,16 +280,18 @@ function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.
 	}
 
 	$email  = "\n\n--\n";
-	$email .= "Name: " . esc_attr( $name ) . "\n";
-	$email .= "Email: " . esc_attr( $useremail ) . "\n";
+	$email .= "Name: " . $name . "\n";
+	$email .= "Email: " . $useremail . "\n";
 	$email .= "URL: " . home_url() . "\n";
-	$email .= "IP Address: " . esc_url( $_SERVER['REMOTE_ADDR'] ) . "\n";
+	$email .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
 	$email .= "Server: " . php_uname( 'n' ) . "\n";
-	$email .= "Browser: " . esc_url( $_SERVER['HTTP_USER_AGENT'] ) . "\n";
+	$email .= "Browser: " . $_SERVER['HTTP_USER_AGENT'] . "\n";
 	$email .= "Platform: VIPv2";
 
 	$url = add_query_arg( array( 'subject' => __( 'Descriptive subject please', 'vip-dashboard' ), 'body' => rawurlencode( $email ) ), 'mailto:vip-support@wordpress.com' );
 
+	// $url not escaped on output as email formatting is borked by esc_url:
+	// https://core.trac.wordpress.org/ticket/31632
 	$html = '<a href="' . $url . '">' . esc_html( $linkText )  . '</a>';
 
 	if ( $echo )
