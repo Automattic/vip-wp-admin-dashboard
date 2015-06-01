@@ -80,9 +80,6 @@ function vip_dashboard_page() {
  */
 function vip_contact_form_handler() {
 
-	// delay during testing
-	sleep(2);
-
 	// check for required fields and nonce
 	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
 
@@ -265,16 +262,37 @@ add_action( 'wp_ajax_vip_contact', 'vip_contact_form_handler' );
  * @return html
  */
 function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.', $echo = true ) {
-	global $current_user;
 
-	$email = "%0A%0A%0A--%0AName:%20" . stripslashes( $current_user->display_name );
-	$email .= "%0AUser%20ID:%20". $current_user->user_login;
-	$email .= "%0AURL:%20" . get_option('home') . esc_url( $_SERVER['REQUEST_URI'] );
-	$email .= "%0AIP%20Address:%20" . esc_url( $_SERVER['REMOTE_ADDR'] );
-	$email .= "%0AServer:%20" . php_uname( 'n' );
-	$email .= "%0ABrowser:%20" . esc_url( $_SERVER['HTTP_USER_AGENT'] );
+	$current_user = get_currentuserinfo();
 
-	$html = '<a href="mailto:vip-support@wordpress.com?subject=Descriptive%20subject%20please&body=' . $email . '">' . $linkText  . '</a>';
+	$name = '';
+	if ( isset( $_POST['name'] ) ) {
+		$name = sanitize_text_field( $_POST['name'] );
+	} else if ( isset( $current_user->display_name ) ) {
+		$name = $current_user->display_name;
+	}
+
+	$useremail = '';
+	if ( isset( $_POST['email'] ) && is_email( $_POST['email'] ) ) {
+		$useremail = sanitize_email( $_POST['email'] );
+	} else if ( isset( $current_user->user_email ) ) {
+		$name = $current_user->user_email;
+	}
+
+	$email  = "\n\n--\n";
+	$email .= "Name: " . $name . "\n";
+	$email .= "Email: " . $useremail . "\n";
+	$email .= "URL: " . home_url() . "\n";
+	$email .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
+	$email .= "Server: " . php_uname( 'n' ) . "\n";
+	$email .= "Browser: " . $_SERVER['HTTP_USER_AGENT'] . "\n";
+	$email .= "Platform: VIPv2";
+
+	$url = add_query_arg( array( 'subject' => __( 'Descriptive subject please', 'vip-dashboard' ), 'body' => rawurlencode( $email ) ), 'mailto:vip-support@wordpress.com' );
+
+	// $url not escaped on output as email formatting is borked by esc_url:
+	// https://core.trac.wordpress.org/ticket/31632
+	$html = '<a href="' . $url . '">' . esc_html( $linkText )  . '</a>';
 
 	if ( $echo )
 		echo $html;
