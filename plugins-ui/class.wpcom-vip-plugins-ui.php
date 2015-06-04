@@ -172,7 +172,7 @@ class WPCOM_VIP_Plugins_UI {
 			),
 			'facebook'       => array(
 				'name'        => 'Facebook',
-				'description' => 'Make your WordPress site social in a couple of clicks, powered by Facebook.',
+				'description' => 'Make your WordPress site social in a few clicks, powered by Facebook.',
 			),
 			'findthebest'       => array(
 				'name'        => 'FindTheBest',
