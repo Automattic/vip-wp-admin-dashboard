@@ -64,8 +64,9 @@ function vip_dashboard_admin_scripts() {
 function vip_dashboard_remove_menu_pages() {
 	$user = wp_get_current_user();
 
-	if ( ! in_array( 'vip_support', $user->roles ) )
+	if ( ! in_array( 'vip_support', $user->roles ) ) {
 		remove_menu_page( 'plugins.php' );
+	}
 }
 
 /**
@@ -76,8 +77,9 @@ function vip_dashboard_remove_menu_pages() {
 function vip_dashboard_prevent_admin_access() {
 	$user = wp_get_current_user();
 
-	if ( ! in_array( 'vip_support', $user->roles ) )
+	if ( ! in_array( 'vip_support', $user->roles ) ) {
 		wp_safe_redirect( esc_url( add_query_arg( array( 'page' => 'vip-plugins'), admin_url( 'admin.php' ) ) ) );
+	}
 }
 
 /**
