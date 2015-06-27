@@ -14,6 +14,18 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 	}
 
 	/**
+	 * Return associative array of columns in the table
+	 *
+	 * @return array The array of table columns
+	 */
+	public function get_columns() {
+		return array(
+			'name' 			=> __( 'Name' ),
+			'description' 	=> __( 'Description' )
+		);
+	}
+
+	/**
 	 * Fetch the list of VIP plugins to display in the list table.
 	 */
 	public function prepare_items() {
