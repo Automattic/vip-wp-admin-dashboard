@@ -404,8 +404,8 @@ class WPCOM_VIP_Plugins_UI {
 		$fpp_table = new WPCOM_VIP_Featured_Plugins_List_Table();
 		$fpp_table->prepare_items();
 
-		$wp_list_table = new WPCOM_VIP_Plugins_UI_List_Table();
-		$wp_list_table->prepare_items();
+		$shared_table = new WPCOM_VIP_Plugins_UI_List_Table();
+		$shared_table->prepare_items();
 
 		if ( ! empty( $_GET['activated'] ) )
 			add_settings_error( 'wpcom-vip-plugins-ui', 'wpcom-vip-plugins-activated', __( 'Plugin activated.', 'wpcom-vip-plugins-ui' ), 'updated' );
@@ -423,7 +423,7 @@ class WPCOM_VIP_Plugins_UI {
 
 		<?php $fpp_table->display(); ?>
 
-		<?php $wp_list_table->display(); ?>
+		<?php $shared_table->display(); ?>
 
 	</main>
 
