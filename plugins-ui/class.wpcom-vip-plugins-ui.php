@@ -404,6 +404,10 @@ class WPCOM_VIP_Plugins_UI {
 		$fpp_table = new WPCOM_VIP_Featured_Plugins_List_Table();
 		$fpp_table->prepare_items();
 
+		// @todo replace with custom table
+		$community_table = _get_list_table('WP_Plugins_List_Table');
+		$community_table->prepare_items();
+
 		$shared_table = new WPCOM_VIP_Plugins_UI_List_Table();
 		$shared_table->prepare_items();
 
@@ -422,6 +426,8 @@ class WPCOM_VIP_Plugins_UI {
 	<main id="plugins" role="main">
 
 		<?php $fpp_table->display(); ?>
+
+		<?php $community_table->display(); ?>
 
 		<?php $shared_table->display(); ?>
 
