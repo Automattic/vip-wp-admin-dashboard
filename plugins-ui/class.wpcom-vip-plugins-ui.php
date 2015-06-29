@@ -554,4 +554,24 @@ class WPCOM_VIP_Plugins_UI {
 
 		return $menu_url;
 	}
+
+	/**
+	 * Grab list of regular WP plugins
+	 *
+	 * @see get_plugins()
+	 * @return array Array of plugins
+	 */
+	public function get_plugins() {
+		return get_plugins();
+	}
+
+	/**
+	 * Grab list of VIP Shared Plugins
+	 *
+	 * @see get_plugins()
+	 * @return array Array of shared plugins
+	 */
+	public function get_shared_plugins() {
+		return get_plugins( self::SHARED_PLUGINS_RELATIVE_PATH );
+	}
 }
