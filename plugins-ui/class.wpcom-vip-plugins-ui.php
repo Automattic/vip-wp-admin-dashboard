@@ -438,7 +438,8 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return array Modified list of columns.
 	 */
 	public static function community_plugins_menu_columns( $columns ) {
-		$columns['name']        = 'Community Plugins';
+		// @todo support different labels for Shared vs Community plugins
+		$columns['name'] = 'Plugins';
 		$columns['description'] = '';
 
 		return $columns;
