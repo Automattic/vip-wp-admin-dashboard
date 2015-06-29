@@ -28,6 +28,11 @@ class WPCOM_VIP_Plugins_UI {
 	const ACTION_PLUGIN_DEACTIVATE = 'wpcom-vip-plugins_deactivate';
 
 	/**
+	 * @var string Path to shared plugins directory, relative to WP_PLUGIN_DIR
+	 */
+	const SHARED_PLUGINS_RELATIVE_PATH = '/../mu-plugins/shared-plugins';
+
+	/**
 	 * @var string Whether or not to disable the plugin activation links.
 	 */
 	public $activation_disabled = false;
