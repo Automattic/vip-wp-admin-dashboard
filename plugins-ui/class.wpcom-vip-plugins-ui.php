@@ -13,6 +13,11 @@
  */
 class WPCOM_VIP_Plugins_UI {
 	/**
+	 * @var string Option name containing the list of active plugins.
+	 */
+	const OPTION_ACTIVE_PLUGINS = 'wpcom_vip_active_plugins';
+
+	/**
 	 * @var string This plugin's menu slug.
 	 */
 	const MENU_SLUG = 'vip-plugins';
@@ -26,6 +31,11 @@ class WPCOM_VIP_Plugins_UI {
 	 * @var string Action: Plugin deactivation.
 	 */
 	const ACTION_PLUGIN_DEACTIVATE = 'wpcom-vip-plugins_deactivate';
+
+	/**
+	 * @var string Path to shared plugins directory, relative to WP_PLUGIN_DIR
+	 */
+	const SHARED_PLUGINS_RELATIVE_PATH = '/../mu-plugins/shared-plugins';
 
 	/**
 	 * @var string Whether or not to disable the plugin activation links.
@@ -118,7 +128,7 @@ class WPCOM_VIP_Plugins_UI {
 	 * @access private
 	 */
 	private function setup_globals() {
-		$this->plugin_folder = WP_CONTENT_DIR . '/plugins';
+		$this->plugin_folder = WP_CONTENT_DIR . '/mu-plugins/shared-plugins';
 
 		$this->hidden_plugins = array(
 			'internacional', // Not ready yet (ever?)
@@ -258,6 +268,11 @@ class WPCOM_VIP_Plugins_UI {
 	 * @uses add_action() To add various actions
 	 */
 	private function setup_actions() {
+		add_option( self::OPTION_ACTIVE_PLUGINS, array() );
+
+		// Loaded at priority 5 because all plugins are typically loaded before 'plugins_loaded'
+		add_action( 'plugins_loaded', array( $this, 'include_active_plugins' ), 5 );
+
 		add_action( 'init', array( $this, 'action_init' ) );
 	}
 
@@ -281,10 +296,21 @@ class WPCOM_VIP_Plugins_UI {
 
 		add_action( 'admin_menu', array( $this, 'action_admin_menu_add_menu_item' ) );
 
+		add_action( 'wpcom_vip_plugins_ui_menu_page', array( $this, 'cleanup_active_plugins_option' ) );
+
 		add_action( 'admin_post_' . self::ACTION_PLUGIN_ACTIVATE, array( $this, 'action_admin_post_plugin_activate' ) );
 		add_action( 'admin_post_' . self::ACTION_PLUGIN_DEACTIVATE, array( $this, 'action_admin_post_plugin_deactivate' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'action_enqueue_scripts' ) );
+	}
+
+	/**
+	 * Includes any active plugin files that are enabled via the UI/option.
+	 */
+	public function include_active_plugins() {
+		foreach ( $this->get_active_plugins_option() as $plugin ) {
+			wpcom_vip_load_plugin( $plugin );
+		}
 	}
 
 	/**
@@ -336,7 +362,7 @@ class WPCOM_VIP_Plugins_UI {
 
 		check_admin_referer( 'activate-' . $plugin_slug );
 
-		if ( is_wp_error( $this->activate_plugin( $plugin_file ) ) )
+		if ( is_wp_error( $this->activate_plugin( $plugin_slug ) ) )
 			wp_die( __( "Failed to activate plugin. Maybe it's already activated?", 'wpcom-vip-plugins-ui' ) );
 
 		wp_safe_redirect( $this->get_menu_url( array( 'activated' => '1' ) ) );
@@ -360,7 +386,7 @@ class WPCOM_VIP_Plugins_UI {
 
 		// Note that core's deactivate_plugins() returns no value, so we _assume_
 		// the deactivation worked
-		$this->deactivate_plugin( $plugin_file );
+		$this->deactivate_plugin( $plugin_slug );
 
 		wp_safe_redirect( $this->get_menu_url( array( 'deactivated' => '1' ) ) );
 		exit();
@@ -378,8 +404,12 @@ class WPCOM_VIP_Plugins_UI {
 		$fpp_table = new WPCOM_VIP_Featured_Plugins_List_Table();
 		$fpp_table->prepare_items();
 
-		$wp_list_table = new WPCOM_VIP_Plugins_UI_List_Table();
-		$wp_list_table->prepare_items();
+		// @todo replace with custom table
+		$community_table = _get_list_table('WP_Plugins_List_Table');
+		$community_table->prepare_items();
+
+		$shared_table = new WPCOM_VIP_Plugins_UI_List_Table();
+		$shared_table->prepare_items();
 
 		if ( ! empty( $_GET['activated'] ) )
 			add_settings_error( 'wpcom-vip-plugins-ui', 'wpcom-vip-plugins-activated', __( 'Plugin activated.', 'wpcom-vip-plugins-ui' ), 'updated' );
@@ -397,7 +427,9 @@ class WPCOM_VIP_Plugins_UI {
 
 		<?php $fpp_table->display(); ?>
 
-		<?php $wp_list_table->display(); ?>
+		<?php $community_table->display(); ?>
+
+		<?php $shared_table->display(); ?>
 
 	</main>
 
@@ -412,7 +444,8 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return array Modified list of columns.
 	 */
 	public static function community_plugins_menu_columns( $columns ) {
-		$columns['name']        = 'Community Plugins';
+		// @todo support different labels for Shared vs Community plugins
+		$columns['name'] = 'Plugins';
 		$columns['description'] = '';
 
 		return $columns;
@@ -426,7 +459,20 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return array List of active plugin slugs.
 	 */
 	public function get_active_plugins_option() {
-		return (array) get_option( 'active_plugins', array() );
+		return (array) get_option( self::OPTION_ACTIVE_PLUGINS, array() );
+	}
+
+	/**
+	 * Removes any invalid plugins from the option, i.e. when they're deleted.
+	 */
+	public function cleanup_active_plugins_option() {
+		$active_plugins = $this->get_active_plugins_option();
+
+		foreach ( $active_plugins as $active_plugin ) {
+			if ( ! $this->validate_plugin( $active_plugin ) ) {
+				$this->deactivate_plugin( $active_plugin, true );
+			}
+		}
 	}
 
 	/**
@@ -456,12 +502,9 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return string|bool "option" if the plugin was activated via UI, "manual" if activated via code, and false if not activated.
 	 */
 	public function is_plugin_active( $plugin ) {
-		// Since we're using core's active_plugins option, we need to check the filename
-		$plugin_file = $plugin . '/' . $plugin . '.php';
-
-		if ( in_array( $plugin_file, $this->get_active_plugins_option() ) )
+		if ( in_array( $plugin, $this->get_active_plugins_option() ) )
 			return 'option';
-		elseif ( in_array( 'plugins/' . $plugin, wpcom_vip_get_loaded_plugins() ) )
+		elseif ( in_array( 'shared-plugins/' . $plugin, wpcom_vip_get_loaded_plugins() ) )
 			return 'manual';
 		else
 			return false;
@@ -511,15 +554,22 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return bool|WP_Error True if the plugin was activated, a WP_Error if an error was encountered.
 	 */
 	public function activate_plugin( $plugin ) {
-		// $plugin, $redirect = '', $network_wide = false, $silent = false
-		$result = activate_plugin( $plugin, null, false, false );
-
-		if ( is_wp_error( $result ) ) {
-			return $result;
+		if ( ! $this->validate_plugin( $plugin ) ) {
+			return false;
 		}
 
-		// activate_plugin returns null on success (!?)
-		return true;
+		$plugins = $this->get_active_plugins_option();
+
+		// Don't add it twice
+		if ( in_array( $plugin, $plugins ) ) {
+			return false;
+		}
+
+		$plugins[] = $plugin;
+
+		do_action( 'wpcom_vip_plugins_ui_activate_plugin', $plugin );
+
+		return update_option( self::OPTION_ACTIVE_PLUGINS, $plugins );
 	}
 
 	/**
@@ -528,9 +578,23 @@ class WPCOM_VIP_Plugins_UI {
 	 * @param string $plugin The slug of the plugin to deactivate.
 	 * @return void deactivate_plugins() returns nothing...so we can't actually know if it succeeded :)
 	 */
-	public function deactivate_plugin( $plugin ) {
-		// $plugins, $silent = false, $network_wide = null
-		deactivate_plugins( $plugin, false, false );
+	public function deactivate_plugin( $plugin, $force = false ) {
+		if ( ! $force && ! $this->validate_plugin( $plugin ) ) {
+			return false;
+		}
+
+		do_action( 'wpcom_vip_plugins_ui_deactivate_plugin', $plugin );
+
+		$plugins = $this->get_active_plugins_option();
+
+		if ( ! in_array( $plugin, $plugins ) ) {
+			return false;
+		}
+
+		// Remove from array and re-index (just to stay clean)
+		$plugins = array_values( array_diff( $plugins, array( $plugin ) ) );
+
+		return update_option( self::OPTION_ACTIVE_PLUGINS, $plugins );
 	}
 
 	/**
@@ -553,5 +617,25 @@ class WPCOM_VIP_Plugins_UI {
 		$menu_url = admin_url( $menu_url );
 
 		return $menu_url;
+	}
+
+	/**
+	 * Grab list of regular WP plugins
+	 *
+	 * @see get_plugins()
+	 * @return array Array of plugins
+	 */
+	public function get_plugins() {
+		return get_plugins();
+	}
+
+	/**
+	 * Grab list of VIP Shared Plugins
+	 *
+	 * @see get_plugins()
+	 * @return array Array of shared plugins
+	 */
+	public function get_shared_plugins() {
+		return get_plugins( self::SHARED_PLUGINS_RELATIVE_PATH );
 	}
 }

@@ -13,15 +13,10 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 		) );
 	}
 
-	/**
-	 * Return associative array of columns in the table
-	 *
-	 * @return array The array of table columns
-	 */
 	public function get_columns() {
 		return array(
-			'name' 			=> __( 'Name' ),
-			'description' 	=> __( 'Description' )
+			'name' 			=> __( 'Shared Plugins' ),
+			'description' 	=> ''
 		);
 	}
 
@@ -31,16 +26,19 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		$active = $inactive = array();
 
-		// The path has to be
-		foreach ( get_plugins() as $plugin_file => $plugin_data ) {
+		$vip_plugins = WPCOM_VIP_Plugins_UI::instance();
 
+		$shared_plugins = $vip_plugins->get_shared_plugins();
+
+		// The path has to be
+		foreach ( $shared_plugins as $plugin_file => $plugin_data ) {
 			$plugin_folder = basename( dirname( $plugin_file ) );
 
 			// FPP is listed separately
 			if ( isset( WPCOM_VIP_Plugins_UI()->fpp_plugins[ $plugin_folder ] ) )
 				continue;
 
-			$plugin_file = 'plugins/' . $plugin_file;
+			$plugin_file = WPCOM_VIP_Plugins_UI::SHARED_PLUGINS_RELATIVE_PATH . '/' . $plugin_file;
 
 			$status = WPCOM_VIP_Plugins_UI()->is_plugin_active( $plugin_folder ) ? 'active' : 'inactive';
 
@@ -87,7 +85,7 @@ class WPCOM_VIP_Plugins_UI_List_Table extends WP_List_Table {
 	 */
 	public function single_row( $plugin_file ) {
 		$plugin = basename( dirname( $plugin_file ) );
-		$plugin_data = get_plugin_data( WP_CONTENT_DIR . '/' . $plugin_file );
+		$plugin_data = get_plugin_data( WP_PLUGIN_DIR . '/' . $plugin_file );
 
 		$is_active = WPCOM_VIP_Plugins_UI()->is_plugin_active( $plugin );
 
