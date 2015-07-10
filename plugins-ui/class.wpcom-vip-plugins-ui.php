@@ -555,14 +555,14 @@ class WPCOM_VIP_Plugins_UI {
 	 */
 	public function activate_plugin( $plugin ) {
 		if ( ! $this->validate_plugin( $plugin ) ) {
-			return false;
+			return new WP_Error( 'activation', __( 'Invalid plugin' ) );
 		}
 
 		$plugins = $this->get_active_plugins_option();
 
 		// Don't add it twice
 		if ( in_array( $plugin, $plugins ) ) {
-			return false;
+			return new WP_Error( 'activation', __( 'Plugin already activated' ) );
 		}
 
 		$plugins[] = $plugin;
