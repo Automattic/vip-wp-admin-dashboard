@@ -19,11 +19,11 @@ Domain Path: /languages/
  */
 function vip_dashboard_init() {
 
+	require __DIR__ . '/plugins-ui/plugins-ui.php';
+
 	// admin only
 	if ( ! is_admin() )
 		return;
-
-	require __DIR__ . '/plugins-ui/plugins-ui.php';
 
 	// Enable menu for all sites using a VIP and a8c sites
 	add_action( 'admin_menu', 'wpcom_vip_admin_menu', 5 );
