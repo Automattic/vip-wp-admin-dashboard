@@ -318,11 +318,11 @@ class WPCOM_VIP_Plugins_UI {
 	 */
 	public function action_admin_menu_add_menu_item() {
 		if ( $this->parent_menu_slug == 'plugins.php' ) {
-			$page_title = __( 'WordPress.com VIP Plugins', 'wpcom-vip-plugins-ui' );
-			$menu_label = __( 'WP.com VIP Plugins', 'wpcom-vip-plugins-ui' );
+			$page_title = esc_html__( 'WordPress.com VIP Plugins', 'wpcom-vip-plugins-ui' );
+			$menu_label = esc_html__( 'WP.com VIP Plugins', 'wpcom-vip-plugins-ui' );
 		} else {
-			$page_title = __( 'WordPress.com VIP Plugins & Services', 'wpcom-vip-plugins-ui' );
-			$menu_label = __( 'Plugins', 'wpcom-vip-plugins-ui' );
+			$page_title = esc_html__( 'WordPress.com VIP Plugins & Services', 'wpcom-vip-plugins-ui' );
+			$menu_label = esc_html__( 'Plugins', 'wpcom-vip-plugins-ui' );
 		}
 		$this->hook_suffix = add_menu_page( $page_title, $menu_label, $this->capability, 'vip-plugins', array( $this, 'display_menu_page' ), 'dashicons-admin-plugins', 64 );
 
