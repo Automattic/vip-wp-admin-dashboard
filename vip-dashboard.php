@@ -75,6 +75,7 @@ function vip_dashboard_prevent_admin_access() {
 
 	if ( ! in_array( 'vip_support', $user->roles ) ) {
 		wp_safe_redirect( esc_url( add_query_arg( array( 'page' => 'vip-plugins'), admin_url( 'admin.php' ) ) ) );
+		exit;
 	}
 }
 
