@@ -214,7 +214,7 @@ function vip_contact_form_handler() {
 	$content .= "\nTheme: " . get_option( 'stylesheet' ) . ' | '. $theme->get( 'Name' ) ;
 
 	// added for VIPv2
-	$content .= "\nPlatform: VIPv2";
+	$content .= "\nPlatform: VIP Go";
 
 	// send date and time
 	$content .= sprintf( "\n\nSent from %s on %s", home_url(), date( 'c', current_time( 'timestamp', 1 ) ) );
@@ -314,7 +314,7 @@ function vip_echo_mailto_vip_hosting( $linkText = 'Send an email to VIP Hosting.
 	$email .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
 	$email .= "Server: " . php_uname( 'n' ) . "\n";
 	$email .= "Browser: " . $_SERVER['HTTP_USER_AGENT'] . "\n";
-	$email .= "Platform: VIPv2";
+	$email .= "Platform: VIP Go";
 
 	$url = add_query_arg( array( 'subject' => __( 'Descriptive subject please', 'vip-dashboard' ), 'body' => rawurlencode( $email ) ), 'mailto:vip-support@wordpress.com' );
 
