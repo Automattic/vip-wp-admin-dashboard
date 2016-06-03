@@ -1,32 +1,7 @@
-div.tablenav {
-	height: 10px;
-}
-.row-actions-visible .deactivate-manually span {
-	cursor: help;
-	color: gray;
-}
-article, aside, canvas, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
-	display: block;
-}
-#plugins-fp #menu {
-	margin: 0 0 2em
-}
-#plugins-fp #showcase {
-	margin-right: 330px;
-	box-sizing: border-box;
-}
-#plugins-fp #active {
-	float: right;
-	width: 300px;
-	box-sizing: border-box;
-}
-#plugins-fp #active h3 {
-	margin-top: 0;
-}
 #plugins-fp .plugin {
 	position: relative;
 	float: left;
-	width: 300px;
+	width: 20%;
 	margin: 0 1em 1.225em 0;
 	padding: 16px;
 	font-size: .875em;
