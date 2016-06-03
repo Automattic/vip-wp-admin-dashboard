@@ -27,14 +27,15 @@ function vip_dashboard_init() {
 	add_action( 'admin_menu', 'wpcom_vip_admin_menu', 5 );
 	add_action( 'admin_menu', 'wpcom_vip_rename_vip_menu_to_dashboard', 50 );
 
-	// Remove standard WP plugins screen
-	add_action( 'admin_menu', 'vip_dashboard_remove_menu_pages' );
-
 	// Add featured partner plugins to the plugin UI
 	add_action( 'pre_current_active_plugins', 'vip_dashboard_featured_partner_plugins' );
 
 	// Add CSS for plugins UI
 	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_enqueue_scripts' );
+
+	// Filter plugin rows to indicate plugins activated by code
+	add_filter( 'plugin_action_links',  'vip_dashboard_plugin_action_links', 10, 4 );
+	add_filter( 'network_admin_plugin_action_links', 'vip_dashboard_plugin_action_links', 10, 4 );
 
 }
 add_action( 'plugins_loaded', 'vip_dashboard_init' );
@@ -509,6 +510,7 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 
 /**
  * Determine if the given plugin slug is active
+ * TODO: check network activated plugins
  *
  * @param  string  $checkplugin plugin name
  * @return boolean true if plugin is active
@@ -540,4 +542,32 @@ function vip_dashboard_is_plugin_active( $checkplugin ) {
 	}
 
 	return false;
+}
+
+/**
+ * If a plugin is loaded via code the update the table list view to show this
+ * Ideally we would hightlight the row too
+ *
+ * @param  array $actions
+ * @param  string $plugin_file
+ * @param  array $plugin_data
+ * @param  string $context
+ * @return array
+ */
+function vip_dashboard_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+
+	// check vip plugins loaded via code
+	$plugin_parts = explode( '/', $plugin_file );
+	$vipplugins = wpcom_vip_get_loaded_plugins();
+
+	if ( ! empty( $vipplugins ) ) {
+		foreach( $vipplugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[1] == $plugin_parts[0] ) {
+				$actions = array( 'must-use' => __( 'Plugin loaded via wpcom_vip_load_plugin();') );
+			}
+		}
+	}
+
+	return $actions;
 }
