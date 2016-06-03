@@ -1,8 +1,15 @@
+#plugins-fp {
+	margin-top: 2em;
+	margin-bottom: 2em;
+	overflow: hidden;
+	box-sizing: border-box;
+}
+
 #plugins-fp .plugin {
 	position: relative;
 	float: left;
-	width: 20%;
-	margin: 0 1em 1.225em 0;
+	width: 24%;
+	margin: 0 1% 1% 0;
 	padding: 16px;
 	font-size: .875em;
 	background: #fff;
@@ -12,9 +19,7 @@
 	box-sizing: border-box;
 }
 	#plugins-fp .plugin.hovered .fp-icon,
-	#plugins-fp .plugin.activating .fp-icon,
-	#plugins-fp .plugin.hovered .fp-content,
-	#plugins-fp .plugin.activating .fp-content {
+	#plugins-fp .plugin.hovered .fp-content {
 		-webkit-filter: blur(3px);
 		filter: blur(3px)
 	}
@@ -33,20 +38,13 @@
 			border-top: 4px solid #2ea2cc
 		}
 
-	#plugins-fp .plugin.activating .interstitial {
-		display: block;
-		top: 0;
-		bottom: auto;
-		height: 100%
-	}
 	#plugins-fp .plugin.hovered .interstitial {
 		display: block;
 		-moz-animation: expand 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards;
 		-webkit-animation: expand 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards;
 		animation: expand 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards
 	}
-	#plugins-fp .plugin.hovered .interstitial-inner,
-	#plugins-fp .plugin.activating .interstitial-inner {
+	#plugins-fp .plugin.hovered .interstitial-inner {
 		-moz-animation: slideUp 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards;
 		-webkit-animation: slideUp 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards;
 		animation: slideUp 0.3s cubic-bezier(0.14, 0.61, 0.2, 1) 0s 1 forwards
@@ -108,7 +106,8 @@
 	-moz-transform: scale(0.9);
 	-ms-transform: scale(0.9);
 	-webkit-transform: scale(0.9);
-	transform: scale(0.9)
+	transform: scale(0.9);
+	text-decoration: none;
 }
 	#plugins-fp .fp-button:hover {
 		color: #fff;
@@ -136,30 +135,6 @@
 		display: block;
 		-webkit-animation: reveal .3s ease 0s 1 forwards;
 		animation: reveal .3s ease 0s 1 forwards
-	}
-
-#plugins-fp .more-info a {
-	color: rgba(255, 255, 255, 0.5)
-}
-	#plugins-fp .more-info a:hover {
-		color: #fff;
-		-moz-transform: scale(1.1);
-		-ms-transform: scale(1.1);
-		-webkit-transform: scale(1.1);
-		transform: scale(1.1)
-	}
-
-#plugins-fp .more-info .icon {
-	position: absolute;
-	top: 8px;
-	right: 8px
-}
-	#plugins-fp .more-info .icon:before {
-		content: '\f455';
-		display: inline-block;
-		-webkit-font-smoothing: antialiased;
-		-moz-osx-font-smoothing: grayscale;
-		font: normal 16px/1 'Noticons'
 	}
 
 @-moz-keyframes expand {
@@ -257,20 +232,16 @@
 }
 #plugins-fp .fp-icon,
 #plugins-fp .fp-content,
-#plugins-fp .fp-button,
-#plugins-fp .more-info a:hover {
+#plugins-fp .fp-button {
 	-moz-transition:	all 0.15s ease;
 	-o-transition:		all 0.15s ease;
 	-webkit-transition:	all 0.15s ease;
 	transition:			all 0.15s ease
 }
-@media screen and (max-width: 52.5em) {
-	#plugins-fp #active {
-		float: none;
-		width: 100%
-	}
-	#plugins-fp #showcase {
-		margin-right: 0px
+
+@media screen and (max-width: 55.5em) {
+	#plugins-fp .plugin {
+		width: 49%;
 	}
 }
 @media screen and (max-width: 37.5em) {

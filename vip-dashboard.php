@@ -373,6 +373,9 @@ function vip_dashboard_admin_enqueue_scripts() {
 	if ( $screen->id == 'plugins' || $screen->id == 'plugins-network' ) {
 		wp_register_style( 'vip-plugins-style', plugins_url( '/assets/css/plugins-ui.css', __FILE__ ) , '2.1' );
 		wp_enqueue_style( 'vip-plugins-style' );
+
+		wp_register_script( 'vip-plugins-script', plugins_url( '/assets/js/plugins-ui.js', __FILE__ ), array( 'jquery' ), '2.1', true );
+		wp_enqueue_script( 'vip-plugins-script' );
 	}
 }
 
@@ -476,13 +479,15 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 		),
 	);
 	?>
-	<div id="plugins-fp">
-		<h2><?php _e( 'VIP Featured Plugins' ); ?></h2>
+	<h2><?php _e( 'VIP Featured Plugins' ); ?></h2>
+	<div id="plugins-fp" class="clearfix">
 		<?php
 		foreach ( $fpp_plugins as $slug => $plugin) {
 			$image_src = plugins_url( 'assets/img/featured-plugins/' . $slug . '-2x.png', __DIR__ . '/vip-dashboard.php' );
 			$lobby_url = '//vip.wordpress.com/plugins/' . $slug . '/';
 			$is_active = false;
+			// ( 'manual' == $is_active ) { // active in code
+
 		?>
 			<div class="plugin <?php if ( $is_active ) { ?>active<?php } ?>">
 				<img src="<?php echo esc_url( $image_src ); ?>" width="48" height="48" class="fp-icon" />
@@ -493,31 +498,14 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 				<div class="interstitial">
 					<div class="interstitial-inner">
 						<h3 class="fp-title"><?php echo $plugin['name']; ?></h3>
-						<?php
-						/*if ( $is_active ) {
-							if ( 'option' == $is_active ) {
-								echo '<a href="' . esc_url( WPCOM_VIP_Plugins_UI()->get_plugin_deactivation_link( $slug ) ) . '" class="fp-button" title="' . esc_attr__( 'Deactivate this plugin' ) . '">' . __( 'Deactivate Plugin' ) . '</a>';
-								echo '<span class="fp-text">'. __( 'Deactivating Plugin') .'</span>';
-							} elseif ( 'manual' == $is_active ) {
-								echo '<span title="To deactivate this particular plugin, edit your theme\'s functions.php file" class="fp-text">' . __( "Enabled via your theme's code" ) . '</span>';
-							}
-						} elseif ( ! $this->activation_disabled ) {
-							echo '<a href="' . esc_url( WPCOM_VIP_Plugins_UI()->get_plugin_activation_link( $slug ) ) . '" class="fp-button" title="' . esc_attr__( 'Activate this plugin' ) . '" class="edit">' . __( 'Activate Plugin' ) . '</a>';
-							echo '<span class="fp-text">'. __( 'Activating Plugin') .'</span>';
-						}*/
-						?>
-					</div>
-					<div class="more-info">
-						<a href="<?php echo esc_url( $lobby_url ); ?>" target="_blank" title="Learn More">
-							<div class="icon"></div>
-						</a>
+						<a href="<?php echo esc_url( $lobby_url ); ?>" class="fp-button" target="_blank"><?php _e( 'More information' ); ?></a>
 					</div>
 				</div>
 			</div>
 		<?php
 		}
 		?>
-		<h2 class="clearfix"><?php _e( 'Plugins' ); ?></h2>
 	</div>
+	<h2 class="clearfix"><?php _e( 'Plugins' ); ?></h2>
 	<?php
 }
