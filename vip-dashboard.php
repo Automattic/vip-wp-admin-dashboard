@@ -19,8 +19,6 @@ Domain Path: /languages/
  */
 function vip_dashboard_init() {
 
-	require __DIR__ . '/plugins-ui/plugins-ui.php';
-
 	// admin only
 	if ( ! is_admin() )
 		return;
