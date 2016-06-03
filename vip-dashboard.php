@@ -55,15 +55,6 @@ function vip_dashboard_admin_scripts() {
 }
 
 /**
- * Remove plugins menu item for all but vip_support
- *
- * @return void
- */
-function vip_dashboard_remove_menu_pages() {
-	remove_menu_page( 'plugins.php' );
-}
-
-/**
  * Output the dashboard page, an empty div for React to initialise against
  *
  * @return void
