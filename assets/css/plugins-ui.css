@@ -24,9 +24,7 @@
 		filter: blur(3px)
 	}
 	#plugins-fp .plugin.active {
-		float: none;
 		background: #f2fbff;
-		padding: 16px;
 	}
 		#plugins-fp .plugin.active:before {
 			content: "";

@@ -388,28 +388,27 @@ function vip_dashboard_admin_enqueue_scripts() {
 function vip_dashboard_featured_partner_plugins( $plugins ) {
 
 	$fpp_plugins = array(
-		'browsi'       => array(
+		'browsi' => array(
 			'name'        => 'Brow.si',
 			'description' => 'Drive more engagement and better monetization on mobile web with Brow.si on your site.',
 		),
-		'chartbeat'     => array(
+		'chartbeat' => array(
 			'name'        => 'Chartbeat',
 			'description' => 'Get a free trial to see your site\'s real-time data.',
 		),
-		'co-schedule'     => array(
+		'co-schedule' => array(
 			'name'        => 'CoSchedule',
 			'description' => 'Plan awesome content. Save a bunch of time.',
 		),
-		'facebook'       => array(
+		'facebook' => array(
 			'name'        => 'Facebook',
 			'description' => 'Make your WordPress site social in a few clicks, powered by Facebook.',
 		),
-		'findthebest'       => array(
+		'findthebest' => array(
 			'name'        => 'FindTheBest',
-			'description' => 'Add visual, interactive content that matches your post and
-			boosts your credibility.',
+			'description' => 'Add visual, interactive content that matches your post and boosts your credibility.',
 		),
-		'getty-images'       => array(
+		'getty-images' => array(
 			'name'        => 'Getty Images',
 			'description' => 'Search and use Getty Images photos in your posts without ever leaving WordPress.com.',
 		),
@@ -421,59 +420,59 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 			'name'        => 'JW Player',
 			'description' => 'The World’s Most Popular Video Player.',
 		),
-		'livefyre-apps'   => array(
+		'livefyre-apps' => array(
 			'name'        => 'Livefyre',
 			'description' => 'Replace comments with live conversations connected to the social web.',
 		),
-		'mediapass'     => array(
+		'mediapass' => array(
 			'name'        => 'MediaPass Subscriptions',
 			'description' => 'Monetize your content with recurring subscriptions made easy.',
 		),
-		'postrelease-vip'        => array(
+		'postrelease-vip' => array(
 			'name'        => 'Nativo',
 			'description' => 'Unlock a premium revenue stream with native ads.',
 		),
-		'newscred'        => array(
+		'newscred' => array(
 			'name'        => 'NewsCred',
 			'description' => 'Publish fully licensed, full text articles and images from 4,000+ of the world’s best news sources!',
 		),
-		'ooyala'        => array(
+		'ooyala' => array(
 			'name'        => 'Ooyala',
 			'description' => 'Upload, Search and Publish High Quality Video Across All Screens powered by Ooyala.',
 		),
-		'wp-parsely'        => array(
+		'wp-parsely' => array(
 			'name'        => 'Parsely',
 			'description' => 'Start a trial to finally see your audience clearly.',
 		),
-		'publishthis'        => array(
+		'publishthis' => array(
 			'name'        => 'PublishThis',
 			'description' => 'Rapidly discover, curate and publish fresh content on any topic into WordPress.',
 		),
-		'sailthru'    => array(
+		'sailthru' => array(
 			'name'        => 'Sailthru for WordPress',
 			'description' => 'Sailthru is the leading provider of personalized marketing communications.',
 		),
-		'simple-reach-analytics'    => array(
+		'simple-reach-analytics' => array(
 			'name'        => 'SimpleReach',
 			'description' => 'Content ROI made simple.',
 		),
-		'skyword'    => array(
+		'skyword' => array(
 			'name'        => 'Skyword',
 			'description' => 'Moving Stories. Forward.',
 		),
-		'socialflow'    => array(
+		'socialflow' => array(
 			'name'        => 'SocialFlow',
 			'description' => 'Get more readers and traffic from Twitter & Facebook with SocialFlow Optimized Publisher&trade;.',
 		),
-		'storify'    => array(
+		'storify' => array(
 			'name'        => 'Storify',
 			'description' => 'Easily add social media to every blog post with Storify.',
 		),
-		'thePlatform'   => array(
+		'thePlatform' => array(
 			'name' 		  => 'thePlatform',
 			'description' => 'Easily publish and manage your videos in WordPress using thePlatform’s mpx.',
 		),
-		'tinypass'   => array(
+		'tinypass' => array(
 			'name' 		  => 'Tinypass',
 			'description' => 'Simple, powerful tools for subscriptions, paywalls, pay-per-view, and donations.',
 		),
@@ -485,9 +484,7 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 		foreach ( $fpp_plugins as $slug => $plugin) {
 			$image_src = plugins_url( 'assets/img/featured-plugins/' . $slug . '-2x.png', __DIR__ . '/vip-dashboard.php' );
 			$lobby_url = '//vip.wordpress.com/plugins/' . $slug . '/';
-			$is_active = false;
-			// ( 'manual' == $is_active ) { // active in code
-
+			$is_active = vip_dashboard_is_plugin_active( $slug );
 		?>
 			<div class="plugin <?php if ( $is_active ) { ?>active<?php } ?>">
 				<img src="<?php echo esc_url( $image_src ); ?>" width="48" height="48" class="fp-icon" />
@@ -508,4 +505,39 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 	</div>
 	<h2 class="clearfix"><?php _e( 'Plugins' ); ?></h2>
 	<?php
+}
+
+/**
+ * Determine if the given plugin slug is active
+ *
+ * @param  string  $checkplugin plugin name
+ * @return boolean true if plugin is active
+ */
+function vip_dashboard_is_plugin_active( $checkplugin ) {
+
+	// check vip plugins loaded via code
+	$vipplugins = wpcom_vip_get_loaded_plugins();
+
+	if ( ! empty( $vipplugins ) ) {
+		foreach( $vipplugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[1] == $checkplugin ) {
+				return true;
+			}
+		}
+	}
+
+	// check active plugins in core
+	$plugins = get_option( 'active_plugins', array() );
+
+	if ( ! empty( $plugins ) ) {
+		foreach( $plugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[0] == $checkplugin ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
 }
