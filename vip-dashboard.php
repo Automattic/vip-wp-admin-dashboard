@@ -510,7 +510,6 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 
 /**
  * Determine if the given plugin slug is active
- * TODO: check network activated plugins
  *
  * @param  string  $checkplugin plugin name
  * @return boolean true if plugin is active
@@ -529,7 +528,7 @@ function vip_dashboard_is_plugin_active( $checkplugin ) {
 		}
 	}
 
-	// check active plugins in core
+	// check active plugins in ui
 	$plugins = get_option( 'active_plugins', array() );
 
 	if ( ! empty( $plugins ) ) {
@@ -537,6 +536,19 @@ function vip_dashboard_is_plugin_active( $checkplugin ) {
 			$parts = explode( '/', $plugin );
 			if ( $parts[0] == $checkplugin ) {
 				return true;
+			}
+		}
+	}
+
+	// check network active plugins ui
+	if ( is_multisite() ) {
+		$network_plugins = get_site_option( 'active_sitewide_plugins', array() );
+		if ( ! empty( $network_plugins ) ) {
+			foreach( $network_plugins as $key => $plugin ) {
+				$parts = explode( '/', $key );
+				if ( $parts[0] == $checkplugin ) {
+					return true;
+				}
 			}
 		}
 	}
