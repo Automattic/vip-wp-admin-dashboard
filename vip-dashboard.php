@@ -186,7 +186,7 @@ function vip_contact_form_handler() {
 	$content = stripslashes( $_POST['body'] ) . "\n\n--- Ticket Details --- \n";
 
 	// priority
-	if ( ! empty( $_POST['vipsupport-priority'] ) )
+	if ( $priority )
 		$content .= "\nPriority: " . $priority;
 
 	$content .= "\nUser: " . $current_user->user_login . ' | ' . $current_user->display_name;
