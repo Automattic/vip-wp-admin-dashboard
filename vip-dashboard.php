@@ -576,7 +576,7 @@ function vip_dashboard_plugin_action_links( $actions, $plugin_file, $plugin_data
 		foreach( $vipplugins as $key => $plugin ) {
 			$parts = explode( '/', $plugin );
 			if ( $parts[1] == $plugin_parts[0] ) {
-				$actions = array( 'must-use' => __( 'Plugin loaded via wpcom_vip_load_plugin();') );
+				$actions = array( 'vip-code-activated-plugin' => __( 'Plugin loaded via wpcom_vip_load_plugin();') );
 			}
 		}
 	}
