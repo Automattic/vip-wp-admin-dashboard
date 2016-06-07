@@ -236,7 +236,9 @@
 	-webkit-transition:	all 0.15s ease;
 	transition:			all 0.15s ease
 }
-
+.vip-code-activated-plugin {
+	color: #000;
+}
 @media screen and (max-width: 55.5em) {
 	#plugins-fp .plugin {
 		width: 49%;
