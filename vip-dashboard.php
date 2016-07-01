@@ -41,6 +41,20 @@ function vip_dashboard_init() {
 add_action( 'plugins_loaded', 'vip_dashboard_init' );
 
 /**
+ * Support existing plugin activations via the old UI
+ *
+ * @return void
+ */
+function vip_plugins_include_active_plugins() {
+	$option = get_option( 'wpcom_vip_active_plugins', array() );
+	foreach ( $option as $plugin ) {
+		wpcom_vip_load_plugin( $plugin );
+	}
+}
+// Loaded at priority 5 because all plugins are typically loaded before 'plugins_loaded'
+add_action( 'plugins_loaded', 'vip_plugins_include_active_plugins', 5 );
+
+/**
  * Register master stylesheet (compiled via gulp)
  *
  * @return void
