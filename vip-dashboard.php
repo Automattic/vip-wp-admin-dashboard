@@ -504,12 +504,12 @@ function vip_dashboard_featured_partner_plugins( $plugins ) {
 			<div class="plugin <?php if ( $is_active ) { ?>active<?php } ?>">
 				<img src="<?php echo esc_url( $image_src ); ?>" width="48" height="48" class="fp-icon" />
 				<div class="fp-content">
-					<h3 class="fp-title"><?php echo $plugin['name']; ?></h3>
-					<p class="fp-description"><?php echo $plugin['description']; ?></p>
+					<h3 class="fp-title"><?php echo esc_html( $plugin['name'] ); ?></h3>
+					<p class="fp-description"><?php echo esc_html( $plugin['description'] ); ?></p>
 				</div>
 				<div class="interstitial">
 					<div class="interstitial-inner">
-						<h3 class="fp-title"><?php echo $plugin['name']; ?></h3>
+						<h3 class="fp-title"><?php echo esc_html( $plugin['name'] ); ?></h3>
 						<a href="<?php echo esc_url( $lobby_url ); ?>" class="fp-button" target="_blank"><?php _e( 'More information' ); ?></a>
 					</div>
 				</div>
