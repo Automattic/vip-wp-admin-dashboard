@@ -23,6 +23,7 @@ var Nav = React.createClass( {
 	render: function() {
 
 		var self = this;
+		var url = Config.adminurl;
 
 		// loop over the array of menu entries,
 		return (
@@ -35,8 +36,14 @@ var Nav = React.createClass( {
 						style = 'active';
 					}
 
+					if ( m.url.search( '.php' ) !== -1 ) {
+						url = Config.adminurl.replace( 'admin.php', m.url );
+					} else {
+						url = Config.adminurl + '?page=' + m.url;
+					}
+
 					return <li key={index}>
-						<a className={ style } href={ Config.adminurl + '?page=' + m.url } onClick={ self.clicked.bind(self, index) }>{ m.title }</a>
+						<a className={ style } href={ url } onClick={ self.clicked.bind(self, index) }>{ m.title }</a>
 					</li>;
 
 				}) }

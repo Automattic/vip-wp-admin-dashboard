@@ -26,7 +26,7 @@ var Header = React.createClass( {
 				},
 				{
 					title: 'Plugins',
-					url: 'vip-plugins'
+					url: 'plugins.php'
 				}
 			]
 		};

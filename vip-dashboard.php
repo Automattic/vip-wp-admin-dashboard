@@ -36,10 +36,32 @@ function vip_dashboard_init() {
 	add_action( 'admin_menu', 'wpcom_vip_admin_menu', 5 );
 	add_action( 'admin_menu', 'wpcom_vip_rename_vip_menu_to_dashboard', 50 );
 
-	// Remove standard WP plugins screen
-	add_action( 'admin_menu', 'vip_dashboard_remove_menu_pages' );
+	// Add featured partner plugins to the plugin UI
+	add_action( 'pre_current_active_plugins', 'vip_dashboard_featured_partner_plugins' );
+
+	// Add CSS for plugins UI
+	add_action( 'admin_enqueue_scripts', 'vip_dashboard_admin_enqueue_scripts' );
+
+	// Filter plugin rows to indicate plugins activated by code
+	add_filter( 'plugin_action_links',  'vip_dashboard_plugin_action_links', 10, 4 );
+	add_filter( 'network_admin_plugin_action_links', 'vip_dashboard_plugin_action_links', 10, 4 );
+
 }
 add_action( 'plugins_loaded', 'vip_dashboard_init' );
+
+/**
+ * Support existing plugin activations via the old UI
+ *
+ * @return void
+ */
+function vip_plugins_include_active_plugins() {
+	$option = get_option( 'wpcom_vip_active_plugins', array() );
+	foreach ( $option as $plugin ) {
+		wpcom_vip_load_plugin( $plugin );
+	}
+}
+// Loaded at priority 5 because all plugins are typically loaded before 'plugins_loaded'
+add_action( 'plugins_loaded', 'vip_plugins_include_active_plugins', 5 );
 
 /**
  * Register master stylesheet (compiled via gulp)
@@ -59,15 +81,6 @@ function vip_dashboard_admin_styles() {
 function vip_dashboard_admin_scripts() {
 	wp_register_script( 'vip-dashboard-script', plugins_url( '/assets/js/vip-dashboard.js', __FILE__ ), array( 'jquery' ), '1.0', true );
 	wp_enqueue_script( 'vip-dashboard-script' );
-}
-
-/**
- * Remove plugins menu item for all but vip_support
- *
- * @return void
- */
-function vip_dashboard_remove_menu_pages() {
-	remove_menu_page( 'plugins.php' );
 }
 
 /**
@@ -371,4 +384,225 @@ function wpcom_vip_menu_order( $menu_ord ) {
 	}
 
 	return $vip_order;
+}
+
+/**
+ * Add styles for the plugins UI
+ *
+ * @return void
+ */
+function vip_dashboard_admin_enqueue_scripts() {
+	$screen = get_current_screen();
+
+	if ( $screen->id == 'plugins' || $screen->id == 'plugins-network' ) {
+		wp_register_style( 'vip-plugins-style', plugins_url( '/assets/css/plugins-ui.css', __FILE__ ) , '2.1' );
+		wp_enqueue_style( 'vip-plugins-style' );
+
+		wp_register_script( 'vip-plugins-script', plugins_url( '/assets/js/plugins-ui.js', __FILE__ ), array( 'jquery' ), '2.1', true );
+		wp_enqueue_script( 'vip-plugins-script' );
+	}
+}
+
+/**
+ * Output featured partner plugins interface
+ *
+ * @param  array $plugins An array containing all installed plugins
+ * @return void
+ */
+function vip_dashboard_featured_partner_plugins( $plugins ) {
+
+	$fpp_plugins = array(
+		'browsi' => array(
+			'name'        => 'Brow.si',
+			'description' => 'Drive more engagement and better monetization on mobile web with Brow.si on your site.',
+		),
+		'chartbeat' => array(
+			'name'        => 'Chartbeat',
+			'description' => 'Get a free trial to see your site\'s real-time data.',
+		),
+		'co-schedule' => array(
+			'name'        => 'CoSchedule',
+			'description' => 'Plan awesome content. Save a bunch of time.',
+		),
+		'facebook' => array(
+			'name'        => 'Facebook',
+			'description' => 'Make your WordPress site social in a few clicks, powered by Facebook.',
+		),
+		'findthebest' => array(
+			'name'        => 'FindTheBest',
+			'description' => 'Add visual, interactive content that matches your post and boosts your credibility.',
+		),
+		'getty-images' => array(
+			'name'        => 'Getty Images',
+			'description' => 'Search and use Getty Images photos in your posts without ever leaving WordPress.com.',
+		),
+		'janrain-capture' => array(
+			'name'        => 'Janrain',
+			'description' => 'User Registration and Social Integration for WordPress.com VIP.',
+		),
+		'jwplayer' => array(
+			'name'        => 'JW Player',
+			'description' => 'The World’s Most Popular Video Player.',
+		),
+		'livefyre-apps' => array(
+			'name'        => 'Livefyre',
+			'description' => 'Replace comments with live conversations connected to the social web.',
+		),
+		'mediapass' => array(
+			'name'        => 'MediaPass Subscriptions',
+			'description' => 'Monetize your content with recurring subscriptions made easy.',
+		),
+		'postrelease-vip' => array(
+			'name'        => 'Nativo',
+			'description' => 'Unlock a premium revenue stream with native ads.',
+		),
+		'newscred' => array(
+			'name'        => 'NewsCred',
+			'description' => 'Publish fully licensed, full text articles and images from 4,000+ of the world’s best news sources!',
+		),
+		'ooyala' => array(
+			'name'        => 'Ooyala',
+			'description' => 'Upload, Search and Publish High Quality Video Across All Screens powered by Ooyala.',
+		),
+		'wp-parsely' => array(
+			'name'        => 'Parsely',
+			'description' => 'Start a trial to finally see your audience clearly.',
+		),
+		'publishthis' => array(
+			'name'        => 'PublishThis',
+			'description' => 'Rapidly discover, curate and publish fresh content on any topic into WordPress.',
+		),
+		'sailthru' => array(
+			'name'        => 'Sailthru for WordPress',
+			'description' => 'Sailthru is the leading provider of personalized marketing communications.',
+		),
+		'simple-reach-analytics' => array(
+			'name'        => 'SimpleReach',
+			'description' => 'Content ROI made simple.',
+		),
+		'skyword' => array(
+			'name'        => 'Skyword',
+			'description' => 'Moving Stories. Forward.',
+		),
+		'socialflow' => array(
+			'name'        => 'SocialFlow',
+			'description' => 'Get more readers and traffic from Twitter & Facebook with SocialFlow Optimized Publisher&trade;.',
+		),
+		'storify' => array(
+			'name'        => 'Storify',
+			'description' => 'Easily add social media to every blog post with Storify.',
+		),
+		'thePlatform' => array(
+			'name' 		  => 'thePlatform',
+			'description' => 'Easily publish and manage your videos in WordPress using thePlatform’s mpx.',
+		),
+		'tinypass' => array(
+			'name' 		  => 'Tinypass',
+			'description' => 'Simple, powerful tools for subscriptions, paywalls, pay-per-view, and donations.',
+		),
+	);
+	?>
+	<h2><?php _e( 'VIP Featured Plugins' ); ?></h2>
+	<div id="plugins-fp" class="clearfix">
+		<?php
+		foreach ( $fpp_plugins as $slug => $plugin) {
+			$image_src = plugins_url( 'assets/img/featured-plugins/' . $slug . '-2x.png', __DIR__ . '/vip-dashboard.php' );
+			$lobby_url = '//vip.wordpress.com/plugins/' . $slug . '/';
+			$is_active = vip_dashboard_is_plugin_active( $slug );
+		?>
+			<div class="plugin <?php if ( $is_active ) { ?>active<?php } ?>">
+				<img src="<?php echo esc_url( $image_src ); ?>" width="48" height="48" class="fp-icon" />
+				<div class="fp-content">
+					<h3 class="fp-title"><?php echo esc_html( $plugin['name'] ); ?></h3>
+					<p class="fp-description"><?php echo esc_html( $plugin['description'] ); ?></p>
+				</div>
+				<div class="interstitial">
+					<div class="interstitial-inner">
+						<h3 class="fp-title"><?php echo esc_html( $plugin['name'] ); ?></h3>
+						<a href="<?php echo esc_url( $lobby_url ); ?>" class="fp-button" target="_blank"><?php _e( 'More information' ); ?></a>
+					</div>
+				</div>
+			</div>
+		<?php
+		}
+		?>
+	</div>
+	<h2 class="clearfix"><?php _e( 'Plugins' ); ?></h2>
+	<?php
+}
+
+/**
+ * Determine if the given plugin slug is active
+ *
+ * @param  string  $checkplugin plugin name
+ * @return boolean true if plugin is active
+ */
+function vip_dashboard_is_plugin_active( $checkplugin ) {
+
+	// check vip plugins loaded via code
+	$vipplugins = wpcom_vip_get_loaded_plugins();
+
+	if ( ! empty( $vipplugins ) ) {
+		foreach( $vipplugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[1] == $checkplugin ) {
+				return true;
+			}
+		}
+	}
+
+	// check active plugins in ui
+	$plugins = get_option( 'active_plugins', array() );
+
+	if ( ! empty( $plugins ) ) {
+		foreach( $plugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[0] == $checkplugin ) {
+				return true;
+			}
+		}
+	}
+
+	// check network active plugins ui
+	if ( is_multisite() ) {
+		$network_plugins = get_site_option( 'active_sitewide_plugins', array() );
+		if ( ! empty( $network_plugins ) ) {
+			foreach( $network_plugins as $key => $plugin ) {
+				$parts = explode( '/', $key );
+				if ( $parts[0] == $checkplugin ) {
+					return true;
+				}
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
+ * If a plugin is loaded via code the update the table list view to show this
+ * Ideally we would hightlight the row too
+ *
+ * @param  array $actions
+ * @param  string $plugin_file
+ * @param  array $plugin_data
+ * @param  string $context
+ * @return array
+ */
+function vip_dashboard_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+
+	// check vip plugins loaded via code
+	$plugin_parts = explode( '/', $plugin_file );
+	$vipplugins = wpcom_vip_get_loaded_plugins();
+
+	if ( ! empty( $vipplugins ) ) {
+		foreach( $vipplugins as $key => $plugin ) {
+			$parts = explode( '/', $plugin );
+			if ( $parts[1] == $plugin_parts[0] ) {
+				$actions = array( 'vip-code-activated-plugin' => __( 'Plugin loaded via wpcom_vip_load_plugin();') );
+			}
+		}
+	}
+
+	return $actions;
 }
