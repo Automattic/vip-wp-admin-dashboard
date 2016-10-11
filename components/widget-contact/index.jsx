@@ -2,7 +2,8 @@
  * External dependencies
  */
 var React = require( 'react' ),
-	joinClasses = require( 'react/lib/joinClasses' );
+	ReactDOM = require( 'react-dom' ),
+	joinClasses = require( 'fbjs/lib/joinClasses' );
 
 /**
  * Internal dependencies
@@ -34,13 +35,13 @@ var Widget_Contact = React.createClass( {
 			cansubmit: false
 		});
 
-		var name = React.findDOMNode(this.refs.user).value.trim();
-		var email = React.findDOMNode(this.refs.email).value.trim();
-		var subject = React.findDOMNode(this.refs.subject).value.trim();
-		var type = React.findDOMNode(this.refs.type).value.trim();
-		var body = React.findDOMNode(this.refs.body).value.trim();
-		var priority = React.findDOMNode(this.refs.priority).value.trim();
-		var cc = React.findDOMNode(this.refs.cc).value.trim();
+		var name = ReactDOM.findDOMNode(this.refs.user).value.trim();
+		var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
+		var subject = ReactDOM.findDOMNode(this.refs.subject).value.trim();
+		var type = ReactDOM.findDOMNode(this.refs.type).value.trim();
+		var body = ReactDOM.findDOMNode(this.refs.body).value.trim();
+		var priority = ReactDOM.findDOMNode(this.refs.priority).value.trim();
+		var cc = ReactDOM.findDOMNode(this.refs.cc).value.trim();
 
 		data = {
 			name: name,
@@ -72,11 +73,11 @@ var Widget_Contact = React.createClass( {
 
 					// reset the form
 					if ( result.status == "success" ) {
-						React.findDOMNode(this.refs.subject).value = '';
-						React.findDOMNode(this.refs.body).value = '';
-						React.findDOMNode(this.refs.cc).value = '';
-						React.findDOMNode(this.refs.type).value = 'Technical';
-						React.findDOMNode(this.refs.priority).value = 'Medium';
+						ReactDOM.findDOMNode(this.refs.subject).value = '';
+						ReactDOM.findDOMNode(this.refs.body).value = '';
+						ReactDOM.findDOMNode(this.refs.cc).value = '';
+						ReactDOM.findDOMNode(this.refs.type).value = 'Technical';
+						ReactDOM.findDOMNode(this.refs.priority).value = 'Medium';
 					}
 
 				} else {

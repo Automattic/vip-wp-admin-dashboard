@@ -2,6 +2,7 @@
  * External dependencies
  */
 var React = require( 'react' ),
+	ReactDOM = require( 'react-dom' ),
 	debug = require( 'debug' )( 'vip-dashboard' ),
 	Chart = require( 'chart.js' ),
 	LineChart = require( 'react-chartjs' ).Line;
@@ -69,9 +70,9 @@ var VIPdashboard = React.createClass({
 							<Stats_Numbers className="stats__comments" value={34} trend={6} description="New Comments" />
 						</div>
 					</div>
-			
+
 					<Stats_Charts />
-					
+
 					<div className="stats__module">
 						<div className="stats__numbers numbers-data">
 							<Stats_Numbers className="stats__total-posts" value={7632} trend={2} description="Total Published Posts" />
@@ -100,6 +101,7 @@ var VIPdashboard = React.createClass({
 		);
 	}
 });
-React.render(<VIPdashboard />,
+
+ReactDOM.render(<VIPdashboard />,
 	document.getElementById('app')
 );

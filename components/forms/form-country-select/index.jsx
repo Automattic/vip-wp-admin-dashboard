@@ -3,7 +3,7 @@
  */
 var React = require( 'react/addons' ),
 	isEmpty = require( 'lodash/lang/isEmpty' ),
-	joinClasses = require( 'react/lib/joinClasses' ),
+	joinClasses = require( 'fbjs/lib/joinClasses' ),
 	observe = require( 'lib/mixins/data-observe' ),
 	omit = require( 'lodash/object/omit' );
 

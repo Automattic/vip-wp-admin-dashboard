@@ -1,14 +1,18 @@
 {
   "name": "vip-dashboard",
-  "version": "0.0.1",
-  "author": "Filipe Varela",
+  "version": "2.0.4",
+  "author": "WordPress.com VIP",
   "homepage": "http://vip.wordpress.com",
   "description": "A new Dashboard for VIP and VIPv2.",
+  "license": "GPL-2.0+",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Automattic/vip-go-admin-console.git"
+  },
   "scripts": {
     "test": "export NODE_ENV=test; jshint components"
   },
   "authors": [
-    "Filipe Varela <filipe@a8c.com>",
     "WordPress.com VIP <vip@matticspace.com>"
   ],
   "engines": {
@@ -49,15 +53,17 @@
     "watchify": "^3.3.1"
   },
   "dependencies": {
-    "chart.js": "^1.0.2",
-    "classnames": "^2.1.1",
+    "chart.js": "^1.1.1",
+    "classnames": "^2.2.5",
     "debug": "^2.2.0",
-    "events": "^1.0.2",
-    "jed": "^1.1.0",
-    "lodash": "^3.8.0",
-    "moment": "^2.10.3",
-    "react": "^0.13.3",
-    "react-chartjs": "^0.6.0",
-    "superagent": "^1.2.0"
+    "events": "^1.1.1",
+    "fbjs": "^0.8.5",
+    "jed": "^1.1.1",
+    "lodash": "^4.15.0",
+    "moment": "^2.15.1",
+    "react": "^15.3.2",
+    "react-chartjs": "^0.8.0",
+    "react-dom": "^15.3.2",
+    "superagent": "^2.3.0"
   }
 }
