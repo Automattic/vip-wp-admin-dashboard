@@ -23,12 +23,12 @@ module.exports = React.createClass( {
 
 	render: function() {
 		var buttonClasses = React.addons.classSet( {
-			'button': true,
+			button: true,
 			'form-button': true,
 			'is-primary': this.props.isPrimary
 		} );
 
-		return(
+		return (
 			<button
 				{ ...omit( this.props, 'className' ) }
 				className={ joinClasses( this.props.className, buttonClasses ) } >

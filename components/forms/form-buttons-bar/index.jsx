@@ -10,7 +10,7 @@ module.exports = React.createClass( {
 	displayName: 'FormButtonsBar',
 
 	render: function() {
-		return(
+		return (
 			<div
 				{ ...omit( this.props, 'className' ) }
 				className={ joinClasses( this.props.className, 'form-buttons-bar' ) } >

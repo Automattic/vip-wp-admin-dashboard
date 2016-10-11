@@ -12,7 +12,7 @@ module.exports = React.createClass( {
 	render: function() {
 		var otherProps = omit( this.props, [ 'className', 'type' ] );
 
-		return(
+		return (
 			<input
 				{ ...otherProps }
 				type="radio"

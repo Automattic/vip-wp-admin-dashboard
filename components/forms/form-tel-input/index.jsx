@@ -23,7 +23,7 @@ module.exports = React.createClass( {
 				'is-error': this.props.isError
 			} );
 
-		return(
+		return (
 			<input
 				{ ...otherProps }
 				type={ 'tel' }

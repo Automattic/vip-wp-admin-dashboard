@@ -10,7 +10,7 @@ module.exports = React.createClass( {
 	displayName: 'FormSettingExplanation',
 
 	render: function() {
-		return(
+		return (
 			<p { ...omit( this.props, 'className' ) } className={ joinClasses( this.props.className, 'form-setting-explanation' ) } >
 				{ this.props.children }
 			</p>

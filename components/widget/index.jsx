@@ -26,4 +26,5 @@ var Widget = React.createClass( {
 		);
 	}
 } );
+
 module.exports = Widget;

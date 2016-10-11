@@ -10,7 +10,7 @@ module.exports = React.createClass( {
 	displayName: 'FormFieldset',
 
 	render: function() {
-		return(
+		return (
 			<fieldset { ...omit( this.props, 'className' ) } className={ joinClasses( this.props.className, 'form-fieldset' ) } >
 				{ this.props.children }
 			</fieldset>

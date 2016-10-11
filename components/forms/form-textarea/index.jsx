@@ -10,7 +10,7 @@ module.exports = React.createClass( {
 	displayName: 'FormTextarea',
 
 	render: function() {
-		return(
+		return (
 			<textarea { ...omit( this.props, 'className' ) } className={ joinClasses( this.props.className, 'form-textarea' ) } >
 				{ this.props.children }
 			</textarea>

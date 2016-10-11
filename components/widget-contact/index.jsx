@@ -8,9 +8,8 @@ var React = require( 'react' ),
 /**
  * Internal dependencies
  */
-var Config = require( '../config.js' );
+var Config = require( '../config.js' ),
 	Widget = require( '../widget' );
-
 
 /**
  * Contact Widget Component
@@ -27,23 +26,24 @@ var Widget_Contact = React.createClass( {
 			cc: ''
 		};
 	},
-	handleSubmit: function(e) {
+
+	handleSubmit: function( e ) {
 		e.preventDefault();
 
-		this.setState({
+		this.setState( {
 			formclass: 'sending',
 			cansubmit: false
-		});
+		} );
 
-		var name = ReactDOM.findDOMNode(this.refs.user).value.trim();
-		var email = ReactDOM.findDOMNode(this.refs.email).value.trim();
-		var subject = ReactDOM.findDOMNode(this.refs.subject).value.trim();
-		var type = ReactDOM.findDOMNode(this.refs.type).value.trim();
-		var body = ReactDOM.findDOMNode(this.refs.body).value.trim();
-		var priority = ReactDOM.findDOMNode(this.refs.priority).value.trim();
-		var cc = ReactDOM.findDOMNode(this.refs.cc).value.trim();
+		var name = ReactDOM.findDOMNode( this.refs.user ).value.trim();
+		var email = ReactDOM.findDOMNode( this.refs.email ).value.trim();
+		var subject = ReactDOM.findDOMNode( this.refs.subject ).value.trim();
+		var type = ReactDOM.findDOMNode( this.refs.type ).value.trim();
+		var body = ReactDOM.findDOMNode( this.refs.body ).value.trim();
+		var priority = ReactDOM.findDOMNode( this.refs.priority ).value.trim();
+		var cc = ReactDOM.findDOMNode( this.refs.cc ).value.trim();
 
-		data = {
+		var data = {
 			name: name,
 			email: email,
 			subject: subject,
@@ -54,51 +54,48 @@ var Widget_Contact = React.createClass( {
 			action: 'vip_contact'
 		};
 
-		jQuery.ajax({
+		jQuery.ajax( {
 			type: 'POST',
 			url: Config.ajaxurl,
 			data: data,
 			success: function( data, textStatus, jqXHR ) {
+				if ( textStatus === 'success' ) {
+					var result = jQuery.parseJSON( data );
 
-				if ( textStatus == "success") {
-
-					var result = jQuery.parseJSON(data);
-
-					this.setState({
+					this.setState( {
 						message: result.message,
 						status: result.status,
 						formclass: 'form-' + result.status,
 						cansubmit: true
-					});
+					} );
 
 					// reset the form
-					if ( result.status == "success" ) {
-						ReactDOM.findDOMNode(this.refs.subject).value = '';
-						ReactDOM.findDOMNode(this.refs.body).value = '';
-						ReactDOM.findDOMNode(this.refs.cc).value = '';
-						ReactDOM.findDOMNode(this.refs.type).value = 'Technical';
-						ReactDOM.findDOMNode(this.refs.priority).value = 'Medium';
+					if ( result.status === 'success' ) {
+						ReactDOM.findDOMNode( this.refs.subject ).value = '';
+						ReactDOM.findDOMNode( this.refs.body ).value = '';
+						ReactDOM.findDOMNode( this.refs.cc ).value = '';
+						ReactDOM.findDOMNode( this.refs.type ).value = 'Technical';
+						ReactDOM.findDOMNode( this.refs.priority ).value = 'Medium';
 					}
-
 				} else {
-
-					this.setState({
+					this.setState( {
 						message: 'Your message could not be sent, please try again.',
 						status: 'error',
 						cansubmit: true
-					});
+					} );
 				}
-			}.bind(this)
-		});
-
+			}.bind( this )
+		} );
 
 		return;
 	},
+
 	maybeRenderFeedback: function() {
 		if ( this.state.message ) {
 			return <div className={ 'contact-form__' + this.state.status } dangerouslySetInnerHTML={{__html: this.state.message}}></div>;
 		}
 	},
+
 	render: function() {
 		return (
 			<Widget className={ joinClasses( this.state.formclass, 'widget__contact-form' ) } title="Contact WordPress.com VIP Support">
@@ -188,4 +185,5 @@ var Widget_Contact = React.createClass( {
 		);
 	}
 } );
+
 module.exports = Widget_Contact;
