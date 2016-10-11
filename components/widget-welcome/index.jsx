@@ -64,4 +64,5 @@ var Widget_Welcome = React.createClass( {
 		);
 	}
 } );
+
 module.exports = Widget_Welcome;
