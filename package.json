@@ -1,7 +1,6 @@
 {
   "name": "vip-dashboard",
   "version": "2.0.4",
-  "author": "WordPress.com VIP",
   "homepage": "http://vip.wordpress.com",
   "description": "A new Dashboard for VIP and VIPv2.",
   "license": "GPL-2.0+",
@@ -12,9 +11,6 @@
   "scripts": {
     "test": "export NODE_ENV=test; jshint components"
   },
-  "authors": [
-    "WordPress.com VIP <vip@matticspace.com>"
-  ],
   "engines": {
     "node": ">= 0.10.0"
   },
