@@ -9,7 +9,8 @@
     "url": "https://github.com/Automattic/vip-go-admin-console.git"
   },
   "scripts": {
-    "test": "export NODE_ENV=test; jshint components"
+    "test": "NODE_ENV=test npm run-script lint",
+    "lint": "node_modules/.bin/eslint components"
   },
   "engines": {
     "node": ">= 0.10.0"
