@@ -99,6 +99,8 @@ function vip_dashboard_page() {
  */
 function vip_contact_form_handler() {
 
+	add_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+
 	// check for required fields and nonce
 	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
 
@@ -252,6 +254,9 @@ function vip_contact_form_handler() {
 			'status'=> 'success',
 			'message' => __( 'Your support request is on its way, we will be in touch soon.', 'vip-dashboard' )
 		);
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+
 		echo json_encode( $return );
 		die();
 
@@ -265,6 +270,9 @@ function vip_contact_form_handler() {
 			'status'=> 'error',
 			'message' => sprintf( __( 'There was an error sending the support request. %1$s', 'vip-dashboard' ),  $manual_link )
 		);
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+
 		echo json_encode( $return );
 		die();
 	}
@@ -371,4 +379,14 @@ function wpcom_vip_menu_order( $menu_ord ) {
 	}
 
 	return $vip_order;
+}
+
+/**
+ * Filter the from email address, temporary fix
+ *
+ * @param  string $original_email email to filter.
+ * @return string
+ */
+function wpcom_vip_filter_from_dashboard( $original_email ) {
+	return 'vip-support@wordpress.com';
 }
