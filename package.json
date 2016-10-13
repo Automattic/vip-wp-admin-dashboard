@@ -2,7 +2,7 @@
   "name": "vip-dashboard",
   "version": "2.0.4",
   "homepage": "http://vip.wordpress.com",
-  "description": "A new Dashboard for VIP and VIPv2.",
+  "description": "WordPress.com VIP Go Dashboard",
   "license": "GPL-2.0+",
   "repository": {
     "type": "git",
