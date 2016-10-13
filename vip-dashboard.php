@@ -241,9 +241,13 @@ function vip_contact_form_handler() {
 		}
 	}
 
+	add_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+
 	// send the email and unlink upload if required
 	$headers = "From: \"$name\" <$email>\r\n";
 	if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
 
 		if ( $new_tmp_name )
 			unlink( $new_tmp_name );
@@ -252,10 +256,13 @@ function vip_contact_form_handler() {
 			'status'=> 'success',
 			'message' => __( 'Your support request is on its way, we will be in touch soon.', 'vip-dashboard' )
 		);
+
 		echo json_encode( $return );
 		die();
 
 	} else {
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
 
 		if ( $new_tmp_name )
 			unlink( $new_tmp_name );
@@ -265,6 +272,7 @@ function vip_contact_form_handler() {
 			'status'=> 'error',
 			'message' => sprintf( __( 'There was an error sending the support request. %1$s', 'vip-dashboard' ),  $manual_link )
 		);
+
 		echo json_encode( $return );
 		die();
 	}
@@ -371,4 +379,14 @@ function wpcom_vip_menu_order( $menu_ord ) {
 	}
 
 	return $vip_order;
+}
+
+/**
+ * Filter the from email address, temporary fix
+ *
+ * @param  string $original_email email to filter.
+ * @return string
+ */
+function wpcom_vip_filter_from_dashboard( $original_email ) {
+	return 'vip-support@wordpress.com';
 }

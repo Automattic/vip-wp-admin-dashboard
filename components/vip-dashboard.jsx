@@ -11,12 +11,12 @@ var React = require( 'react' ),
  * Internal dependencies
  */
 var Main = require( './main' ),
-	Header = require( './header' );
+	Header = require( './header' ),
 	// Stats = require( './stats' ),
 	// Stats_Charts = require( './stats-charts' ),
 	// Stats_Numbers = require( './stats-numbers' ),
-	// Widget_Contact = require( './widget-contact' ),
-	// Widget_Welcome = require( './widget-welcome' ),
+	Widget_Contact = require( './widget-contact' ),
+	Widget_Welcome = require( './widget-welcome' );
 	// Widget_Editorial = require( './widget-editorial' ),
 	// Widget_Promo = require( './widget-promo' );
 
