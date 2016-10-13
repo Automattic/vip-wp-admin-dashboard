@@ -99,8 +99,6 @@ function vip_dashboard_page() {
  */
 function vip_contact_form_handler() {
 
-	add_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
-
 	// check for required fields and nonce
 	if ( !isset( $_POST['body'], $_POST['subject'], $_GET['_wpnonce'] ) ) {
 
@@ -243,9 +241,13 @@ function vip_contact_form_handler() {
 		}
 	}
 
+	add_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+
 	// send the email and unlink upload if required
 	$headers = "From: \"$name\" <$email>\r\n";
 	if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako, $attachments ) ) {
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
 
 		if ( $new_tmp_name )
 			unlink( $new_tmp_name );
@@ -255,12 +257,12 @@ function vip_contact_form_handler() {
 			'message' => __( 'Your support request is on its way, we will be in touch soon.', 'vip-dashboard' )
 		);
 
-		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
-
 		echo json_encode( $return );
 		die();
 
 	} else {
+
+		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
 
 		if ( $new_tmp_name )
 			unlink( $new_tmp_name );
@@ -270,8 +272,6 @@ function vip_contact_form_handler() {
 			'status'=> 'error',
 			'message' => sprintf( __( 'There was an error sending the support request. %1$s', 'vip-dashboard' ),  $manual_link )
 		);
-
-		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
 
 		echo json_encode( $return );
 		die();
