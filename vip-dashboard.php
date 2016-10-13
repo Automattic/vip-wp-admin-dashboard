@@ -87,7 +87,7 @@ function vip_dashboard_page() {
 		data-asseturl="<?php echo esc_attr( plugins_url( '/assets/', __FILE__ ) ); ?>"
 		data-email="<?php echo esc_attr( $email ); ?>"
 		data-name="<?php echo esc_attr( $name ); ?>"
-		data-adminurl="<?php echo esc_attr( admin_url( 'admin.php' ) ); ?>"
+		data-adminurl="<?php echo esc_url( admin_url( 'admin.php' ) ); ?>"
 	></div>
 	<?php
 }
