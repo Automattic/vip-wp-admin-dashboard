@@ -192,16 +192,23 @@ var b = watchify( browserify( opts ) );
 b.transform( reactify );
  //b.on('log', util.log); // output build logs to terminal
 
-gulp.task( 'react', ['lint'], function() {
+gulp.task( 'react', ['lint', 'set-node-env'], function() {
 	return b.bundle()
 		.on( 'error', onError )
 		.pipe( source( 'vip-dashboard.js' ) )
 		.pipe( buffer() )
 		.pipe( sourcemaps.init( {loadMaps: true} ) )
-		//.pipe(uglify())
+		.pipe( uglify() )
 		.pipe( sourcemaps.write( './' ) )
 		.pipe( gulp.dest( settings.jspath ) )
 		.pipe( browsersync.reload( {stream: true} ) );
+} );
+
+/**
+ * Set env variable for production
+ */
+gulp.task( 'set-node-env', function() {
+	return process.env.NODE_ENV = 'production';
 } );
 
 /**
