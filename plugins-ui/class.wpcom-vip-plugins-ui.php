@@ -133,6 +133,7 @@ class WPCOM_VIP_Plugins_UI {
 		$this->hidden_plugins = array(
 			'internacional', // Not ready yet (ever?)
 			'wpcom-legacy-redirector', // requires code-level changes
+			'maintenance-mode', // requires theme-level changes
 
 			// Premium
 			'new-device-notification',
