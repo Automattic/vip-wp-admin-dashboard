@@ -198,13 +198,17 @@ function vip_contact_form_handler() {
 	// send date and time.
 	$content .= sprintf( "\n\nSent from %s on %s", home_url(), date( 'c', current_time( 'timestamp', 1 ) ) );
 
-	add_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
+	// Filter from name/email. NOTE - not un-hooking the filter because we die() immediately after wp_mail()
+	add_filter( 'wp_mail_from', function(){
+		return $email;
+	});
+
+	add_filter( 'wp_mail_from_name', function() {
+		return $name;
+	});
 
 	$headers = "From: \"$name\" <$email>\r\n";
 	if ( wp_mail( $vipsupportemailaddy, $subject, $content, $headers . $cc_headers_to_kayako ) ) {
-
-		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
-
 		$return = array(
 			'status' => 'success',
 			'message' => __( 'Your support request is on its way, we will be in touch soon.', 'vip-dashboard' ),
@@ -214,9 +218,6 @@ function vip_contact_form_handler() {
 		die();
 
 	} else {
-
-		remove_filter( 'wp_mail_from', 'wpcom_vip_filter_from_dashboard' );
-
 		$manual_link = vip_echo_mailto_vip_hosting( __( 'Please send in a request manually.', 'vip-dashboard' ), false );
 		$return = array(
 			'status' => 'error',
@@ -344,14 +345,4 @@ function wpcom_vip_menu_order( $menu_ord ) {
 	}
 
 	return $vip_order;
-}
-
-/**
- * Filter the from email address, temporary fix
- *
- * @param  string $original_email email to filter.
- * @return string
- */
-function wpcom_vip_filter_from_dashboard( $original_email ) {
-	return 'vip-support@wordpress.com';
 }
