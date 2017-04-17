@@ -346,3 +346,25 @@ function wpcom_vip_menu_order( $menu_ord ) {
 
 	return $vip_order;
 }
+
+/**
+ * Load `vipgo-helper.php` if it exists for a community plugin
+ *
+ * Loaded at priority 6 because all plugins are typically loaded before 'plugins_loaded', and the UI-enabled plugins use priority 5
+ */
+function wpcom_vip_load_helpers_for_community_plugins() {
+	$community_plugins = get_option( 'active_plugins' );
+
+	if ( empty( $community_plugins ) ) {
+		return;
+	}
+
+	foreach ( $community_plugins as $community_plugin ) {
+		$helper_path = WP_PLUGIN_DIR . '/' . dirname( $community_plugin ) . '/vipgo-helper.php';
+
+		if ( file_exists( $helper_path ) ) {
+			include_once $helper_path;
+		}
+	}
+}
+add_action( 'plugins_loaded', 'wpcom_vip_load_helpers_for_community_plugins', 6 );
