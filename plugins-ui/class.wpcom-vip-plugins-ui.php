@@ -169,10 +169,6 @@ class WPCOM_VIP_Plugins_UI {
 		);
 
 		$this->fpp_plugins = array(
-			'browsi'       => array(
-				'name'        => 'Brow.si',
-				'description' => 'Drive more engagement and better monetization on mobile web with Brow.si on your site.',
-			),
 			'chartbeat'     => array(
 				'name'        => 'Chartbeat',
 				'description' => 'Get a free trial to see your site\'s real-time data.',
@@ -180,15 +176,6 @@ class WPCOM_VIP_Plugins_UI {
 			'co-schedule'     => array(
 				'name'        => 'CoSchedule',
 				'description' => 'Plan awesome content. Save a bunch of time.',
-			),
-			'facebook'       => array(
-				'name'        => 'Facebook',
-				'description' => 'Make your WordPress site social in a few clicks, powered by Facebook.',
-			),
-			'findthebest'       => array(
-				'name'        => 'FindTheBest',
-				'description' => 'Add visual, interactive content that matches your post and
-				boosts your credibility.',
 			),
 			'getty-images'       => array(
 				'name'        => 'Getty Images',
@@ -201,14 +188,6 @@ class WPCOM_VIP_Plugins_UI {
 			'jwplayer' => array(
 				'name'        => 'JW Player',
 				'description' => 'The World’s Most Popular Video Player.',
-			),
-			'livefyre-apps'   => array(
-				'name'        => 'Livefyre',
-				'description' => 'Replace comments with live conversations connected to the social web.',
-			),
-			'mediapass'     => array(
-				'name'        => 'MediaPass Subscriptions',
-				'description' => 'Monetize your content with recurring subscriptions made easy.',
 			),
 			'postrelease-vip'        => array(
 				'name'        => 'Nativo',
