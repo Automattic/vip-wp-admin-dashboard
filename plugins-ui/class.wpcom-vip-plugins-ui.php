@@ -202,10 +202,6 @@ class WPCOM_VIP_Plugins_UI {
 				'name'        => 'Livefyre',
 				'description' => 'Replace comments with live conversations connected to the social web.',
 			),
-			'mediapass'     => array(
-				'name'        => 'MediaPass Subscriptions',
-				'description' => 'Monetize your content with recurring subscriptions made easy.',
-			),
 			'postrelease-vip'        => array(
 				'name'        => 'Nativo',
 				'description' => 'Unlock a premium revenue stream with native ads.',
