@@ -177,10 +177,6 @@ class WPCOM_VIP_Plugins_UI {
 				'name'        => 'CoSchedule',
 				'description' => 'Plan awesome content. Save a bunch of time.',
 			),
-			'facebook'       => array(
-				'name'        => 'Facebook',
-				'description' => 'Make your WordPress site social in a few clicks, powered by Facebook.',
-			),
 			'findthebest'       => array(
 				'name'        => 'FindTheBest',
 				'description' => 'Add visual, interactive content that matches your post and
