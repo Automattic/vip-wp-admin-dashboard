@@ -169,10 +169,6 @@ class WPCOM_VIP_Plugins_UI {
 		);
 
 		$this->fpp_plugins = array(
-			'browsi'       => array(
-				'name'        => 'Brow.si',
-				'description' => 'Drive more engagement and better monetization on mobile web with Brow.si on your site.',
-			),
 			'chartbeat'     => array(
 				'name'        => 'Chartbeat',
 				'description' => 'Get a free trial to see your site\'s real-time data.',
