@@ -177,11 +177,6 @@ class WPCOM_VIP_Plugins_UI {
 				'name'        => 'CoSchedule',
 				'description' => 'Plan awesome content. Save a bunch of time.',
 			),
-			'findthebest'       => array(
-				'name'        => 'FindTheBest',
-				'description' => 'Add visual, interactive content that matches your post and
-				boosts your credibility.',
-			),
 			'getty-images'       => array(
 				'name'        => 'Getty Images',
 				'description' => 'Search and use Getty Images photos in your posts without ever leaving WordPress.com.',
