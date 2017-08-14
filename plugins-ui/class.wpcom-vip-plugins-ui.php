@@ -473,11 +473,6 @@ class WPCOM_VIP_Plugins_UI {
 			}
 		}
 
-		// Only show activation links if they aren't disabled
-		elseif ( ! $this->activation_disabled ) {
-			// $actions['activate'] = '<a href="' . esc_url( WPCOM_VIP_Plugins_UI()->get_plugin_activation_link( $plugin ) ) . '" title="' . esc_attr__( 'Activate this plugin' ) . '" class="edit">' . __( 'Activate' ) . '</a>';
-		}
-
 		return $actions;
 	}
 

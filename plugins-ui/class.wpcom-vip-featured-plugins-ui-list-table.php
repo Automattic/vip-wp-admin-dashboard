@@ -111,10 +111,6 @@ class WPCOM_VIP_Featured_Plugins_List_Table extends WP_List_Table {
 						} elseif ( 'manual' === $is_active ) {
 							echo '<span title="To deactivate this particular plugin, edit your theme\'s functions.php file" class="fp-text">' . esc_html__( "Enabled via your theme's code" ) . '</span>';
 						}
-					} elseif ( ! $this->activation_disabled ) {
-						// echo '<a href="' . esc_url( WPCOM_VIP_Plugins_UI()->get_plugin_activation_link( $slug ) ) . '" class="fp-button" title="' . esc_attr__( 'Activate this plugin' ) . '" class="edit">' . esc_html__( 'Activate Plugin' ) . '</a>';
-						// echo '<span class="fp-text">' . esc_html__( 'Activating Plugin' ) . '</span>';
-
 					}
 					?>
 				</div>
