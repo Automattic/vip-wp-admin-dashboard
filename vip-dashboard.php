@@ -372,11 +372,13 @@ function wpcom_vip_get_filtered_loaded_plugins() {
  */
 function wpcom_vip_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 	if ( in_array( $plugin_file, wpcom_vip_get_filtered_loaded_plugins(), true ) ) {
-		$actions['deactivate'] = __( 'Enabled via code', 'vip-dashboard' );
+		if ( array_key_exists( 'activate', $actions ) ) {
+			$actions['activate'] = __( 'Enabled via code', 'vip-dashboard' );
+		}
+		if ( array_key_exists( 'deactivate', $actions ) ) {
+			$actions['deactivate'] = __( 'Enabled via code', 'vip-dashboard' );
+		}
 	}
-
-	// plugins cannot be deleted on VIP Go
-	unset( $actions['delete'] );
 
 	return $actions;
 }
@@ -397,15 +399,11 @@ function wpcom_vip_option_active_plugins( $value, $option ) {
 }
 add_filter( 'option_active_plugins', 'wpcom_vip_option_active_plugins', 10, 2 );
 
-/**
- * Disable ability to bulk update or delete plugins
- * @param  array $bulk_actions
- * @return array
- */
-function wpcom_vip_bulk_actions_plugins( $bulk_actions ) {
-	unset( $bulk_actions['delete-selected'] );
-	unset( $bulk_actions['update-selected'] );
+function wpcom_vip_pre_update_option_active_plugins( $value, $old_value, $option ) {
+	$code_plugins = wpcom_vip_get_filtered_loaded_plugins();
+	$value = array_diff( $value, $code_plugins );
 
-	return $bulk_actions;
+	return $value;
 }
-add_filter( 'bulk_actions-plugins', 'wpcom_vip_bulk_actions_plugins', 10, 1 );
+add_filter( 'pre_update_option_active_plugins', 'wpcom_vip_pre_update_option_active_plugins', 10, 3 );
+
