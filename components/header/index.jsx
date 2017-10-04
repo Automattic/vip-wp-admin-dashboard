@@ -23,10 +23,6 @@ var Header = React.createClass( {
 				{
 					title: 'Dashboard',
 					url: 'vip-dashboard'
-				},
-				{
-					title: 'Plugins',
-					url: 'vip-plugins'
 				}
 			]
 		};

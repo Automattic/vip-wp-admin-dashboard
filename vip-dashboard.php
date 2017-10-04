@@ -13,15 +13,6 @@
 */
 
 /**
- * Initiate the WPCOM_VIP_Plugins_UI class immediately as the WPCOM_VIP_Plugins_UI
- * class manages it's own actions and priorities
- *
- * Despite it's name, the class is also responsible for loading the plugins on both
- * frontend and backend, so it always has to be loaded and initialised
- */
-// require __DIR__ . '/plugins-ui/plugins-ui.php';
-
-/**
  * Boot the new VIP Dashboard
  *
  * @return void
