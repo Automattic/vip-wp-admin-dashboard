@@ -334,10 +334,50 @@ function wpcom_vip_featured_plugins() {
 		return;
 	}
 
-	// todo: integrate with API
+	$plugins = wp_cache_get( 'wpcom_vip_featured_plugins' );
+
+	if ( false === $plugins ) {
+		$plugins = array();
+		$url_for_featured_plugins = 'https://vip.wordpress.com/wp-json/vip/v1/plugins/featured-technology';
+		$api = vip_safe_wp_remote_get( $url_for_featured_plugins, false, 3, 5 );
+
+		if ( ! $api || is_wp_error( $api ) ) {
+			// fail silently
+			return;
+		}
+
+		$plugins = json_decode( $api['body'] );
+		if ( ! empty( $plugins ) ) {
+			wp_cache_set( 'wpcom_vip_featured_plugins', $plugins, '', HOUR_IN_SECONDS * 4 );
+		} else {
+			return;
+		}
+	}
 	?>
-	<div class="featured-plugins notice" style="background: #fff; padding: 20px; margin: 20px 0; clear: both;">
-		<span>Featured partner plugins</span>
+	<div class="featured-plugins notice">
+		<h3><?php _e( 'VIP Featured Plugins', 'vip-dashboard' ); ?></h3>
+		<?php
+		foreach ( $plugins as $key => $plugin ) {
+			?>
+			<div class="plugin">
+				<a class="fp-content" href="<?php echo esc_attr( $plugin->meta->plugin_url ); ?>" target="_blank">
+					<img src="<?php echo esc_attr( $plugin->meta->listing_logo ); ?>" alt="<?php echo esc_attr( $plugin->post_title ); ?>" />
+					<h4><?php echo esc_html( $plugin->post_title ); ?></h4>
+					<p><?php echo esc_html( $plugin->meta->listing_description ); ?></p>
+				</a>
+				<a class="fp-overlay" href="<?php echo esc_attr( $plugin->meta->plugin_url ); ?>" target="_blank">
+					<div class="fp-overlay-inner">
+						<div class="fp-overlay-cell">
+							<span>	
+								<?php _e( 'More Information', 'vip-dashboard' ); ?>
+							</span>
+						</div>
+					</div>
+				</a>
+			</div>
+			<?php
+		}
+		?>
 	</div>
 	<?php
 }
@@ -351,10 +391,10 @@ add_action( 'admin_notices', 'wpcom_vip_featured_plugins', 99 );
 function wpcom_vip_get_filtered_loaded_plugins() {
 	$code_plugins = wpcom_vip_get_loaded_plugins();
 	foreach ( $code_plugins as $key => $plugin ) {
-		if ( strpos( $plugin, 'shared-plugins' ) !== false ) {
-			unset( $code_plugins[ $key ] );
+		if ( substr( $plugin, 0, 8 ) === 'plugins/' ) {
+			$code_plugins[ $key ] = preg_replace( '/^(plugins\/)/i', '', $plugin );
 		} else {
-			$code_plugins[ $key ] = str_replace( 'plugins/', '', $plugin );
+			unset( $code_plugins[ $key ] );
 		}
 	}
 
@@ -373,16 +413,18 @@ function wpcom_vip_get_filtered_loaded_plugins() {
 function wpcom_vip_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
 	if ( in_array( $plugin_file, wpcom_vip_get_filtered_loaded_plugins(), true ) ) {
 		if ( array_key_exists( 'activate', $actions ) ) {
-			$actions['activate'] = __( 'Enabled via code', 'vip-dashboard' );
+			unset( $actions['activate'] );
 		}
 		if ( array_key_exists( 'deactivate', $actions ) ) {
-			$actions['deactivate'] = __( 'Enabled via code', 'vip-dashboard' );
+			unset( $actions['deactivate'] );
 		}
+		$actions['vip-code-activated-plugin'] = __( 'Enabled via code', 'vip-dashboard' );
 	}
 
 	return $actions;
 }
 add_filter( 'plugin_action_links', 'wpcom_vip_plugin_action_links', 10, 4 );
+add_filter( 'network_admin_plugin_action_links', 'wpcom_vip_plugin_action_links', 10, 4 );
 
 /**
  * Merge code activated plugins with database option for better UI experience
@@ -399,6 +441,14 @@ function wpcom_vip_option_active_plugins( $value, $option ) {
 }
 add_filter( 'option_active_plugins', 'wpcom_vip_option_active_plugins', 10, 2 );
 
+/**
+ * Unmerge code activated plugins from active plugins option (reverse of the above)
+ *
+ * @param  array $value
+ * @param  array $old_value
+ * @param  string $option
+ * @return array
+ */
 function wpcom_vip_pre_update_option_active_plugins( $value, $old_value, $option ) {
 	$code_plugins = wpcom_vip_get_filtered_loaded_plugins();
 	$value = array_diff( $value, $code_plugins );
@@ -407,3 +457,20 @@ function wpcom_vip_pre_update_option_active_plugins( $value, $old_value, $option
 }
 add_filter( 'pre_update_option_active_plugins', 'wpcom_vip_pre_update_option_active_plugins', 10, 3 );
 
+/**
+ * Custom CSS and JS for the plugins UIs
+ *
+ * @return null
+ */
+function wpcom_vip_plugins_ui_admin_enqueue_scripts() {
+	$screen = get_current_screen();
+	if ( 'plugins' === $screen->id || 'plugins-network' === $screen->id ) {
+		wp_register_style( 'vip-plugins-style', plugins_url( '/assets/css/plugins-ui.css', __FILE__ ) , '3.0' );
+		wp_enqueue_style( 'vip-plugins-style' );
+
+		wp_register_script( 'vip-plugins-script', plugins_url( '/assets/js/plugins-ui.js', __FILE__ ), array( 'jquery' ), '3.0', true );
+		wp_enqueue_script( 'vip-plugins-script' );
+	}
+
+}
+add_action( 'admin_enqueue_scripts', 'wpcom_vip_plugins_ui_admin_enqueue_scripts' );
