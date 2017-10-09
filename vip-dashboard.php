@@ -328,9 +328,9 @@ function wpcom_vip_menu_order( $menu_ord ) {
 }
 
 function wpcom_vip_featured_plugins() {
-	global $hook_suffix;
+	$screen = get_current_screen();
 
-	if ( 'plugins.php' !== $hook_suffix ) {
+	if ( ! ( 'plugins' === $screen->id || 'plugins-network' === $screen->id ) ) {
 		return;
 	}
 
@@ -382,6 +382,7 @@ function wpcom_vip_featured_plugins() {
 	<?php
 }
 add_action( 'admin_notices', 'wpcom_vip_featured_plugins', 99 );
+add_action( 'network_admin_notices', 'wpcom_vip_featured_plugins', 99 );
 
 /**
  * Returns a filtered list of code activated plugins similar to core plugins Option
@@ -402,6 +403,21 @@ function wpcom_vip_get_filtered_loaded_plugins() {
 }
 
 /**
+ * Returns a filtered list of code activated plugins similar to network plugins option
+ *
+ * @return array list of filtered, active plugins
+ */
+function wpcom_vip_get_network_filtered_loaded_plugins() {
+	$code_plugins = wpcom_vip_get_filtered_loaded_plugins();
+	foreach ( $code_plugins as $key => $plugin ) {
+		unset( $code_plugins[ $key ] );
+		$code_plugins[ $plugin ] = filemtime( __FILE__ );
+	}
+
+	return $code_plugins;
+}
+
+/**
  * Ensure code activated plugins are shown as such on core plugins screens
  *
  * @param  array $actions
@@ -411,6 +427,7 @@ function wpcom_vip_get_filtered_loaded_plugins() {
  * @return array
  */
 function wpcom_vip_plugin_action_links( $actions, $plugin_file, $plugin_data, $context ) {
+	$screen = get_current_screen();
 	if ( in_array( $plugin_file, wpcom_vip_get_filtered_loaded_plugins(), true ) ) {
 		if ( array_key_exists( 'activate', $actions ) ) {
 			unset( $actions['activate'] );
@@ -419,6 +436,10 @@ function wpcom_vip_plugin_action_links( $actions, $plugin_file, $plugin_data, $c
 			unset( $actions['deactivate'] );
 		}
 		$actions['vip-code-activated-plugin'] = __( 'Enabled via code', 'vip-dashboard' );
+
+		if ( 'plugins' === $screen->id ) {
+			unset( $actions['network_active'] );
+		}
 	}
 
 	return $actions;
@@ -442,6 +463,22 @@ function wpcom_vip_option_active_plugins( $value, $option ) {
 add_filter( 'option_active_plugins', 'wpcom_vip_option_active_plugins', 10, 2 );
 
 /**
+ * Merge code activated plugins with network database option for better UI experience
+ *
+ * @param  array $value
+ * @param  string $option
+ * @return array
+ */
+function wpcom_vip_site_option_active_sitewide_plugins( $value, $option ) {
+	$code_plugins = wpcom_vip_get_network_filtered_loaded_plugins();
+	$value = array_merge( $code_plugins, $value );
+
+	return $value;
+
+}
+add_filter( 'site_option_active_sitewide_plugins', 'wpcom_vip_site_option_active_sitewide_plugins', 10, 2 );
+
+/**
  * Unmerge code activated plugins from active plugins option (reverse of the above)
  *
  * @param  array $value
@@ -456,6 +493,23 @@ function wpcom_vip_pre_update_option_active_plugins( $value, $old_value, $option
 	return $value;
 }
 add_filter( 'pre_update_option_active_plugins', 'wpcom_vip_pre_update_option_active_plugins', 10, 3 );
+
+/**
+ * Unmerge code activated plugins from network active plugins option (reverse of the above)
+ *
+ * @param  array $value
+ * @param  array $old_value
+ * @param  string $option
+ * @param  int $network_id
+ * @return array
+ */
+function wpcom_vip_pre_update_site_option_active_sitewide_plugins( $value, $old_value, $option, $network_id ) {
+	$code_plugins = wpcom_vip_get_network_filtered_loaded_plugins();
+	$value = array_diff( $value, $code_plugins );
+
+	return $value;
+}
+add_filter( 'pre_update_site_option_active_sitewide_plugins', 'wpcom_vip_pre_update_site_option_active_sitewide_plugins', 10, 4 );
 
 /**
  * Custom CSS and JS for the plugins UIs
