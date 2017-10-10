@@ -338,7 +338,7 @@ function wpcom_vip_featured_plugins() {
 
 	if ( false === $plugins ) {
 		$plugins = array();
-		$url_for_featured_plugins = 'https://vip.wordpress.com/wp-json/vip/v1/plugins/featured-technology';
+		$url_for_featured_plugins = 'https://vip.wordpress.com/wp-json/vip/v1/partners?type=technology';
 		$api = vip_safe_wp_remote_get( $url_for_featured_plugins, false, 3, 5 );
 
 		if ( ! $api || is_wp_error( $api ) ) {
