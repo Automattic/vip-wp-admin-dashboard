@@ -327,32 +327,55 @@ function wpcom_vip_menu_order( $menu_ord ) {
 	return $vip_order;
 }
 
-function wpcom_vip_featured_plugins() {
+/**
+ * Retrieve featured plugins from the vip.wordpress.com API
+ *
+ * @return array an array of plugins
+ */
+function wpcom_vip_fetch_vip_featured_plugins() {
+	$plugins = wp_cache_get( 'wpcom_vip_featured_plugins' );
+
+	if ( false === $plugins ) {
+		$plugins = array();
+		$url_for_featured_plugins = 'https://vip.wordpress.com/wp-json/vip/v1/plugins?type=technology';
+		$response = vip_safe_wp_remote_get( $url_for_featured_plugins, false, 3, 5 );
+
+		if ( ! $response || is_wp_error( $response ) ) {
+			trigger_error( 'The API on vip.wordpress.com is not responding (' . esc_url( $url_for_featured_plugins ) . ')' );
+			return false;
+		}
+
+		$plugins = json_decode( $response['body'] );
+
+		if ( empty( $plugins ) ) {
+			return false;
+		}
+
+		wp_cache_set( 'wpcom_vip_featured_plugins', $plugins, '', HOUR_IN_SECONDS * 4 );
+	}
+
+	return $plugins;
+}
+
+/**
+ * Render the featured partner plugins to the plugins screenReaderText
+ * Uses the notice hooks as that is all we have on these pages
+ *
+ * @return null
+ */
+function wpcom_vip_render_vip_featured_plugins() {
 	$screen = get_current_screen();
 
 	if ( ! ( 'plugins' === $screen->id || 'plugins-network' === $screen->id ) ) {
 		return;
 	}
 
-	$plugins = wp_cache_get( 'wpcom_vip_featured_plugins' );
+	$plugins = wpcom_vip_fetch_vip_featured_plugins();
 
-	if ( false === $plugins ) {
-		$plugins = array();
-		$url_for_featured_plugins = 'https://vip.wordpress.com/wp-json/vip/v1/partners?type=technology';
-		$api = vip_safe_wp_remote_get( $url_for_featured_plugins, false, 3, 5 );
-
-		if ( ! $api || is_wp_error( $api ) ) {
-			// fail silently
-			return;
-		}
-
-		$plugins = json_decode( $api['body'] );
-		if ( ! empty( $plugins ) ) {
-			wp_cache_set( 'wpcom_vip_featured_plugins', $plugins, '', HOUR_IN_SECONDS * 4 );
-		} else {
-			return;
-		}
+	if ( ! $plugins ) {
+		return;
 	}
+
 	?>
 	<div class="featured-plugins notice">
 		<h3><?php _e( 'VIP Featured Plugins', 'vip-dashboard' ); ?></h3>
@@ -381,8 +404,8 @@ function wpcom_vip_featured_plugins() {
 	</div>
 	<?php
 }
-add_action( 'admin_notices', 'wpcom_vip_featured_plugins', 99 );
-add_action( 'network_admin_notices', 'wpcom_vip_featured_plugins', 99 );
+add_action( 'admin_notices', 'wpcom_vip_render_vip_featured_plugins', 99 );
+add_action( 'network_admin_notices', 'wpcom_vip_render_vip_featured_plugins', 99 );
 
 /**
  * Returns a filtered list of code activated plugins similar to core plugins Option
@@ -519,11 +542,8 @@ add_filter( 'pre_update_site_option_active_sitewide_plugins', 'wpcom_vip_pre_upd
 function wpcom_vip_plugins_ui_admin_enqueue_scripts() {
 	$screen = get_current_screen();
 	if ( 'plugins' === $screen->id || 'plugins-network' === $screen->id ) {
-		wp_register_style( 'vip-plugins-style', plugins_url( '/assets/css/plugins-ui.css', __FILE__ ) , '3.0' );
-		wp_enqueue_style( 'vip-plugins-style' );
-
-		wp_register_script( 'vip-plugins-script', plugins_url( '/assets/js/plugins-ui.js', __FILE__ ), array( 'jquery' ), '3.0', true );
-		wp_enqueue_script( 'vip-plugins-script' );
+		wp_enqueue_style( 'vip-plugins-style', plugins_url( '/assets/css/plugins-ui.css', __FILE__ ) , '3.0' );
+		wp_enqueue_script( 'vip-plugins-script', plugins_url( '/assets/js/plugins-ui.js', __FILE__ ), array( 'jquery' ), '3.0', true );
 	}
 
 }
