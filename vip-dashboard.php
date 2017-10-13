@@ -4,7 +4,7 @@
  * Plugin URI: http://vip.wordpress.com
  * Description: WordPress VIP Go Dashboard
  * Author: Scott Evans, Filipe Varela
- * Version: 2.0.4
+ * Version: 2.1.0
  * Author URI: http://vip.wordpress.com
  * License: GPLv2 or later
  * License URI: http://www.gnu.org/licenses/gpl-2.0.html
