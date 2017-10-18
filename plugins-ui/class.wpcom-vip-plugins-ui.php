@@ -447,12 +447,25 @@ class WPCOM_VIP_Plugins_UI {
 	 * @return string|bool "option" if the plugin was activated via UI, "manual" if activated via code, and false if not activated.
 	 */
 	public function is_plugin_active( $plugin ) {
-		if ( in_array( $plugin, $this->get_active_plugins_option() ) )
-			return 'option';
-		elseif ( in_array( 'shared-plugins/' . $plugin, wpcom_vip_get_loaded_plugins() ) )
-			return 'manual';
-		else
-			return false;
+		if ( ! defined( WPCOM_VIP_DISABLE_SHARED_PLUGINS ) && true !== WPCOM_VIP_DISABLE_SHARED_PLUGINS ) {
+			// pre retired shared plugins behaviour
+			if ( in_array( $plugin, $this->get_active_plugins_option(), true ) ) {
+				return 'option';
+			} elseif ( in_array( 'shared-plugins/' . $plugin, wpcom_vip_get_loaded_plugins(), true ) ) {
+				return 'manual';
+			} else {
+				return false;
+			}
+		} else {
+			// post retired shared plugins behaviour
+			if ( in_array( 'shared-plugins/' . $plugin, wpcom_vip_get_loaded_plugins(), true ) ) {
+				return 'manual';
+			} elseif ( function_exists( 'wpcom_vip_can_use_shared_plugin' ) && wpcom_vip_can_use_shared_plugin( $plugin ) ) {
+				return 'option';
+			} else {
+				return false;
+			}
+		}
 	}
 
 	/**
