@@ -61,6 +61,6 @@
     "react": "^15.3.2",
     "react-chartjs": "^0.8.0",
     "react-dom": "^15.3.2",
-    "superagent": "^2.3.0"
+    "superagent": "^3.8.3"
   }
 }
