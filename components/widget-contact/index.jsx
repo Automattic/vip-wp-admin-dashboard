@@ -133,9 +133,8 @@ var Widget_Contact = React.createClass( {
 						</div>
 						<div className="contact-form__input">
 							<select id="contact-form__type" ref="type" defaultValue="Technical">
-								<option value="Technical">Technical</option>
-								<option value="Business">Business/Project Management</option>
-								<option value="Review">Theme/Plugin Review</option>
+								<option value="New">New ticket</option>
+								<option value="Review">Review a PR (please link to PR)</option>
 							</select>
 						</div>
 					</div>

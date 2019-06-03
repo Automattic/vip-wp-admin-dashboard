@@ -117,8 +117,12 @@ function vip_contact_form_handler() {
 	}
 
 	$subject       = ( ! empty( $_POST['subject'] ) ) ? strip_tags( stripslashes( $_POST['subject'] ) ) : '';
-	$group         = ( ! empty( $_POST['type'] ) ) ? strip_tags( stripslashes( $_POST['type'] ) ) : 'Technical';
+	$group         = ( ! empty( $_POST['type'] ) ) ? strip_tags( stripslashes( $_POST['type'] ) ) : 'New';
 	$priority      = ( ! empty( $_POST['priority'] ) ) ? strip_tags( stripslashes( $_POST['priority'] ) ) : 'Medium';
+	
+	if ( 'Review' === $group && 'Emergency' !== $priority ) {
+		$subject = 'Please review PR ' . $subject;
+	}
 
 	$ccemail       = ( ! empty( $_POST['cc'] ) ) ? strip_tags( stripslashes( $_POST['cc'] ) ) : '';
 	$temp_ccemails = explode( ',', $ccemail );
