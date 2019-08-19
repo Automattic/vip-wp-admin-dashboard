@@ -43,7 +43,7 @@ var Widget_Welcome = React.createClass( {
 				<div className="widget__col-2">
 					<ul className="widget__list">
 						<li>
-							<a href="https://wpvip.com/documentation/launching-with-vip/" target="_blank">Guidebook: Launching with VIP</a>
+							<a href="https://wpvip.com/documentation/launching-with-vip/welcome-to-your-vip-launch/" target="_blank">Guidebook: Launching with VIP</a>
 							<span>Steps to launch</span>
 						</li>
 						<li>
