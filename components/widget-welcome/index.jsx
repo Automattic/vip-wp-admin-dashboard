@@ -26,7 +26,7 @@ var Widget_Welcome = React.createClass( {
 							<span>Important service updates</span>
 						</li>
 						<li>
-							<a href="https://wpvip.com/documentation/" target="_blank">VIP Documentation</a>
+							<a href="https://docs.wpvip.com/" target="_blank">VIP Documentation</a>
 							<span>Launching and developing with VIP</span>
 						</li>
 						<li>
@@ -34,7 +34,7 @@ var Widget_Welcome = React.createClass( {
 							<span>Your organization’s tickets</span>
 						</li>
 						<li>
-							<a href="https://wpvip.com/documentation/general-ticket-guidelines/" target="_blank">Ticket guidelines</a>
+							<a href="https://docs.wpvip.com/technical-references/vip-support/general-ticket-guidelines/" target="_blank">Ticket guidelines</a>
 							<span>How to open the perfect ticket</span>
 						</li>
 					</ul>
@@ -43,11 +43,11 @@ var Widget_Welcome = React.createClass( {
 				<div className="widget__col-2">
 					<ul className="widget__list">
 						<li>
-							<a href="https://wpvip.com/documentation/launching-with-vip/welcome-to-your-vip-launch/" target="_blank">Guidebook: Launching with VIP</a>
+							<a href="https://docs.wpvip.com/how-tos/launch-a-site-with-vip/" target="_blank">Guidebook: Launching with VIP</a>
 							<span>Steps to launch</span>
 						</li>
 						<li>
-							<a href="https://wpvip.com/documentation/developing-with-vip/" target="_blank">Guidebook: Developing with VIP</a>
+							<a href="https://wpvip.com/documentation/developing-with-vip/welcome-to-vip-development/" target="_blank">Guidebook: Developing with VIP</a>
 							<span>An overview of VIP development</span>
 						</li>
 						<li>
