@@ -1,5 +1,7 @@
 # VIP Dashboard
 
+## This repository has been archived and its code now lives in the `vip-dashboard` folder within [vip-go-mu-plugins](https://github.com/Automattic/vip-go-mu-plugins).
+
 WordPress plugin that provides a new dashboard for VIP Go clients.
 
 The interface is built with [React.js](https://facebook.github.io/react/).
